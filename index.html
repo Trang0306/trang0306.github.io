@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Pro5</title>
+<title>Pro5 Ari</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
 
@@ -11,41 +11,39 @@ body{
     margin:0;
     font-family:'Open Sans', sans-serif;
     color:white;
-    text-align:center;
     overflow:hidden;
     background:#041124;
 }
 
-/* nền parallax */
+/* ===== BACKGROUND GIF (CUỐI CÙNG) ===== */
 #bg{
-    position:fixed;
-    width:110%;
-    height:110%;
-    background:url("file1.jpg") center/cover no-repeat;
-    z-index:-2;
-    filter:brightness(0.4);
-    transition:0.2s;
-}
-
-/* gif overlay */
-#bg2{
     position:fixed;
     width:100%;
     height:100%;
-    background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover;
-    opacity:0.25;
-    z-index:-1;
+    background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
+    filter:brightness(0.35) blur(2px);
+    z-index:-3;
 }
 
-/* stars */
+/* ocean overlay */
+#ocean{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:linear-gradient(180deg,#041124,#054981);
+    opacity:0.5;
+    z-index:-2;
+}
+
+/* water canvas */
 canvas{
     position:fixed;
     top:0;
     left:0;
-    z-index:0;
+    z-index:-1;
 }
 
-/* intro */
+/* INTRO */
 #intro{
     position:fixed;
     width:100%;
@@ -59,16 +57,39 @@ canvas{
     cursor:pointer;
 }
 
-/* card */
+/* MAIN */
+#main{display:none;text-align:center;}
+
+/* CARD GLASS */
 .card{
-    background:rgba(4,17,36,0.85);
-    width:320px;
+    background:rgba(4,17,36,0.65);
+    backdrop-filter:blur(12px);
+    width:340px;
     margin:auto;
     padding:20px;
-    border-radius:15px;
+    border-radius:18px;
     box-shadow:0 0 30px #52EDFF;
-    position:relative;
-    z-index:1;
+}
+
+/* NAME ARI EFFECT */
+.name{
+    font-weight:600;
+    font-size:22px;
+    background:linear-gradient(90deg,#52EDFF,#054981,#52EDFF);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:flow 3s linear infinite;
+}
+@keyframes flow{
+    0%{background-position:0;}
+    100%{background-position:200%;}
+}
+
+/* typing */
+#text{
+    font-size:22px;
+    border-right:2px solid #52EDFF;
+    white-space:nowrap;
 }
 
 /* avatar */
@@ -79,6 +100,29 @@ canvas{
 .avatar{
     width:120px;
     border-radius:50%;
+    transition:0.3s;
+}
+
+/* glow status */
+.status{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    position:absolute;
+    bottom:5px;
+    right:5px;
+    border:3px solid #041124;
+}
+
+/* nitro badge */
+.nitro{
+    position:absolute;
+    top:0;
+    right:-10px;
+    background:#ff73fa;
+    padding:2px 6px;
+    border-radius:8px;
+    font-size:10px;
 }
 
 /* deco */
@@ -89,69 +133,31 @@ canvas{
     width:140px;
 }
 
-/* status */
-.status{
-    width:16px;
-    height:16px;
-    border-radius:50%;
-    position:absolute;
-    bottom:5px;
-    right:5px;
-    border:3px solid #041124;
-}
-
-/* name */
-.name{
-    font-weight:600;
-    background:linear-gradient(90deg,#52EDFF,#054981,#52EDFF);
-    background-size:200%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:flow 3s linear infinite;
-}
-@keyframes flow{
-    100%{background-position:200%;}
-}
-
-/* activity */
-.activity-box{
-    background:rgba(0,0,0,0.3);
-    padding:10px;
-    border-radius:10px;
-}
-
-/* spotify */
-#spotify-img{
-    width:80px;
-    border-radius:10px;
-}
-
 /* button */
 .btn{
     display:block;
-    margin:10px auto;
+    margin:8px auto;
     padding:10px;
     width:220px;
     border-radius:20px;
     text-decoration:none;
     color:white;
-    background:rgba(82,237,255,0.1);
+    background:rgba(82,237,255,0.15);
+    transition:0.3s;
 }
 .btn:hover{
     background:#52EDFF;
     color:black;
 }
 
-/* ripple */
-.ripple{
+/* click effect */
+.click{
     position:absolute;
-    border-radius:50%;
-    background:rgba(82,237,255,0.5);
-    transform:scale(0);
-    animation:ripple 0.6s linear;
+    color:#52EDFF;
+    animation:fade 1s forwards;
 }
-@keyframes ripple{
-    to{transform:scale(6);opacity:0;}
+@keyframes fade{
+    to{opacity:0;transform:translateY(-20px);}
 }
 </style>
 </head>
@@ -159,8 +165,8 @@ canvas{
 <body>
 
 <div id="bg"></div>
-<div id="bg2"></div>
-<canvas id="stars"></canvas>
+<div id="ocean"></div>
+<canvas id="water"></canvas>
 
 <div id="intro">Liệu còn có ai ở đây?</div>
 
@@ -168,7 +174,7 @@ canvas{
 <source src="music.mp3">
 </audio>
 
-<div id="main" style="display:none;">
+<div id="main">
 
 <h2 id="text"></h2>
 
@@ -177,152 +183,137 @@ canvas{
 <div class="avatar-wrap">
 <img id="avatar" class="avatar">
 <img id="deco">
+<div class="nitro">NITRO</div>
 <span id="status" class="status"></span>
 </div>
 
-<h3 id="username" class="name"></h3>
+<h3 id="username" class="name">Ari</h3>
 
-<div class="activity-box" id="activity"></div>
-
-<h4>Date to marry 💍</h4>
+<p>💍 Date to marry</p>
 <p id="time"></p>
+
+<hr>
 
 <p>
 MBTI: INFP<br>
 Cung: Song Ngư<br>
-Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
+Sở thích: vẽ, viết, đọc truyện, nghe nhạc<br>
 Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
 Waifu: Cartethyia
 </p>
+
+<hr>
 
 <a class="btn" href="https://www.facebook.com/share/1AuHDmJLrP/">Facebook</a>
 <a class="btn" href="https://x.com/PhmQunh42254275">X</a>
 <a class="btn" href="https://discord.gg/XZAk8MWx">Discord</a>
 <a class="btn" href="https://discord.gg/gachaparadise">Server</a>
 
-</div>
+<img src="file1.jpg" width="150">
+<img src="file2.jpg" width="150">
 
+</div>
 </div>
 
 <script>
 
-/* intro */
+/* INTRO */
 intro.onclick=()=>{
     intro.style.display="none";
     main.style.display="block";
     music.play();
 }
 
-/* typing */
+/* typing Ari + quote */
 let t="Don't call me tonight";
 let i=0;
-setInterval(()=>{
-    if(i<t.length) text.innerHTML+=t[i++];
-},80);
+function type(){
+    if(i<t.length){
+        text.innerHTML+=t[i++];
+        setTimeout(type,90);
+    }
+}
+type();
 
-/* time */
+/* time counter */
 let start=new Date("2025-11-17");
 setInterval(()=>{
     let now=new Date();
-    let diff=now-start;
-    let d=Math.floor(diff/86400000);
-    let h=Math.floor(diff/3600000)%24;
-    let m=Math.floor(diff/60000)%60;
-    let s=Math.floor(diff/1000)%60;
+    let d=Math.floor((now-start)/86400000);
+    let h=Math.floor((now/3600000)%24);
+    let m=Math.floor((now/60000)%60);
+    let s=Math.floor((now/1000)%60);
     time.innerHTML=`${d} ngày ${h} giờ ${m} phút ${s} giây`;
 },1000);
 
-/* auto status theo giờ */
-function getTimeStatus(){
-    let h=new Date().getHours();
-    if(h>=5 && h<11) return "🌅 Chào buổi sáng… vẫn đang chờ ai đó.";
-    if(h>=11 && h<18) return "🌤 Một ngày trôi qua nhẹ nhàng.";
-    return "🌙 Đêm rồi… vẫn ở đây.";
-}
-
-/* discord */
+/* DISCORD */
 const userId="965608704974151710";
 
 async function getDiscord(){
     let res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
     let d=(await res.json()).data;
 
-    username.innerHTML=d.discord_user.global_name;
+    username.innerHTML=d.discord_user.global_name || "Ari";
 
-    avatar.src=`https://cdn.discordapp.com/avatars/${userId}/${d.discord_user.avatar}.png`;
+    let av=d.discord_user.avatar
+    ?`https://cdn.discordapp.com/avatars/${userId}/${d.discord_user.avatar}.png`
+    :"https://cdn.discordapp.com/embed/avatars/0.png";
 
-    if(d.discord_status==="online"){
-        status.style.background="#23a55a";
-        avatar.style.boxShadow="0 0 20px #23a55a";
-    }else if(d.discord_status==="idle"){
-        status.style.background="#f0b232";
-        avatar.style.boxShadow="0 0 20px #f0b232";
-    }else if(d.discord_status==="dnd"){
-        status.style.background="#f23f43";
-        avatar.style.boxShadow="0 0 20px #f23f43";
-    }else{
-        status.style.background="gray";
-    }
+    avatar.src=av;
+
+    /* glow status */
+    let st=d.discord_status;
+    if(st==="online"){status.style.background="#23a55a";avatar.style.boxShadow="0 0 20px #23a55a";}
+    else if(st==="idle"){status.style.background="#f0b232";avatar.style.boxShadow="0 0 20px #f0b232";}
+    else if(st==="dnd"){status.style.background="#f23f43";avatar.style.boxShadow="0 0 20px #f23f43";}
+    else{status.style.background="gray";avatar.style.boxShadow="0 0 10px gray";}
 
     /* activity */
     if(d.listening_to_spotify){
-        activity.innerHTML=`
-        <img id="spotify-img" src="${d.spotify.album_art_url}">
-        <br>🎧 ${d.spotify.song}<br>${d.spotify.artist}
-        `;
-    }
-    else if(d.activities.length>0){
-        let a=d.activities[0];
-        activity.innerHTML=a.type===4?"💬 "+a.state:"🎮 "+a.name;
-    }
-    else{
-        activity.innerHTML=getTimeStatus();
+        text.innerHTML="🎧 "+d.spotify.song;
+    }else if(d.activities.length){
+        text.innerHTML="🎮 "+d.activities[0].name;
+    }else{
+        text.innerHTML="🌙 Online";
     }
 
+    /* deco */
     if(d.discord_user.avatar_decoration_data){
         deco.src=`https://cdn.discordapp.com/avatar-decoration-presets/${d.discord_user.avatar_decoration_data.asset}.png`;
     }
 }
-
 setInterval(getDiscord,5000);
 getDiscord();
 
-/* parallax */
-document.addEventListener("mousemove",e=>{
-    let x=(e.clientX/window.innerWidth-0.5)*20;
-    let y=(e.clientY/window.innerHeight-0.5)*20;
-    bg.style.transform=`translate(${x}px,${y}px)`;
-});
-
-/* ripple */
+/* CLICK EFFECT */
 document.onclick=e=>{
-    let r=document.createElement("span");
-    r.className="ripple";
-    r.style.left=e.pageX+"px";
-    r.style.top=e.pageY+"px";
-    document.body.appendChild(r);
-    setTimeout(()=>r.remove(),600);
+    let c=document.createElement("div");
+    c.className="click";
+    c.innerHTML="✨";
+    c.style.left=e.pageX+"px";
+    c.style.top=e.pageY+"px";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),1000);
 };
 
-/* stars */
-let c=document.getElementById("stars");
+/* WATER RIPPLE (simple shader fake) */
+let c=document.getElementById("water");
 let ctx=c.getContext("2d");
 c.width=innerWidth;
 c.height=innerHeight;
 
-let stars=[];
-for(let i=0;i<100;i++){
-    stars.push({x:Math.random()*c.width,y:Math.random()*c.height});
-}
-
 function draw(){
     ctx.clearRect(0,0,c.width,c.height);
-    ctx.fillStyle="#52EDFF";
-    stars.forEach(s=>{
-        ctx.fillRect(s.x,s.y,2,2);
-        s.y+=0.2;
-        if(s.y>c.height)s.y=0;
-    });
+    for(let i=0;i<80;i++){
+        ctx.fillStyle="rgba(82,237,255,0.05)";
+        ctx.beginPath();
+        ctx.arc(
+            Math.sin(Date.now()*0.001+i)*50+i*20,
+            i*15%innerHeight,
+            2,0,Math.PI*2
+        );
+        ctx.fill();
+    }
     requestAnimationFrame(draw);
 }
 draw();
