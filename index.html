@@ -5,99 +5,131 @@
 <title>Pro5</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial;
-    background: black;
-    color: white;
-    text-align: center;
-    overflow-x: hidden;
+body{
+    margin:0;
+    font-family:Arial;
+    color:white;
+    text-align:center;
+    background:black;
+    overflow-x:hidden;
 }
 
-/* Background ảnh động */
-body::before {
-    content: "";
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: url("file1.jpg") no-repeat center/cover;
-    animation: bg 20s infinite alternate;
-    z-index: -1;
-    filter: brightness(0.4);
+/* Background động */
+body::before{
+    content:"";
+    position:fixed;
+    width:100%;
+    height:100%;
+    background-size:cover;
+    background-position:center;
+    animation:bg 20s infinite alternate;
+    z-index:-1;
+    filter:brightness(0.4);
 }
-
-@keyframes bg {
-    0% {background-image: url("file1.jpg");}
-    100% {background-image: url("file2.jpg");}
+@keyframes bg{
+    0%{background-image:url("file1.jpg");}
+    100%{background-image:url("file2.jpg");}
 }
 
 /* Intro */
-#intro {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    z-index: 999;
-    cursor: pointer;
+#intro{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    z-index:999;
+    cursor:pointer;
+}
+
+/* Card Discord */
+.card{
+    width:320px;
+    margin:auto;
+    border-radius:15px;
+    overflow:hidden;
+    background:rgba(20,20,30,0.9);
+    box-shadow:0 0 20px rgba(0,255,255,0.3);
+}
+
+/* Banner */
+.banner{
+    height:120px;
+    background-size:cover;
+    background-position:center;
 }
 
 /* Avatar */
-.avatar {
-    width: 120px;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
+.avatar{
+    width:90px;
+    border-radius:50%;
+    margin-top:-45px;
+    border:4px solid #111;
+    animation:glow 2s infinite;
+}
+@keyframes glow{
+    0%{box-shadow:0 0 10px cyan;}
+    50%{box-shadow:0 0 30px cyan;}
+    100%{box-shadow:0 0 10px cyan;}
 }
 
-@keyframes pulse {
-    0% {box-shadow: 0 0 10px cyan;}
-    50% {box-shadow: 0 0 30px cyan;}
-    100% {box-shadow: 0 0 10px cyan;}
+/* Status */
+.status{
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    position:absolute;
+    margin-left:60px;
+    margin-top:-20px;
+    border:2px solid #111;
 }
 
-/* Discord status */
-.status {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-left: -20px;
-    border: 2px solid black;
-}
-
-.online {background: #00ff00;}
-.offline {background: gray;}
-
-/* Button */
-.btn {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
-    width: 250px;
-    border-radius: 20px;
-    text-decoration: none;
-    color: white;
-    background: rgba(255,255,255,0.1);
+/* Nitro badge */
+.badge{
+    display:inline-block;
+    background:linear-gradient(45deg,#5865f2,#ff73fa);
+    padding:3px 8px;
+    border-radius:10px;
+    font-size:12px;
+    margin-left:5px;
 }
 
 /* Typing */
-.typing {
-    border-right: 2px solid white;
-    white-space: nowrap;
-    overflow: hidden;
+.typing{
+    border-right:2px solid white;
+    white-space:nowrap;
+    overflow:hidden;
+}
+
+/* Button */
+.btn{
+    display:block;
+    margin:10px auto;
+    padding:10px;
+    width:220px;
+    border-radius:20px;
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,0.1);
+    transition:0.3s;
+}
+.btn:hover{
+    background:cyan;
+    color:black;
+    transform:scale(1.05);
 }
 
 /* Click */
-.click {
-    position: absolute;
-    color: cyan;
-    animation: fade 1s forwards;
+.click{
+    position:absolute;
+    color:cyan;
+    animation:fade 1s forwards;
 }
-@keyframes fade {
-    to {opacity:0; transform: translateY(-20px);}
+@keyframes fade{
+    to{opacity:0;transform:translateY(-20px);}
 }
 </style>
 </head>
@@ -112,16 +144,29 @@ body::before {
 
 <div id="main" style="display:none;">
 
+<br><br>
+
 <h2 id="text" class="typing"></h2>
 
 <br>
 
-<div>
-<img class="avatar" src="file1.jpg">
-<span id="status" class="status offline"></span>
+<div class="card">
+
+<div id="banner" class="banner"></div>
+
+<div style="position:relative;">
+<img id="avatar" class="avatar">
+<span id="status" class="status"></span>
 </div>
 
-<h3>Date to marry 💍</h3>
+<h3 id="username">
+Loading...
+<span id="nitro" class="badge" style="display:none;">Nitro</span>
+</h3>
+
+<p id="activity"></p>
+
+<h4>Date to marry 💍</h4>
 <p id="time"></p>
 
 <p>
@@ -137,60 +182,106 @@ Waifu: Cartethyia
 <a class="btn" href="https://discord.gg/XZAk8MWx">Discord</a>
 <a class="btn" href="https://discord.gg/gachaparadise">Server</a>
 
+</div>
+
 <br>
 
 <img src="file1.jpg" width="200">
 <img src="file2.jpg" width="200">
 
+<br><br>
+
 </div>
 
 <script>
+
 /* Intro */
-intro.onclick = () => {
-    intro.style.display = "none";
-    main.style.display = "block";
+intro.onclick=()=>{
+    intro.style.display="none";
+    main.style.display="block";
     music.play();
 }
 
 /* Typing */
-let t = "Don't call me tonight";
-let i = 0;
-function type() {
-    if(i < t.length){
-        text.innerHTML += t[i];
+let t="Don't call me tonight";
+let i=0;
+function type(){
+    if(i<t.length){
+        text.innerHTML+=t[i];
         i++;
-        setTimeout(type, 100);
+        setTimeout(type,100);
     }
 }
 type();
 
 /* Time */
-let start = new Date("2025-11-17");
+let start=new Date("2025-11-17T00:00:00");
 setInterval(()=>{
-    let now = new Date();
-    let diff = now - start;
+    let now=new Date();
+    let diff=now-start;
 
-    let d = Math.floor(diff/86400000);
-    let h = Math.floor(diff/3600000)%24;
-    let m = Math.floor(diff/60000)%60;
-    let s = Math.floor(diff/1000)%60;
+    let d=Math.floor(diff/(1000*60*60*24));
+    let h=Math.floor((diff/(1000*60*60))%24);
+    let m=Math.floor((diff/(1000*60))%60);
+    let s=Math.floor((diff/1000)%60);
 
-    time.innerHTML = d+" ngày "+h+" giờ "+m+" phút "+s+" giây";
+    time.innerHTML=d+" ngày "+h+" giờ "+m+" phút "+s+" giây";
 },1000);
 
-/* Fake Discord status */
-setInterval(()=>{
-    let st = document.getElementById("status");
-    if(Math.random() > 0.5){
-        st.className = "status online";
-    } else {
-        st.className = "status offline";
-    }
-},5000);
+/* DISCORD USER */
+const userId="965608704974151710";
 
-/* Click */
-document.onclick = e=>{
-    let c = document.createElement("div");
+/* Banner + avatar */
+async function getUser(){
+    try{
+        let res=await fetch(`https://discordlookup.mesavirep.xyz/v1/user/${userId}`);
+        let data=await res.json();
+
+        avatar.src=data.avatar.link;
+        username.innerHTML=data.username;
+
+        if(data.banner){
+            banner.style.backgroundImage=`url(${data.banner.link})`;
+            nitro.style.display="inline-block";
+        }
+    }catch(e){
+        console.log("User API lỗi");
+    }
+}
+
+/* Status + Activity */
+async function getStatus(){
+    try{
+        let res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+        let data=await res.json();
+        let d=data.data;
+
+        if(d.discord_status==="online") status.style.background="#23a55a";
+        else if(d.discord_status==="idle") status.style.background="#f0b232";
+        else if(d.discord_status==="dnd") status.style.background="#f23f43";
+        else status.style.background="gray";
+
+        let act="Offline...";
+        if(d.listening_to_spotify){
+            act="🎧 "+d.spotify.song+" - "+d.spotify.artist;
+        }else if(d.activities.length>0){
+            act="🎮 "+d.activities[0].name;
+        }
+
+        activity.innerHTML=act;
+
+    }catch(e){
+        console.log("Status API lỗi");
+    }
+}
+
+setInterval(getStatus,5000);
+getStatus();
+getUser();
+
+/* Click effect */
+document.onclick=e=>{
+    let c=document.createElement("div");
     c.className="click";
     c.style.left=e.pageX+"px";
     c.style.top=e.pageY+"px";
@@ -198,7 +289,8 @@ document.onclick = e=>{
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),1000);
 }
+
 </script>
 
 </body>
-  </html>
+</html>
