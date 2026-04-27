@@ -14,7 +14,7 @@ body{
     overflow-x:hidden;
 }
 
-/* Background động */
+/* nền động */
 body::before{
     content:"";
     position:fixed;
@@ -31,7 +31,7 @@ body::before{
     100%{background-image:url("file2.jpg");}
 }
 
-/* Intro */
+/* intro */
 #intro{
     position:fixed;
     width:100%;
@@ -45,66 +45,49 @@ body::before{
     cursor:pointer;
 }
 
-/* Card Discord */
+/* card */
 .card{
+    background:rgba(20,20,30,0.8);
     width:320px;
     margin:auto;
+    padding:20px;
     border-radius:15px;
-    overflow:hidden;
-    background:rgba(20,20,30,0.9);
     box-shadow:0 0 20px rgba(0,255,255,0.3);
 }
 
-/* Banner */
-.banner{
-    height:120px;
-    background-size:cover;
-    background-position:center;
+/* avatar */
+.avatar-wrap{
+    position:relative;
+    display:inline-block;
 }
 
-/* Avatar */
 .avatar{
-    width:90px;
+    width:120px;
     border-radius:50%;
-    margin-top:-45px;
-    border:4px solid #111;
-    animation:glow 2s infinite;
-}
-@keyframes glow{
-    0%{box-shadow:0 0 10px cyan;}
-    50%{box-shadow:0 0 30px cyan;}
-    100%{box-shadow:0 0 10px cyan;}
+    box-shadow:0 0 20px cyan;
 }
 
-/* Status */
+/* deco */
+#deco{
+    position:absolute;
+    top:-10px;
+    left:-10px;
+    width:140px;
+    pointer-events:none;
+}
+
+/* status */
 .status{
-    width:14px;
-    height:14px;
+    width:16px;
+    height:16px;
     border-radius:50%;
     position:absolute;
-    margin-left:60px;
-    margin-top:-20px;
-    border:2px solid #111;
+    bottom:5px;
+    right:5px;
+    border:3px solid black;
 }
 
-/* Nitro badge */
-.badge{
-    display:inline-block;
-    background:linear-gradient(45deg,#5865f2,#ff73fa);
-    padding:3px 8px;
-    border-radius:10px;
-    font-size:12px;
-    margin-left:5px;
-}
-
-/* Typing */
-.typing{
-    border-right:2px solid white;
-    white-space:nowrap;
-    overflow:hidden;
-}
-
-/* Button */
+/* button */
 .btn{
     display:block;
     margin:10px auto;
@@ -114,15 +97,20 @@ body::before{
     text-decoration:none;
     color:white;
     background:rgba(255,255,255,0.1);
-    transition:0.3s;
 }
 .btn:hover{
     background:cyan;
     color:black;
-    transform:scale(1.05);
 }
 
-/* Click */
+/* typing */
+.typing{
+    border-right:2px solid white;
+    white-space:nowrap;
+    overflow:hidden;
+}
+
+/* click */
 .click{
     position:absolute;
     color:cyan;
@@ -152,19 +140,15 @@ body::before{
 
 <div class="card">
 
-<div id="banner" class="banner"></div>
-
-<div style="position:relative;">
+<div class="avatar-wrap">
 <img id="avatar" class="avatar">
+<img id="deco">
 <span id="status" class="status"></span>
 </div>
 
-<h3 id="username">
-Loading...
-<span id="nitro" class="badge" style="display:none;">Nitro</span>
-</h3>
+<h3 id="username">Loading...</h3>
 
-<p id="activity"></p>
+<p id="activity">Loading...</p>
 
 <h4>Date to marry 💍</h4>
 <p id="time"></p>
@@ -189,20 +173,18 @@ Waifu: Cartethyia
 <img src="file1.jpg" width="200">
 <img src="file2.jpg" width="200">
 
-<br><br>
-
 </div>
 
 <script>
 
-/* Intro */
+/* intro */
 intro.onclick=()=>{
     intro.style.display="none";
     main.style.display="block";
     music.play();
 }
 
-/* Typing */
+/* typing */
 let t="Don't call me tonight";
 let i=0;
 function type(){
@@ -214,72 +196,77 @@ function type(){
 }
 type();
 
-/* Time */
-let start=new Date("2025-11-17T00:00:00");
+/* time */
+let start=new Date("2025-11-17");
 setInterval(()=>{
     let now=new Date();
     let diff=now-start;
 
-    let d=Math.floor(diff/(1000*60*60*24));
-    let h=Math.floor((diff/(1000*60*60))%24);
-    let m=Math.floor((diff/(1000*60))%60);
-    let s=Math.floor((diff/1000)%60);
+    let d=Math.floor(diff/86400000);
+    let h=Math.floor(diff/3600000)%24;
+    let m=Math.floor(diff/60000)%60;
+    let s=Math.floor(diff/1000)%60;
 
     time.innerHTML=d+" ngày "+h+" giờ "+m+" phút "+s+" giây";
 },1000);
 
-/* DISCORD USER */
+/* DISCORD REAL FULL */
 const userId="965608704974151710";
 
-/* Banner + avatar */
-async function getUser(){
-    try{
-        let res=await fetch(`https://discordlookup.mesavirep.xyz/v1/user/${userId}`);
-        let data=await res.json();
-
-        avatar.src=data.avatar.link;
-        username.innerHTML=data.username;
-
-        if(data.banner){
-            banner.style.backgroundImage=`url(${data.banner.link})`;
-            nitro.style.display="inline-block";
-        }
-    }catch(e){
-        console.log("User API lỗi");
-    }
-}
-
-/* Status + Activity */
-async function getStatus(){
+async function getDiscord(){
     try{
         let res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
         let data=await res.json();
         let d=data.data;
 
-        if(d.discord_status==="online") status.style.background="#23a55a";
-        else if(d.discord_status==="idle") status.style.background="#f0b232";
-        else if(d.discord_status==="dnd") status.style.background="#f23f43";
-        else status.style.background="gray";
+        /* tên */
+        username.innerHTML = d.discord_user.global_name || d.discord_user.username;
 
+        /* avatar */
+        let avatar = d.discord_user.avatar;
+        avatar = avatar
+        ? `https://cdn.discordapp.com/avatars/${userId}/${avatar}.png?size=256`
+        : `https://cdn.discordapp.com/embed/avatars/0.png`;
+        document.getElementById("avatar").src = avatar;
+
+        /* status */
+        let st=document.getElementById("status");
+        if(d.discord_status==="online") st.style.background="#23a55a";
+        else if(d.discord_status==="idle") st.style.background="#f0b232";
+        else if(d.discord_status==="dnd") st.style.background="#f23f43";
+        else st.style.background="gray";
+
+        /* activity */
         let act="Offline...";
         if(d.listening_to_spotify){
             act="🎧 "+d.spotify.song+" - "+d.spotify.artist;
-        }else if(d.activities.length>0){
-            act="🎮 "+d.activities[0].name;
         }
-
+        else if(d.activities.length>0){
+            let a=d.activities[0];
+            if(a.type===4){
+                act="💬 "+(a.state||"...");
+            }else{
+                act="🎮 "+a.name;
+            }
+        }
         activity.innerHTML=act;
 
+        /* deco */
+        if(d.discord_user.avatar_decoration_data){
+            let deco=d.discord_user.avatar_decoration_data.asset;
+            document.getElementById("deco").src=
+            `https://cdn.discordapp.com/avatar-decoration-presets/${deco}.png`;
+        }
+
     }catch(e){
-        console.log("Status API lỗi");
+        console.log("API lỗi");
     }
 }
 
-setInterval(getStatus,5000);
-getStatus();
-getUser();
+setInterval(getDiscord,5000);
+getDiscord();
 
-/* Click effect */
+/* click */
 document.onclick=e=>{
     let c=document.createElement("div");
     c.className="click";
