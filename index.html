@@ -15,7 +15,7 @@ body{
     background:#041124;
 }
 
-/* ===== BACKGROUND GIF (CUỐI CÙNG) ===== */
+/* ===== BACKGROUND GIF ===== */
 #bg{
     position:fixed;
     width:100%;
@@ -71,7 +71,7 @@ canvas{
     box-shadow:0 0 30px #52EDFF;
 }
 
-/* NAME ARI EFFECT */
+/* NAME */
 .name{
     font-weight:600;
     font-size:22px;
@@ -92,29 +92,51 @@ canvas{
     white-space:nowrap;
 }
 
-/* avatar */
+/* AVATAR */
 .avatar-wrap{
     position:relative;
     display:inline-block;
 }
+
+/* avatar glow ring */
 .avatar{
     width:120px;
+    height:120px;
     border-radius:50%;
+    border:3px solid transparent;
+    background:linear-gradient(#041124,#041124) padding-box,
+               linear-gradient(135deg,#52EDFF,#054981,#52EDFF) border-box;
     transition:0.3s;
 }
 
-/* glow status */
+/* DISCORD DECO */
+#deco{
+    position:absolute;
+    top:-18px;
+    left:-18px;
+    width:155px;
+    height:155px;
+    pointer-events:none;
+    animation:spin 8s linear infinite;
+    filter:drop-shadow(0 0 10px #52EDFF);
+}
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+/* STATUS */
 .status{
     width:14px;
     height:14px;
     border-radius:50%;
     position:absolute;
-    bottom:5px;
-    right:5px;
+    bottom:6px;
+    right:6px;
     border:3px solid #041124;
 }
 
-/* nitro badge */
+/* NITRO BADGE */
 .nitro{
     position:absolute;
     top:0;
@@ -125,15 +147,7 @@ canvas{
     font-size:10px;
 }
 
-/* deco */
-#deco{
-    position:absolute;
-    top:-10px;
-    left:-10px;
-    width:140px;
-}
-
-/* button */
+/* BUTTON */
 .btn{
     display:block;
     margin:8px auto;
@@ -143,14 +157,13 @@ canvas{
     text-decoration:none;
     color:white;
     background:rgba(82,237,255,0.15);
-    transition:0.3s;
 }
 .btn:hover{
     background:#52EDFF;
     color:black;
 }
 
-/* click effect */
+/* CLICK EFFECT */
 .click{
     position:absolute;
     color:#52EDFF;
@@ -209,9 +222,6 @@ Waifu: Cartethyia
 <a class="btn" href="https://discord.gg/XZAk8MWx">Discord</a>
 <a class="btn" href="https://discord.gg/gachaparadise">Server</a>
 
-<img src="file1.jpg" width="150">
-<img src="file2.jpg" width="150">
-
 </div>
 </div>
 
@@ -224,7 +234,7 @@ intro.onclick=()=>{
     music.play();
 }
 
-/* typing Ari + quote */
+/* typing */
 let t="Don't call me tonight";
 let i=0;
 function type(){
@@ -235,7 +245,7 @@ function type(){
 }
 type();
 
-/* time counter */
+/* timer */
 let start=new Date("2025-11-17");
 setInterval(()=>{
     let now=new Date();
@@ -261,25 +271,35 @@ async function getDiscord(){
 
     avatar.src=av;
 
-    /* glow status */
-    let st=d.discord_status;
-    if(st==="online"){status.style.background="#23a55a";avatar.style.boxShadow="0 0 20px #23a55a";}
-    else if(st==="idle"){status.style.background="#f0b232";avatar.style.boxShadow="0 0 20px #f0b232";}
-    else if(st==="dnd"){status.style.background="#f23f43";avatar.style.boxShadow="0 0 20px #f23f43";}
-    else{status.style.background="gray";avatar.style.boxShadow="0 0 10px gray";}
+    /* STATUS GLOW */
+    if(d.discord_status==="online"){
+        status.style.background="#23a55a";
+        avatar.style.boxShadow="0 0 20px #23a55a";
+    }else if(d.discord_status==="idle"){
+        status.style.background="#f0b232";
+        avatar.style.boxShadow="0 0 20px #f0b232";
+    }else if(d.discord_status==="dnd"){
+        status.style.background="#f23f43";
+        avatar.style.boxShadow="0 0 20px #f23f43";
+    }else{
+        status.style.background="gray";
+        avatar.style.boxShadow="0 0 10px gray";
+    }
 
     /* activity */
     if(d.listening_to_spotify){
         text.innerHTML="🎧 "+d.spotify.song;
     }else if(d.activities.length){
         text.innerHTML="🎮 "+d.activities[0].name;
-    }else{
-        text.innerHTML="🌙 Online";
     }
 
-    /* deco */
+    /* DECO DISCORD */
     if(d.discord_user.avatar_decoration_data){
-        deco.src=`https://cdn.discordapp.com/avatar-decoration-presets/${d.discord_user.avatar_decoration_data.asset}.png`;
+        let decoId=d.discord_user.avatar_decoration_data.asset;
+        document.getElementById("deco").src=
+        `https://cdn.discordapp.com/avatar-decoration-presets/${decoId}.png`;
+    }else{
+        document.getElementById("deco").src="";
     }
 }
 setInterval(getDiscord,5000);
@@ -296,7 +316,7 @@ document.onclick=e=>{
     setTimeout(()=>c.remove(),1000);
 };
 
-/* WATER RIPPLE (simple shader fake) */
+/* WATER SIMPLE ANIMATION */
 let c=document.getElementById("water");
 let ctx=c.getContext("2d");
 c.width=innerWidth;
