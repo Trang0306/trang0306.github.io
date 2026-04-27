@@ -4,31 +4,45 @@
 <meta charset="UTF-8">
 <title>Pro5</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
+
 <style>
 body{
     margin:0;
-    font-family:Arial;
+    font-family:'Open Sans', sans-serif;
     color:white;
     text-align:center;
-    background:black;
-    overflow-x:hidden;
+    overflow:hidden;
+    background:#041124;
 }
 
-/* nền động */
-body::before{
-    content:"";
+/* nền parallax */
+#bg{
+    position:fixed;
+    width:110%;
+    height:110%;
+    background:url("file1.jpg") center/cover no-repeat;
+    z-index:-2;
+    filter:brightness(0.4);
+    transition:0.2s;
+}
+
+/* gif overlay */
+#bg2{
     position:fixed;
     width:100%;
     height:100%;
-    background-size:cover;
-    background-position:center;
-    animation:bg 20s infinite alternate;
+    background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover;
+    opacity:0.25;
     z-index:-1;
-    filter:brightness(0.4);
 }
-@keyframes bg{
-    0%{background-image:url("file1.jpg");}
-    100%{background-image:url("file2.jpg");}
+
+/* stars */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:0;
 }
 
 /* intro */
@@ -36,7 +50,7 @@ body::before{
     position:fixed;
     width:100%;
     height:100%;
-    background:black;
+    background:#041124;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -47,12 +61,14 @@ body::before{
 
 /* card */
 .card{
-    background:rgba(20,20,30,0.8);
+    background:rgba(4,17,36,0.85);
     width:320px;
     margin:auto;
     padding:20px;
     border-radius:15px;
-    box-shadow:0 0 20px rgba(0,255,255,0.3);
+    box-shadow:0 0 30px #52EDFF;
+    position:relative;
+    z-index:1;
 }
 
 /* avatar */
@@ -60,11 +76,9 @@ body::before{
     position:relative;
     display:inline-block;
 }
-
 .avatar{
     width:120px;
     border-radius:50%;
-    box-shadow:0 0 20px cyan;
 }
 
 /* deco */
@@ -73,7 +87,6 @@ body::before{
     top:-10px;
     left:-10px;
     width:140px;
-    pointer-events:none;
 }
 
 /* status */
@@ -84,7 +97,33 @@ body::before{
     position:absolute;
     bottom:5px;
     right:5px;
-    border:3px solid black;
+    border:3px solid #041124;
+}
+
+/* name */
+.name{
+    font-weight:600;
+    background:linear-gradient(90deg,#52EDFF,#054981,#52EDFF);
+    background-size:200%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:flow 3s linear infinite;
+}
+@keyframes flow{
+    100%{background-position:200%;}
+}
+
+/* activity */
+.activity-box{
+    background:rgba(0,0,0,0.3);
+    padding:10px;
+    border-radius:10px;
+}
+
+/* spotify */
+#spotify-img{
+    width:80px;
+    border-radius:10px;
 }
 
 /* button */
@@ -96,33 +135,32 @@ body::before{
     border-radius:20px;
     text-decoration:none;
     color:white;
-    background:rgba(255,255,255,0.1);
+    background:rgba(82,237,255,0.1);
 }
 .btn:hover{
-    background:cyan;
+    background:#52EDFF;
     color:black;
 }
 
-/* typing */
-.typing{
-    border-right:2px solid white;
-    white-space:nowrap;
-    overflow:hidden;
-}
-
-/* click */
-.click{
+/* ripple */
+.ripple{
     position:absolute;
-    color:cyan;
-    animation:fade 1s forwards;
+    border-radius:50%;
+    background:rgba(82,237,255,0.5);
+    transform:scale(0);
+    animation:ripple 0.6s linear;
 }
-@keyframes fade{
-    to{opacity:0;transform:translateY(-20px);}
+@keyframes ripple{
+    to{transform:scale(6);opacity:0;}
 }
 </style>
 </head>
 
 <body>
+
+<div id="bg"></div>
+<div id="bg2"></div>
+<canvas id="stars"></canvas>
 
 <div id="intro">Liệu còn có ai ở đây?</div>
 
@@ -132,11 +170,7 @@ body::before{
 
 <div id="main" style="display:none;">
 
-<br><br>
-
-<h2 id="text" class="typing"></h2>
-
-<br>
+<h2 id="text"></h2>
 
 <div class="card">
 
@@ -146,9 +180,9 @@ body::before{
 <span id="status" class="status"></span>
 </div>
 
-<h3 id="username">Loading...</h3>
+<h3 id="username" class="name"></h3>
 
-<p id="activity">Loading...</p>
+<div class="activity-box" id="activity"></div>
 
 <h4>Date to marry 💍</h4>
 <p id="time"></p>
@@ -168,11 +202,6 @@ Waifu: Cartethyia
 
 </div>
 
-<br>
-
-<img src="file1.jpg" width="200">
-<img src="file2.jpg" width="200">
-
 </div>
 
 <script>
@@ -187,95 +216,116 @@ intro.onclick=()=>{
 /* typing */
 let t="Don't call me tonight";
 let i=0;
-function type(){
-    if(i<t.length){
-        text.innerHTML+=t[i];
-        i++;
-        setTimeout(type,100);
-    }
-}
-type();
+setInterval(()=>{
+    if(i<t.length) text.innerHTML+=t[i++];
+},80);
 
 /* time */
 let start=new Date("2025-11-17");
 setInterval(()=>{
     let now=new Date();
     let diff=now-start;
-
     let d=Math.floor(diff/86400000);
     let h=Math.floor(diff/3600000)%24;
     let m=Math.floor(diff/60000)%60;
     let s=Math.floor(diff/1000)%60;
-
-    time.innerHTML=d+" ngày "+h+" giờ "+m+" phút "+s+" giây";
+    time.innerHTML=`${d} ngày ${h} giờ ${m} phút ${s} giây`;
 },1000);
 
-/* DISCORD REAL FULL */
+/* auto status theo giờ */
+function getTimeStatus(){
+    let h=new Date().getHours();
+    if(h>=5 && h<11) return "🌅 Chào buổi sáng… vẫn đang chờ ai đó.";
+    if(h>=11 && h<18) return "🌤 Một ngày trôi qua nhẹ nhàng.";
+    return "🌙 Đêm rồi… vẫn ở đây.";
+}
+
+/* discord */
 const userId="965608704974151710";
 
 async function getDiscord(){
-    try{
-        let res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-        let data=await res.json();
-        let d=data.data;
+    let res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+    let d=(await res.json()).data;
 
-        /* tên */
-        username.innerHTML = d.discord_user.global_name || d.discord_user.username;
+    username.innerHTML=d.discord_user.global_name;
 
-        /* avatar */
-        let avatar = d.discord_user.avatar;
-        avatar = avatar
-        ? `https://cdn.discordapp.com/avatars/${userId}/${avatar}.png?size=256`
-        : `https://cdn.discordapp.com/embed/avatars/0.png`;
-        document.getElementById("avatar").src = avatar;
+    avatar.src=`https://cdn.discordapp.com/avatars/${userId}/${d.discord_user.avatar}.png`;
 
-        /* status */
-        let st=document.getElementById("status");
-        if(d.discord_status==="online") st.style.background="#23a55a";
-        else if(d.discord_status==="idle") st.style.background="#f0b232";
-        else if(d.discord_status==="dnd") st.style.background="#f23f43";
-        else st.style.background="gray";
+    if(d.discord_status==="online"){
+        status.style.background="#23a55a";
+        avatar.style.boxShadow="0 0 20px #23a55a";
+    }else if(d.discord_status==="idle"){
+        status.style.background="#f0b232";
+        avatar.style.boxShadow="0 0 20px #f0b232";
+    }else if(d.discord_status==="dnd"){
+        status.style.background="#f23f43";
+        avatar.style.boxShadow="0 0 20px #f23f43";
+    }else{
+        status.style.background="gray";
+    }
 
-        /* activity */
-        let act="Offline...";
-        if(d.listening_to_spotify){
-            act="🎧 "+d.spotify.song+" - "+d.spotify.artist;
-        }
-        else if(d.activities.length>0){
-            let a=d.activities[0];
-            if(a.type===4){
-                act="💬 "+(a.state||"...");
-            }else{
-                act="🎮 "+a.name;
-            }
-        }
-        activity.innerHTML=act;
+    /* activity */
+    if(d.listening_to_spotify){
+        activity.innerHTML=`
+        <img id="spotify-img" src="${d.spotify.album_art_url}">
+        <br>🎧 ${d.spotify.song}<br>${d.spotify.artist}
+        `;
+    }
+    else if(d.activities.length>0){
+        let a=d.activities[0];
+        activity.innerHTML=a.type===4?"💬 "+a.state:"🎮 "+a.name;
+    }
+    else{
+        activity.innerHTML=getTimeStatus();
+    }
 
-        /* deco */
-        if(d.discord_user.avatar_decoration_data){
-            let deco=d.discord_user.avatar_decoration_data.asset;
-            document.getElementById("deco").src=
-            `https://cdn.discordapp.com/avatar-decoration-presets/${deco}.png`;
-        }
-
-    }catch(e){
-        console.log("API lỗi");
+    if(d.discord_user.avatar_decoration_data){
+        deco.src=`https://cdn.discordapp.com/avatar-decoration-presets/${d.discord_user.avatar_decoration_data.asset}.png`;
     }
 }
 
 setInterval(getDiscord,5000);
 getDiscord();
 
-/* click */
+/* parallax */
+document.addEventListener("mousemove",e=>{
+    let x=(e.clientX/window.innerWidth-0.5)*20;
+    let y=(e.clientY/window.innerHeight-0.5)*20;
+    bg.style.transform=`translate(${x}px,${y}px)`;
+});
+
+/* ripple */
 document.onclick=e=>{
-    let c=document.createElement("div");
-    c.className="click";
-    c.style.left=e.pageX+"px";
-    c.style.top=e.pageY+"px";
-    c.innerHTML="✨";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),1000);
+    let r=document.createElement("span");
+    r.className="ripple";
+    r.style.left=e.pageX+"px";
+    r.style.top=e.pageY+"px";
+    document.body.appendChild(r);
+    setTimeout(()=>r.remove(),600);
+};
+
+/* stars */
+let c=document.getElementById("stars");
+let ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+let stars=[];
+for(let i=0;i<100;i++){
+    stars.push({x:Math.random()*c.width,y:Math.random()*c.height});
 }
+
+function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle="#52EDFF";
+    stars.forEach(s=>{
+        ctx.fillRect(s.x,s.y,2,2);
+        s.y+=0.2;
+        if(s.y>c.height)s.y=0;
+    });
+    requestAnimationFrame(draw);
+}
+draw();
 
 </script>
 
