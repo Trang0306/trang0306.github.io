@@ -50,7 +50,12 @@ body{
     cursor:pointer;
 }
 
-/* card */
+/* MAIN */
+#main{
+    display:none;
+}
+
+/* card + SCALE 132% MƯỢT */
 .card{
     background:rgba(4,17,36,0.85);
     width:320px;
@@ -59,9 +64,31 @@ body{
     border-radius:15px;
     box-shadow:0 0 30px #52EDFF;
 
-    /* 🔥 PHÓNG TO 150% */
-    transform: scale(1.5);
-    transform-origin: center;
+    transform:scale(0.85);
+    opacity:0;
+
+    animation:cardIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+    transform-origin:center;
+    will-change:transform, opacity;
+}
+
+/* animation kiểu Discord pop-in */
+@keyframes cardIn{
+    0%{
+        transform:scale(0.75);
+        opacity:0;
+        filter:blur(8px);
+    }
+    60%{
+        transform:scale(1.38);
+        opacity:1;
+        filter:blur(0px);
+    }
+    100%{
+        transform:scale(1.32);
+        opacity:1;
+    }
 }
 
 /* avatar */
@@ -70,7 +97,7 @@ body{
     display:inline-block;
 }
 
-/* AVATAR */
+/* avatar */
 .avatar{
     width:120px;
     border-radius:50%;
@@ -78,7 +105,7 @@ body{
     z-index:1;
 }
 
-/* STATUS */
+/* status */
 .status{
     width:16px;
     height:16px;
@@ -90,7 +117,7 @@ body{
     z-index:3;
 }
 
-/* DISCORD DECO */
+/* ===== DISCORD DECO (chuẩn overlay giống Discord) ===== */
 #deco{
     position:absolute;
     top:50%;
@@ -138,6 +165,7 @@ body{
     transform:scale(0);
     animation:ripple 0.6s linear;
 }
+
 @keyframes ripple{
     to{transform:scale(6);opacity:0;}
 }
@@ -155,7 +183,7 @@ body{
 <source src="music.mp3">
 </audio>
 
-<div id="main" style="display:none;">
+<div id="main">
 
 <h2 id="text"></h2>
 
@@ -165,6 +193,7 @@ body{
 
 <img id="avatar" class="avatar">
 
+<!-- DISCORD DECO -->
 <img id="deco">
 
 <span id="status" class="status"></span>
@@ -254,7 +283,7 @@ else if(d.activities.length){
 }
 else activity.innerHTML="🌙 Chill";
 
-/* DISCORD DECORATION */
+/* ===== DISCORD DECO ===== */
 if(d.discord_user.avatar_decoration_data){
     let decoId=d.discord_user.avatar_decoration_data.asset;
 
