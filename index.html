@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Pro5</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: black;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* Background ảnh động */
+body::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url("file1.jpg") no-repeat center/cover;
+    animation: bg 20s infinite alternate;
+    z-index: -1;
+    filter: brightness(0.4);
+}
+
+@keyframes bg {
+    0% {background-image: url("file1.jpg");}
+    100% {background-image: url("file2.jpg");}
+}
+
+/* Intro */
+#intro {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    z-index: 999;
+    cursor: pointer;
+}
+
+/* Avatar */
+.avatar {
+    width: 120px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {box-shadow: 0 0 10px cyan;}
+    50% {box-shadow: 0 0 30px cyan;}
+    100% {box-shadow: 0 0 10px cyan;}
+}
+
+/* Discord status */
+.status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: -20px;
+    border: 2px solid black;
+}
+
+.online {background: #00ff00;}
+.offline {background: gray;}
+
+/* Button */
+.btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 250px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: white;
+    background: rgba(255,255,255,0.1);
+}
+
+/* Typing */
+.typing {
+    border-right: 2px solid white;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Click */
+.click {
+    position: absolute;
+    color: cyan;
+    animation: fade 1s forwards;
+}
+@keyframes fade {
+    to {opacity:0; transform: translateY(-20px);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro">Liệu còn có ai ở đây?</div>
+
+<audio id="music" loop>
+<source src="music.mp3">
+</audio>
+
+<div id="main" style="display:none;">
+
+<h2 id="text" class="typing"></h2>
+
+<br>
+
+<div>
+<img class="avatar" src="file1.jpg">
+<span id="status" class="status offline"></span>
+</div>
+
+<h3>Date to marry 💍</h3>
+<p id="time"></p>
+
+<p>
+MBTI: INFP<br>
+Cung: Song Ngư<br>
+Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
+Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
+Waifu: Cartethyia
+</p>
+
+<a class="btn" href="https://www.facebook.com/share/1AuHDmJLrP/">Facebook</a>
+<a class="btn" href="https://x.com/PhmQunh42254275">X</a>
+<a class="btn" href="https://discord.gg/XZAk8MWx">Discord</a>
+<a class="btn" href="https://discord.gg/gachaparadise">Server</a>
+
+<br>
+
+<img src="file1.jpg" width="200">
+<img src="file2.jpg" width="200">
+
+</div>
+
+<script>
+/* Intro */
+intro.onclick = () => {
+    intro.style.display = "none";
+    main.style.display = "block";
+    music.play();
+}
+
+/* Typing */
+let t = "Don't call me tonight";
+let i = 0;
+function type() {
+    if(i < t.length){
+        text.innerHTML += t[i];
+        i++;
+        setTimeout(type, 100);
+    }
+}
+type();
+
+/* Time */
+let start = new Date("2025-11-17");
+setInterval(()=>{
+    let now = new Date();
+    let diff = now - start;
+
+    let d = Math.floor(diff/86400000);
+    let h = Math.floor(diff/3600000)%24;
+    let m = Math.floor(diff/60000)%60;
+    let s = Math.floor(diff/1000)%60;
+
+    time.innerHTML = d+" ngày "+h+" giờ "+m+" phút "+s+" giây";
+},1000);
+
+/* Fake Discord status */
+setInterval(()=>{
+    let st = document.getElementById("status");
+    if(Math.random() > 0.5){
+        st.className = "status online";
+    } else {
+        st.className = "status offline";
+    }
+},5000);
+
+/* Click */
+document.onclick = e=>{
+    let c = document.createElement("div");
+    c.className="click";
+    c.style.left=e.pageX+"px";
+    c.style.top=e.pageY+"px";
+    c.innerHTML="✨";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),1000);
+}
+</script>
+
+</body>
+  </html>
