@@ -3,79 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Pro5</title>
+<title>Pro5 Ari</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
 --c1:#52EDFF;
---glass:rgba(4,17,36,.35);
---line:rgba(82,237,255,.14);
---text:#fff;
+--c2:#054981;
+--c3:#041124;
+--glass:rgba(4,17,36,.62);
+--line:rgba(82,237,255,.16);
+--text:#f4fcff;
+--muted:rgba(255,255,255,.72);
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 body{
 font-family:'Open Sans',sans-serif;
 background:#000;
-overflow-x:hidden;
 color:var(--text);
+overflow-x:hidden;
 }
 
-/* BACKGROUND GIF */
+/* GIF BG */
 body::before{
 content:"";
 position:fixed;
 inset:0;
 background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
 filter:blur(8px) brightness(.35);
+transform:scale(1.08);
 z-index:-3;
-transform:scale(1.1);
 }
 
 body::after{
 content:"";
 position:fixed;
 inset:0;
-background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.85));
+background:linear-gradient(180deg,rgba(4,17,36,.25),rgba(4,17,36,.85));
 z-index:-2;
 }
 
-/* RAIN */
-.rain{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:1;
-}
-
-.drop{
-position:absolute;
-width:1px;
-height:60px;
-background:rgba(255,255,255,.25);
-animation:fall linear infinite;
-}
-
-@keyframes fall{
-to{
-transform:translateY(120vh);
-}
-}
-
-/* WATER RIPPLES CANVAS */
-#ripple{
-position:fixed;
-inset:0;
-z-index:0;
-pointer-events:none;
-}
-
-/* INTRO */
+/* intro */
 #intro{
 position:fixed;
 inset:0;
@@ -83,78 +60,108 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-background:rgba(0,0,0,.85);
+background:rgba(0,0,0,.84);
 z-index:9999;
 cursor:pointer;
 }
 
-/* MAIN */
+#intro h1{
+font-size:2.1rem;
+text-align:center;
+}
+
+#intro p{
+margin-top:10px;
+color:#ccc;
+}
+
+/* main */
 .wrap{
-display:none;
-width:min(1100px,95%);
+width:min(1200px,94%);
 margin:auto;
-padding:20px;
+padding:25px 0;
+display:none;
 }
 
-/* CARD GLASS MỜ */
-.card{
-display:flex;
-gap:18px;
+/* top card */
+.hero{
+display:grid;
+grid-template-columns:1.2fr .9fr;
+gap:16px;
 padding:18px;
+background:var(--glass);
+border:1px solid var(--line);
 border-radius:24px;
-
-/* 👇 KEY FIX: MỜ + SEE THROUGH */
-background:rgba(4,17,36,.25);
-backdrop-filter:blur(18px);
-border:1px solid rgba(82,237,255,.15);
-box-shadow:0 20px 60px rgba(0,0,0,.45);
+backdrop-filter:blur(14px);
+box-shadow:0 20px 50px rgba(0,0,0,.4);
 }
 
-/* LEFT */
+/* left */
 .left{
-flex:1;
 display:flex;
 flex-direction:column;
-gap:10px;
+justify-content:center;
+gap:12px;
+}
+
+.badge{
+display:inline-block;
+padding:7px 14px;
+border-radius:999px;
+border:1px solid var(--line);
+width:max-content;
+font-size:.8rem;
+letter-spacing:.15em;
 }
 
 .name{
-font-size:3rem;
+font-size:4rem;
 font-weight:800;
-background:linear-gradient(90deg,#fff,var(--c1));
+background:linear-gradient(90deg,#fff,var(--c1),#fff);
 -webkit-background-clip:text;
 color:transparent;
+background-size:220%;
+animation:shine 4s linear infinite;
+}
+
+@keyframes shine{
+to{background-position:220%}
 }
 
 .typing{
+font-size:1.2rem;
+font-weight:700;
 border-right:2px solid var(--c1);
 white-space:nowrap;
 overflow:hidden;
 width:max-content;
 }
 
-/* RIGHT */
-.right{
-width:240px;
+.sub{
+color:var(--muted);
+}
+
+.row{
 display:flex;
-flex-direction:column;
-align-items:center;
+flex-wrap:wrap;
 gap:10px;
 }
 
-.avatar{
-width:170px;
-height:170px;
-border-radius:50%;
-object-fit:cover;
-box-shadow:0 0 25px var(--c1);
+.pill{
+padding:9px 14px;
+border-radius:999px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+font-size:.95rem;
+display:flex;
+align-items:center;
+gap:8px;
 }
 
-.status{
-width:14px;height:14px;border-radius:50%;
-position:absolute;
-bottom:15px;right:20px;
-border:2px solid #000;
+.dot{
+width:10px;
+height:10px;
+border-radius:50%;
 }
 
 .online{background:#23a55a}
@@ -162,61 +169,274 @@ border:2px solid #000;
 .dnd{background:#f23f43}
 .offline{background:#666}
 
-/* SOCIAL */
-.social{
-margin-top:15px;
+/* right */
+.right{
 display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:14px;
+}
+
+.avatarWrap{
+position:relative;
+width:220px;
+height:220px;
+}
+
+.avatar{
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
+border:3px solid rgba(255,255,255,.08);
+box-shadow:0 0 30px rgba(82,237,255,.25);
+}
+
+.deco{
+position:absolute;
+inset:-7%;
+width:114%;
+height:114%;
+pointer-events:none;
+}
+
+.status{
+position:absolute;
+right:15px;
+bottom:18px;
+width:18px;
+height:18px;
+border-radius:50%;
+border:3px solid var(--c3);
+}
+
+.guild{
+width:100%;
+padding:12px;
+border-radius:18px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+display:flex;
+align-items:center;
 gap:10px;
 }
 
-.social a{
-padding:10px 14px;
+.guild img{
+width:40px;
+height:40px;
 border-radius:12px;
-background:rgba(255,255,255,.05);
-color:#fff;
+object-fit:cover;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:16px;
+margin-top:16px;
+}
+
+.card{
+padding:16px;
+border-radius:22px;
+background:var(--glass);
+border:1px solid var(--line);
+backdrop-filter:blur(14px);
+}
+
+.title{
+font-size:.82rem;
+letter-spacing:.14em;
+color:#9bcddb;
+margin-bottom:14px;
+text-transform:uppercase;
+}
+
+.embed{
+border-left:4px solid var(--c1);
+padding-left:14px;
+line-height:1.8;
+}
+
+.social a{
+display:block;
+padding:12px;
+border-radius:14px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
 text-decoration:none;
-border:1px solid rgba(255,255,255,.1);
+color:white;
+margin-bottom:10px;
+}
+
+.timer{
+font-size:1.15rem;
+font-weight:700;
+margin-top:10px;
+}
+
+.spotify{
+margin-top:14px;
+display:none;
+}
+
+.spotify.show{
+display:block;
+}
+
+.spotifyTop{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.spotifyTop img{
+width:60px;
+height:60px;
+border-radius:12px;
+}
+
+.bar{
+height:8px;
+border-radius:999px;
+background:rgba(255,255,255,.08);
+overflow:hidden;
+margin-top:12px;
+}
+
+.fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,var(--c1),white);
+}
+
+.click{
+position:fixed;
+pointer-events:none;
+color:var(--c1);
+animation:fly .9s forwards;
+}
+
+@keyframes fly{
+to{
+transform:translateY(-25px) scale(1.2);
+opacity:0;
+}
+}
+
+@media(max-width:980px){
+.hero,.grid{
+grid-template-columns:1fr;
+}
+.name{
+font-size:3rem;
+}
 }
 </style>
 </head>
-
 <body>
-
-<canvas id="ripple"></canvas>
-<div class="rain" id="rain"></div>
 
 <div id="intro">
 <h1>Liệu còn có ai ở đây?</h1>
-<p>Click để vào</p>
+<p>Chạm để mở profile</p>
 </div>
 
 <div class="wrap" id="main">
 
-<div class="card">
+<div class="hero">
 
-<!-- LEFT -->
 <div class="left">
-<div class="name">Ari</div>
+<div class="badge">DISCORD PRO5</div>
+
+<div class="name">Ari nèk</div>
+
 <div class="typing" id="typing"></div>
-<div>Date to marry 💍</div>
 
-<div id="activity">Loading...</div>
+<div class="sub">Date to marry 💍</div>
 
-<div class="social">
-<a href="#">Facebook</a>
-<a href="#">Discord</a>
+<div class="row">
+<div class="pill" id="autoStatus">...</div>
+
+<div class="pill">
+<div class="dot offline" id="dot1"></div>
+<span id="statusText">offline</span>
 </div>
 </div>
 
-<!-- RIGHT -->
+<div class="pill" id="activity">Offline...</div>
+
+</div>
+
 <div class="right">
-<div style="position:relative">
+
+<div class="avatarWrap">
 <img id="avatar" class="avatar" src="file1.jpg">
+<img id="deco" class="deco">
 <div id="statusDot" class="status offline"></div>
 </div>
+
+<div class="guild">
+<img src="guild.png">
+<div>
+<div style="font-weight:700">ᒪᑌᑎᗩ</div>
+<div style="font-size:.85rem;color:#ccc">Discord Guild</div>
+</div>
 </div>
 
 </div>
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="title">About me</div>
+<div class="embed">
+MBTI: INFP<br>
+Song Ngư<br>
+Vẽ • Viết • Đọc truyện • Nghe nhạc<br>
+Game: Genshin Impact<br>
+Honkai Star Rail<br>
+Wuthering Wave<br>
+Waifu: Cartethyia
+</div>
+</div>
+
+<div class="card">
+<div class="title">Presence</div>
+
+<div id="presence">Đang tải...</div>
+
+<div class="timer" id="time"></div>
+
+<div class="spotify" id="spotifyBox">
+<div class="spotifyTop">
+<img id="cover">
+<div>
+<div id="song"></div>
+<div id="artist" style="color:#ccc;font-size:.9rem"></div>
+</div>
+</div>
+
+<div class="bar">
+<div class="fill" id="bar"></div>
+</div>
+</div>
+
+</div>
+
+<div class="card social">
+<div class="title">Social</div>
+
+<a href="https://www.facebook.com/share/1AuHDmJLrP/" target="_blank">Facebook</a>
+<a href="https://x.com/PhmQunh42254275" target="_blank">X</a>
+<a href="https://discord.gg/XZAk8MWx" target="_blank">Discord</a>
+<a href="https://discord.gg/gachaparadise" target="_blank">Server</a>
+
+</div>
+
+</div>
+
 </div>
 
 <audio id="music" loop>
@@ -224,111 +444,159 @@ border:1px solid rgba(255,255,255,.1);
 </audio>
 
 <script>
+const USER_ID="965608704974151710";
 
-/* ================= INTRO ================= */
 const intro=document.getElementById("intro");
 const main=document.getElementById("main");
 const music=document.getElementById("music");
 
-intro.onclick=()=>{
+intro.onclick=async()=>{
 intro.style.display="none";
 main.style.display="block";
-music.play();
+try{await music.play()}catch(e){}
 typing();
-startRain();
+getDiscord();
 }
 
-/* ================= TYPE ================= */
+/* typing */
 function typing(){
-let txt="Don't call me tonight";
+let t="Don't call me tonight";
 let i=0;
 let el=document.getElementById("typing");
-
-let t=setInterval(()=>{
-el.innerHTML+=txt[i];
+el.innerHTML="";
+let x=setInterval(()=>{
+el.innerHTML+=t[i];
 i++;
-if(i>=txt.length) clearInterval(t);
+if(i>=t.length) clearInterval(x);
 },80);
 }
 
-/* ================= DISCORD ================= */
-const ID="965608704974151710";
+/* time auto */
+function updateTime(){
+let start=new Date("2025-11-17T00:00:00");
+let now=new Date();
 
-async function getDiscord(){
-try{
-let res=await fetch("https://api.lanyard.rest/v1/users/"+ID);
-let json=await res.json();
-let d=json.data;
+let diff=now-start;
 
-/* AVATAR */
-document.getElementById("avatar").src=
-"https://cdn.discordapp.com/avatars/"+ID+"/"+d.discord_user.avatar+".png?size=512";
+let day=Math.floor(diff/86400000);
+let hour=Math.floor(diff/3600000)%24;
 
-/* STATUS */
-let st=d.discord_status || "offline";
+document.getElementById("time").innerHTML=
+day+" ngày "+hour+" giờ";
+
+let h=now.getHours();
+
+if(h>=5 && h<11)
+document.getElementById("autoStatus").innerText="Một ngày mới lại đến rồi";
+else if(h>=11 && h<18)
+document.getElementById("autoStatus").innerText="Ngày trôi qua sắp hết rồi";
+else
+document.getElementById("autoStatus").innerText="Một ngày đi qua, có điều gì ở lại?";
+}
+setInterval(updateTime,1000);
+updateTime();
+
+/* status */
+function setStatus(st){
+
+document.getElementById("statusText").innerText=st;
+document.getElementById("dot1").className="dot "+st;
 document.getElementById("statusDot").className="status "+st;
 
-/* ACTIVITY */
-let txt="Offline...";
+let av=document.getElementById("avatar");
 
-if(d.listening_to_spotify)
-txt="🎧 "+d.spotify.song;
-else if(d.activities.length>0)
-txt="🎮 "+d.activities[0].name;
+if(st=="online") av.style.boxShadow="0 0 35px #23a55a";
+else if(st=="idle") av.style.boxShadow="0 0 35px #f0b232";
+else if(st=="dnd") av.style.boxShadow="0 0 35px #f23f43";
+else av.style.boxShadow="0 0 35px #666";
+}
 
-document.getElementById("activity").innerText=txt;
+/* discord fetch */
+async function getDiscord(){
+
+try{
+
+let res=await fetch("https://api.lanyard.rest/v1/users/"+USER_ID+"?t="+Date.now());
+let json=await res.json();
+
+if(!json.success) return;
+
+let d=json.data;
+
+let av=d.discord_user.avatar;
+
+document.getElementById("avatar").src=
+"https://cdn.discordapp.com/avatars/"+USER_ID+"/"+av+".png?size=512";
+
+/* deco */
+if(d.discord_user.avatar_decoration_data){
+document.getElementById("deco").src=
+"https://cdn.discordapp.com/avatar-decoration-presets/"
++d.discord_user.avatar_decoration_data.asset+".png";
+}
+
+/* status */
+setStatus(d.discord_status || "offline");
+
+/* activity */
+let text="Offline...";
+
+if(d.listening_to_spotify){
+text="🎧 "+d.spotify.song+" - "+d.spotify.artist;
+}
+else if(d.activities.length>0){
+
+let custom=d.activities.find(x=>x.type===4);
+let game=d.activities.find(x=>x.type===0);
+
+if(custom) text="💬 "+custom.state;
+else if(game) text="🎮 "+game.name;
+else text="✨ "+d.activities[0].name;
+}
+
+document.getElementById("activity").innerText=text;
+document.getElementById("presence").innerText=text;
+
+/* spotify */
+if(d.listening_to_spotify){
+
+document.getElementById("spotifyBox").classList.add("show");
+
+document.getElementById("cover").src=d.spotify.album_art_url;
+document.getElementById("song").innerText=d.spotify.song;
+document.getElementById("artist").innerText=d.spotify.artist;
+
+let start=d.spotify.timestamps.start;
+let end=d.spotify.timestamps.end;
+let now=Date.now();
+
+let percent=((now-start)/(end-start))*100;
+if(percent<0) percent=0;
+if(percent>100) percent=100;
+
+document.getElementById("bar").style.width=percent+"%";
+
+}else{
+document.getElementById("spotifyBox").classList.remove("show");
+}
 
 }catch(e){
 console.log(e);
 }
 }
-setInterval(getDiscord,4000);
-getDiscord();
 
-/* ================= RAIN ================= */
-function startRain(){
-const rain=document.getElementById("rain");
+setInterval(getDiscord,5000);
 
-for(let i=0;i<80;i++){
-let d=document.createElement("div");
-d.className="drop";
-d.style.left=Math.random()*100+"vw";
-d.style.animationDuration=(Math.random()*1+0.5)+"s";
-d.style.opacity=Math.random();
-rain.appendChild(d);
+/* click effect */
+document.onclick=e=>{
+let s=document.createElement("div");
+s.className="click";
+s.innerText="✨";
+s.style.left=e.clientX+"px";
+s.style.top=e.clientY+"px";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),900);
 }
-}
-
-/* ================= RIPPLE (simple canvas) ================= */
-const canvas=document.getElementById("ripple");
-const ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let ripples=[];
-
-window.addEventListener("mousemove",e=>{
-ripples.push({x:e.clientX,y:e.clientY,r:0});
-});
-
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-for(let i=0;i<ripples.length;i++){
-let r=ripples[i];
-ctx.beginPath();
-ctx.arc(r.x,r.y,r.r,0,Math.PI*2);
-ctx.strokeStyle="rgba(82,237,255,.3)";
-ctx.stroke();
-r.r+=2;
-if(r.r>80) ripples.splice(i,1);
-}
-
-requestAnimationFrame(animate);
-}
-animate();
-
 </script>
 
 </body>
