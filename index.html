@@ -3,53 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Discord Pro5 - Ari</title>
+<title>Pro5</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
 --c1:#52EDFF;
---c2:#054981;
---c3:#041124;
---white:#f5fcff;
---glass:rgba(4,17,36,.62);
---line:rgba(82,237,255,.16);
+--glass:rgba(4,17,36,.35);
+--line:rgba(82,237,255,.14);
+--text:#fff;
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
 font-family:'Open Sans',sans-serif;
-color:var(--white);
 background:#000;
 overflow-x:hidden;
-min-height:100vh;
+color:var(--text);
 }
 
-/* GIF BG */
+/* BACKGROUND GIF */
 body::before{
 content:"";
 position:fixed;
 inset:0;
 background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
-filter:brightness(.28) blur(7px);
-transform:scale(1.08);
+filter:blur(8px) brightness(.35);
 z-index:-3;
+transform:scale(1.1);
 }
 
 body::after{
 content:"";
 position:fixed;
 inset:0;
-background:linear-gradient(180deg,rgba(4,17,36,.35),rgba(4,17,36,.88));
+background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.85));
 z-index:-2;
+}
+
+/* RAIN */
+.rain{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:1;
+}
+
+.drop{
+position:absolute;
+width:1px;
+height:60px;
+background:rgba(255,255,255,.25);
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{
+transform:translateY(120vh);
+}
+}
+
+/* WATER RIPPLES CANVAS */
+#ripple{
+position:fixed;
+inset:0;
+z-index:0;
+pointer-events:none;
 }
 
 /* INTRO */
@@ -60,385 +83,136 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-background:rgba(0,0,0,.82);
-backdrop-filter:blur(8px);
+background:rgba(0,0,0,.85);
 z-index:9999;
 cursor:pointer;
-transition:.4s;
-}
-
-#intro h1{
-font-size:clamp(2rem,6vw,3.2rem);
-text-align:center;
-padding:0 20px;
-}
-
-#intro p{
-margin-top:10px;
-opacity:.75;
 }
 
 /* MAIN */
-#main{
+.wrap{
 display:none;
-max-width:1200px;
+width:min(1100px,95%);
 margin:auto;
-padding:22px 14px 50px;
+padding:20px;
 }
 
-/* CARD */
-.hero{
-display:grid;
-grid-template-columns:1.2fr .95fr;
+/* CARD GLASS MỜ */
+.card{
+display:flex;
 gap:18px;
-padding:22px;
-background:var(--glass);
-border:1px solid var(--line);
-border-radius:28px;
+padding:18px;
+border-radius:24px;
+
+/* 👇 KEY FIX: MỜ + SEE THROUGH */
+background:rgba(4,17,36,.25);
 backdrop-filter:blur(18px);
-box-shadow:0 25px 70px rgba(0,0,0,.45);
+border:1px solid rgba(82,237,255,.15);
+box-shadow:0 20px 60px rgba(0,0,0,.45);
 }
 
+/* LEFT */
 .left{
+flex:1;
 display:flex;
 flex-direction:column;
-justify-content:center;
-gap:12px;
-}
-
-.badge{
-display:inline-block;
-padding:8px 14px;
-width:max-content;
-border-radius:999px;
-background:rgba(255,255,255,.04);
-border:1px solid var(--line);
-font-size:.8rem;
-letter-spacing:.13em;
+gap:10px;
 }
 
 .name{
-font-size:clamp(2.4rem,7vw,5rem);
+font-size:3rem;
 font-weight:800;
-background:linear-gradient(90deg,#fff,var(--c1),#fff);
-background-size:200%;
+background:linear-gradient(90deg,#fff,var(--c1));
 -webkit-background-clip:text;
 color:transparent;
-animation:shine 4s linear infinite;
 }
 
-@keyframes shine{
-to{background-position:200%}
-}
-
-#typing{
-font-size:1.18rem;
-font-weight:700;
+.typing{
 border-right:2px solid var(--c1);
 white-space:nowrap;
 overflow:hidden;
 width:max-content;
-max-width:100%;
-}
-
-.sub{
-opacity:.82;
-}
-
-.row{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-top:6px;
-}
-
-.pill{
-padding:10px 14px;
-border-radius:999px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
-display:flex;
-align-items:center;
-gap:8px;
-font-size:.92rem;
-}
-
-.dot{
-width:10px;
-height:10px;
-border-radius:50%;
-background:#666;
 }
 
 /* RIGHT */
 .right{
+width:240px;
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:center;
-gap:15px;
-}
-
-.avatar-box{
-position:relative;
-width:240px;
-height:240px;
-}
-
-#avatar{
-width:100%;
-height:100%;
-border-radius:50%;
-object-fit:cover;
-border:3px solid rgba(255,255,255,.1);
-box-shadow:0 0 25px rgba(82,237,255,.2);
-}
-
-#deco{
-position:absolute;
-inset:-8%;
-width:116%;
-height:116%;
-object-fit:contain;
-pointer-events:none;
-}
-
-#status{
-position:absolute;
-right:12px;
-bottom:12px;
-width:20px;
-height:20px;
-border-radius:50%;
-border:3px solid var(--c3);
-background:#666;
-}
-
-.server{
-display:flex;
-align-items:center;
 gap:10px;
-width:100%;
-max-width:320px;
-padding:12px;
-border-radius:18px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
 }
 
-.server img{
-width:42px;
-height:42px;
-border-radius:12px;
+.avatar{
+width:170px;
+height:170px;
+border-radius:50%;
 object-fit:cover;
+box-shadow:0 0 25px var(--c1);
 }
 
-.server span{
-font-size:.85rem;
-opacity:.72;
+.status{
+width:14px;height:14px;border-radius:50%;
+position:absolute;
+bottom:15px;right:20px;
+border:2px solid #000;
 }
 
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:16px;
-margin-top:18px;
-}
+.online{background:#23a55a}
+.idle{background:#f0b232}
+.dnd{background:#f23f43}
+.offline{background:#666}
 
-.box{
-padding:18px;
-border-radius:24px;
-background:var(--glass);
-border:1px solid var(--line);
-backdrop-filter:blur(14px);
-}
-
-.title{
-font-size:.82rem;
-letter-spacing:.14em;
-opacity:.68;
-margin-bottom:12px;
-text-transform:uppercase;
-}
-
-.embed{
-padding:14px;
-border-left:4px solid var(--c1);
-border-radius:18px;
-background:rgba(255,255,255,.04);
-line-height:1.8;
-}
-
-#time{
-font-size:1.1rem;
-font-weight:700;
-margin-top:8px;
+/* SOCIAL */
+.social{
+margin-top:15px;
+display:flex;
+gap:10px;
 }
 
 .social a{
-display:flex;
-justify-content:space-between;
-padding:12px;
-margin-bottom:10px;
-border-radius:14px;
-text-decoration:none;
+padding:10px 14px;
+border-radius:12px;
+background:rgba(255,255,255,.05);
 color:#fff;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
-transition:.2s;
-}
-
-.social a:hover{
-transform:translateY(-2px);
-background:rgba(82,237,255,.08);
-}
-
-/* spotify */
-#spotify{
-display:none;
-margin-top:14px;
-padding:12px;
-border-radius:18px;
-background:rgba(255,255,255,.04);
-}
-
-#spotifyTop{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
-#spotifyCover{
-width:62px;
-height:62px;
-border-radius:14px;
-object-fit:cover;
-}
-
-#bar{
-height:8px;
-border-radius:999px;
-background:rgba(255,255,255,.08);
-margin-top:10px;
-overflow:hidden;
-}
-
-#bar span{
-display:block;
-height:100%;
-width:0%;
-background:linear-gradient(90deg,var(--c1),#fff);
-}
-
-/* sparkle */
-.spark{
-position:fixed;
-pointer-events:none;
-z-index:999;
-color:var(--c1);
-text-shadow:0 0 14px var(--c1);
-animation:spark .9s forwards;
-}
-
-@keyframes spark{
-to{
-transform:translateY(-25px) scale(1.3);
-opacity:0;
-}
-}
-
-/* mobile */
-@media(max-width:980px){
-.hero{grid-template-columns:1fr}
-.grid{grid-template-columns:1fr}
-.avatar-box{width:220px;height:220px}
+text-decoration:none;
+border:1px solid rgba(255,255,255,.1);
 }
 </style>
 </head>
 
 <body>
 
+<canvas id="ripple"></canvas>
+<div class="rain" id="rain"></div>
+
 <div id="intro">
 <h1>Liệu còn có ai ở đây?</h1>
-<p>Chạm để mở profile</p>
+<p>Click để vào</p>
 </div>
 
-<div id="main">
+<div class="wrap" id="main">
 
-<div class="hero">
+<div class="card">
 
+<!-- LEFT -->
 <div class="left">
-<div class="badge">PRO5 / DISCORD</div>
 <div class="name">Ari</div>
-<div id="typing"></div>
-<div class="sub">Date to marry 💍</div>
+<div class="typing" id="typing"></div>
+<div>Date to marry 💍</div>
 
-<div class="row">
-<div class="pill" id="banner">...</div>
-<div class="pill">
-<span class="dot" id="dot"></span>
-<span id="statusText">offline</span>
-</div>
-</div>
+<div id="activity">Loading...</div>
 
-<div class="pill" id="activity">Offline...</div>
-</div>
-
-<div class="right">
-<div class="avatar-box">
-<img id="avatar" src="file1.jpg">
-<img id="deco">
-<div id="status"></div>
-</div>
-
-<div class="server">
-<img src="guild.png">
-<div>
-<strong>ᒪᑌᑎᗩ</strong><br>
-<span>Guild Badge</span>
-</div>
-</div>
-</div>
-
-</div>
-
-<div class="grid">
-
-<div class="box">
-<div class="title">About me</div>
-<div class="embed">
-MBTI: INFP<br>
-Cung hoàng đạo: Song Ngư<br>
-Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
-Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
-Waifu: Cartethyia
-</div>
-</div>
-
-<div class="box">
-<div class="title">Presence</div>
-<div id="time">0 tháng 0 ngày 0 giờ</div>
-
-<div id="spotify">
-<div id="spotifyTop">
-<img id="spotifyCover">
-<div>
-<div id="song">...</div>
-<div id="artist" style="opacity:.72;font-size:.9rem"></div>
-</div>
-</div>
-<div id="bar"><span></span></div>
-</div>
-</div>
-
-<div class="box">
-<div class="title">Socials</div>
 <div class="social">
-<a href="https://www.facebook.com/share/1AuHDmJLrP/" target="_blank">Facebook <span>fb</span></a>
-<a href="https://x.com/PhmQunh42254275" target="_blank">X <span>x</span></a>
-<a href="https://discord.gg/XZAk8MWx" target="_blank">Discord <span>invite</span></a>
-<a href="https://discord.gg/gachaparadise" target="_blank">Server <span>guild</span></a>
+<a href="#">Facebook</a>
+<a href="#">Discord</a>
+</div>
+</div>
+
+<!-- RIGHT -->
+<div class="right">
+<div style="position:relative">
+<img id="avatar" class="avatar" src="file1.jpg">
+<div id="statusDot" class="status offline"></div>
 </div>
 </div>
 
@@ -446,189 +220,115 @@ Waifu: Cartethyia
 </div>
 
 <audio id="music" loop>
-<source src="music.mp3" type="audio/mpeg">
+<source src="music.mp3">
 </audio>
 
 <script>
-const USER_ID="965608704974151710";
 
-/* intro */
-intro.onclick=async()=>{
-intro.style.opacity="0";
-setTimeout(()=>{
+/* ================= INTRO ================= */
+const intro=document.getElementById("intro");
+const main=document.getElementById("main");
+const music=document.getElementById("music");
+
+intro.onclick=()=>{
 intro.style.display="none";
 main.style.display="block";
-},400);
-
-try{await music.play();}catch(e){}
-
-typingLoop();
-updateBanner();
-getDiscord();
-};
-
-/* typing */
-function typingLoop(){
-const text="Don't call me tonight";
-let i=0,del=false;
-
-setInterval(()=>{
-if(!del){
-typing.innerHTML=text.slice(0,i++);
-if(i>text.length+8)del=true;
-}else{
-typing.innerHTML=text.slice(0,i--);
-if(i<=0)del=false;
-}
-},100);
+music.play();
+typing();
+startRain();
 }
 
-/* banner */
-function updateBanner(){
-const h=new Date().getHours();
+/* ================= TYPE ================= */
+function typing(){
+let txt="Don't call me tonight";
+let i=0;
+let el=document.getElementById("typing");
 
-if(h>=5&&h<11){
-banner.innerText="Một ngày mới lại đến rồi";
-}else if(h>=11&&h<18){
-banner.innerText="Ngày trôi qua sắp hết rồi";
-}else{
-banner.innerText="Một ngày đi qua, có điều gì ở lại?";
-}
-}
-setInterval(updateBanner,1000);
-
-/* timer */
-const start=new Date("2025-11-17T00:00:00");
-
-setInterval(()=>{
-const now=new Date();
-
-let months=(now.getFullYear()-start.getFullYear())*12+(now.getMonth()-start.getMonth());
-
-let anchor=new Date(start);
-anchor.setMonth(anchor.getMonth()+months);
-
-if(anchor>now){
-months--;
-anchor=new Date(start);
-anchor.setMonth(anchor.getMonth()+months);
+let t=setInterval(()=>{
+el.innerHTML+=txt[i];
+i++;
+if(i>=txt.length) clearInterval(t);
+},80);
 }
 
-const diff=now-anchor;
-const d=Math.floor(diff/86400000);
-const h=Math.floor((diff%86400000)/3600000);
+/* ================= DISCORD ================= */
+const ID="965608704974151710";
 
-time.innerHTML=`${months} tháng ${d} ngày ${h} giờ`;
-},1000);
-
-/* set status */
-function setStatus(st){
-
-let color="#747f8d";
-let txt="offline";
-
-if(st==="online"){color="#23a55a";txt="online";}
-if(st==="idle"){color="#f0b232";txt="idle";}
-if(st==="dnd"){color="#f23f43";txt="dnd";}
-
-status.style.background=color;
-dot.style.background=color;
-dot.style.boxShadow=`0 0 15px ${color}`;
-statusText.innerText=txt;
-avatar.style.boxShadow=`0 0 35px ${color}`;
-}
-
-/* discord */
 async function getDiscord(){
-
 try{
-const res=await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}?t=${Date.now()}`,{
-cache:"no-store"
-});
+let res=await fetch("https://api.lanyard.rest/v1/users/"+ID);
+let json=await res.json();
+let d=json.data;
 
-const json=await res.json();
+/* AVATAR */
+document.getElementById("avatar").src=
+"https://cdn.discordapp.com/avatars/"+ID+"/"+d.discord_user.avatar+".png?size=512";
 
-if(!json.success||!json.data){
-setStatus("offline");
-return;
-}
+/* STATUS */
+let st=d.discord_status || "offline";
+document.getElementById("statusDot").className="status "+st;
 
-const d=json.data;
-const u=d.discord_user;
+/* ACTIVITY */
+let txt="Offline...";
 
-/* avatar */
-if(u.avatar){
-avatar.src=`https://cdn.discordapp.com/avatars/${USER_ID}/${u.avatar}.png?size=512`;
-}
+if(d.listening_to_spotify)
+txt="🎧 "+d.spotify.song;
+else if(d.activities.length>0)
+txt="🎮 "+d.activities[0].name;
 
-/* decor */
-if(u.avatar_decoration_data?.asset){
-deco.src=`https://cdn.discordapp.com/avatar-decoration-presets/${u.avatar_decoration_data.asset}.png`;
-deco.style.display="block";
-}else{
-deco.style.display="none";
-}
+document.getElementById("activity").innerText=txt;
 
-/* status */
-setStatus(d.discord_status);
-
-/* spotify */
-if(d.listening_to_spotify&&d.spotify){
-
-activity.innerText=`🎧 ${d.spotify.song} - ${d.spotify.artist}`;
-
-spotify.style.display="block";
-spotifyCover.src=d.spotify.album_art_url;
-song.innerText=d.spotify.song;
-artist.innerText=d.spotify.artist;
-
-const s=new Date(d.spotify.timestamps.start).getTime();
-const e=new Date(d.spotify.timestamps.end).getTime();
-const n=Date.now();
-
-const p=Math.min(((n-s)/(e-s))*100,100);
-document.querySelector("#bar span").style.width=p+"%";
-
-}else{
-
-spotify.style.display="none";
-
-if(d.activities&&d.activities.length){
-
-let act=d.activities.find(x=>x.type===0)||
-d.activities.find(x=>x.type===4)||
-d.activities[0];
-
-if(act.type===4){
-activity.innerText="💬 "+(act.state||"Custom Status");
-}else{
-activity.innerText="🎮 "+(act.name||"Activity");
-}
-
-}else{
-activity.innerText="Offline...";
+}catch(e){
+console.log(e);
 }
 }
-
-}catch(err){
-setStatus("offline");
-activity.innerText="Offline...";
-}
-}
-
+setInterval(getDiscord,4000);
 getDiscord();
-setInterval(getDiscord,10000);
 
-/* sparkle */
-document.addEventListener("pointerdown",e=>{
-let s=document.createElement("div");
-s.className="spark";
-s.innerHTML="✨";
-s.style.left=e.clientX+"px";
-s.style.top=e.clientY+"px";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),900);
+/* ================= RAIN ================= */
+function startRain(){
+const rain=document.getElementById("rain");
+
+for(let i=0;i<80;i++){
+let d=document.createElement("div");
+d.className="drop";
+d.style.left=Math.random()*100+"vw";
+d.style.animationDuration=(Math.random()*1+0.5)+"s";
+d.style.opacity=Math.random();
+rain.appendChild(d);
+}
+}
+
+/* ================= RIPPLE (simple canvas) ================= */
+const canvas=document.getElementById("ripple");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let ripples=[];
+
+window.addEventListener("mousemove",e=>{
+ripples.push({x:e.clientX,y:e.clientY,r:0});
 });
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+for(let i=0;i<ripples.length;i++){
+let r=ripples[i];
+ctx.beginPath();
+ctx.arc(r.x,r.y,r.r,0,Math.PI*2);
+ctx.strokeStyle="rgba(82,237,255,.3)";
+ctx.stroke();
+r.r+=2;
+if(r.r>80) ripples.splice(i,1);
+}
+
+requestAnimationFrame(animate);
+}
+animate();
+
 </script>
 
 </body>
