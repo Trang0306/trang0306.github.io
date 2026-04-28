@@ -7,41 +7,52 @@
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
+:root{
+    --c1:#52EDFF;
+    --c2:#054981;
+    --c3:#041124;
+}
+
 body{
     margin:0;
     font-family:'Open Sans', sans-serif;
     color:white;
-    text-align:center;
     overflow:hidden;
-    background:#041124;
+    background:var(--c3);
 }
 
-/* nền GIF */
+/* BACKGROUND GIF */
 #bg{
     position:fixed;
-    width:110%;
-    height:110%;
+    width:120%;
+    height:120%;
     background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
-    z-index:-2;
-    filter:brightness(0.4);
+    filter:brightness(0.35);
+    z-index:-3;
 }
 
-/* overlay */
-#bg2{
+#overlay{
     position:fixed;
     width:100%;
     height:100%;
-    background:linear-gradient(120deg,#041124,#054981);
-    opacity:0.5;
+    background:linear-gradient(120deg,var(--c3),var(--c2));
+    opacity:0.6;
+    z-index:-2;
+}
+
+/* canvas wave */
+canvas{
+    position:fixed;
+    top:0;left:0;
     z-index:-1;
 }
 
-/* intro */
+/* INTRO */
 #intro{
     position:fixed;
     width:100%;
     height:100%;
-    background:#041124;
+    background:var(--c3);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -51,97 +62,75 @@ body{
 }
 
 /* MAIN */
-#main{
-    display:none;
-}
+#main{display:none;text-align:center;padding-top:40px;}
 
-/* card + SCALE 132% MƯỢT */
-.card{
-    background:rgba(4,17,36,0.85);
-    width:320px;
-    margin:auto;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 0 30px #52EDFF;
-
-    transform:scale(0.85);
-    opacity:0;
-
-    animation:cardIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-
-    transform-origin:center;
-    will-change:transform, opacity;
-}
-
-/* animation kiểu Discord pop-in */
-@keyframes cardIn{
-    0%{
-        transform:scale(0.75);
-        opacity:0;
-        filter:blur(8px);
-    }
-    60%{
-        transform:scale(1.38);
-        opacity:1;
-        filter:blur(0px);
-    }
-    100%{
-        transform:scale(1.32);
-        opacity:1;
-    }
-}
-
-/* avatar */
-.avatar-wrap{
-    position:relative;
+/* typing */
+#text{
+    font-size:22px;
+    border-right:2px solid white;
     display:inline-block;
+    white-space:nowrap;
+}
+
+/* CARD */
+.card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(12px);
+    width:340px;
+    margin:20px auto;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid rgba(82,237,255,0.2);
+    box-shadow:0 0 30px rgba(82,237,255,0.15);
 }
 
 /* avatar */
+.avatar-wrap{position:relative;display:inline-block;}
+
 .avatar{
     width:120px;
     border-radius:50%;
-    position:relative;
-    z-index:1;
 }
 
-/* status */
+/* STATUS */
 .status{
-    width:16px;
-    height:16px;
+    width:14px;
+    height:14px;
     border-radius:50%;
     position:absolute;
-    bottom:5px;
-    right:5px;
-    border:3px solid #041124;
-    z-index:3;
+    bottom:6px;
+    right:6px;
+    border:3px solid var(--c3);
 }
 
-/* ===== DISCORD DECO (chuẩn overlay giống Discord) ===== */
+/* ===================== */
+/* DECO DISCORD FIX HERE */
+/* ===================== */
 #deco{
     position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    top:-15px;
+    left:-15px;
     width:150px;
     pointer-events:none;
     z-index:2;
 }
 
-/* name */
+/* NAME */
 .name{
+    font-size:20px;
     font-weight:600;
-    background:linear-gradient(90deg,#52EDFF,#054981,#52EDFF);
+    background:linear-gradient(90deg,var(--c1),var(--c2),var(--c1));
+    background-size:200%;
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     animation:flow 3s linear infinite;
 }
 
 @keyframes flow{
-    100%{background-position:200%;}
+    to{background-position:200%;}
 }
 
-/* buttons */
+/* BUTTON */
 .btn{
     display:block;
     margin:10px auto;
@@ -150,24 +139,25 @@ body{
     border-radius:20px;
     text-decoration:none;
     color:white;
-    background:rgba(82,237,255,0.1);
+    background:rgba(82,237,255,0.08);
+    transition:0.3s;
 }
+
 .btn:hover{
-    background:#52EDFF;
+    background:var(--c1);
     color:black;
+    box-shadow:0 0 15px var(--c1);
 }
 
-/* ripple */
-.ripple{
+/* spark */
+.spark{
     position:absolute;
-    border-radius:50%;
-    background:rgba(82,237,255,0.5);
-    transform:scale(0);
-    animation:ripple 0.6s linear;
+    color:var(--c1);
+    animation:up 1s forwards;
 }
 
-@keyframes ripple{
-    to{transform:scale(6);opacity:0;}
+@keyframes up{
+    to{transform:translateY(-20px);opacity:0;}
 }
 </style>
 </head>
@@ -175,7 +165,8 @@ body{
 <body>
 
 <div id="bg"></div>
-<div id="bg2"></div>
+<div id="overlay"></div>
+<canvas id="wave"></canvas>
 
 <div id="intro">Liệu còn có ai ở đây?</div>
 
@@ -190,17 +181,12 @@ body{
 <div class="card">
 
 <div class="avatar-wrap">
-
 <img id="avatar" class="avatar">
-
-<!-- DISCORD DECO -->
 <img id="deco">
-
 <span id="status" class="status"></span>
-
 </div>
 
-<h3 id="username" class="name">Ari</h3>
+<h3 class="name">Ari</h3>
 
 <p id="activity"></p>
 
@@ -210,23 +196,26 @@ body{
 <p>
 MBTI: INFP<br>
 Cung: Song Ngư<br>
-Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
-Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
+Sở thích: vẽ, viết, đọc truyện, nghe nhạc<br>
+Game: Genshin / HSR / Wuthering Wave<br>
 Waifu: Cartethyia
 </p>
 
-<a class="btn" href="#">Facebook</a>
-<a class="btn" href="#">X</a>
-<a class="btn" href="#">Discord</a>
-<a class="btn" href="#">Server</a>
+<a class="btn" href="https://www.facebook.com/share/1AuHDmJLrP/">Facebook</a>
+<a class="btn" href="https://x.com/PhmQunh42254275">X</a>
+<a class="btn" href="https://discord.gg/XZAk8MWx">Discord</a>
+<a class="btn" href="https://discord.gg/gachaparadise">Server</a>
 
 </div>
+
+<img src="file1.jpg" width="180">
+<img src="file2.jpg" width="180">
 
 </div>
 
 <script>
 
-/* intro */
+/* INTRO */
 intro.onclick=()=>{
     intro.style.display="none";
     main.style.display="block";
@@ -238,7 +227,7 @@ let t="Don't call me tonight";
 let i=0;
 setInterval(()=>{
     if(i<t.length) text.innerHTML+=t[i++];
-},80);
+},90);
 
 /* time */
 let start=new Date("2025-11-17");
@@ -251,61 +240,92 @@ setInterval(()=>{
     Math.floor(d/1000)%60+" giây";
 },1000);
 
-/* DISCORD API */
-const userId="965608704974151710";
+/* DISCORD */
+const id="965608704974151710";
 
-async function getDiscord(){
-let res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-let d=(await res.json()).data;
-
-/* name */
-username.innerHTML=d.discord_user.global_name || "Ari";
+async function load(){
+let r=await fetch(`https://api.lanyard.rest/v1/users/${id}`);
+let d=(await r.json()).data;
 
 /* avatar */
-avatar.src=`https://cdn.discordapp.com/avatars/${userId}/${d.discord_user.avatar}.png`;
+avatar.src=`https://cdn.discordapp.com/avatars/${id}/${d.discord_user.avatar}.png`;
 
-/* status */
-let st=d.discord_status;
-status.style.background=
-st=="online"?"#23a55a":
-st=="idle"?"#f0b232":
-st=="dnd"?"#f23f43":"gray";
+/* name */
+username.innerHTML=d.discord_user.global_name||"Ari";
 
-/* glow */
-avatar.style.boxShadow=`0 0 20px ${status.style.background}`;
+/* status glow */
+let stColor=
+d.discord_status=="online"?"#23a55a":
+d.discord_status=="idle"?"#f0b232":
+d.discord_status=="dnd"?"#f23f43":"gray";
 
-/* activity */
+status.style.background=stColor;
+avatar.style.boxShadow=`0 0 20px ${stColor}`;
+
+/* ACTIVITY */
 if(d.listening_to_spotify){
     activity.innerHTML="🎧 "+d.spotify.song;
 }
 else if(d.activities.length){
     activity.innerHTML="🎮 "+d.activities[0].name;
 }
-else activity.innerHTML="🌙 Chill";
+else{
+    activity.innerHTML="🌙 Chill mode";
+}
 
-/* ===== DISCORD DECO ===== */
-if(d.discord_user.avatar_decoration_data){
-    let decoId=d.discord_user.avatar_decoration_data.asset;
+/* ========================= */
+/* DECO DISCORD (FIXED) */
+/* ========================= */
+if(
+    d.discord_user.avatar_decoration_data &&
+    d.discord_user.avatar_decoration_data.asset
+){
+    let decoId = d.discord_user.avatar_decoration_data.asset;
 
-    document.getElementById("deco").src=
+    document.getElementById("deco").src =
     `https://cdn.discordapp.com/avatar-decoration-presets/${decoId}.png`;
-}else{
+
+    document.getElementById("deco").style.filter =
+    `drop-shadow(0 0 10px ${stColor})`;
+}
+else{
     document.getElementById("deco").src="";
 }
 }
 
-setInterval(getDiscord,5000);
-getDiscord();
+setInterval(load,5000);
+load();
 
-/* click effect */
+/* click sparkle */
 document.onclick=e=>{
-let r=document.createElement("span");
-r.className="ripple";
-r.style.left=e.pageX+"px";
-r.style.top=e.pageY+"px";
-document.body.appendChild(r);
-setTimeout(()=>r.remove(),600);
-};
+let s=document.createElement("div");
+s.className="spark";
+s.innerHTML="✨";
+s.style.left=e.pageX+"px";
+s.style.top=e.pageY+"px";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),1000);
+}
+
+/* wave */
+let c=document.getElementById("wave");
+let ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+let t2=0;
+function draw(){
+ctx.clearRect(0,0,c.width,c.height);
+for(let i=0;i<50;i++){
+ctx.fillStyle="rgba(82,237,255,0.08)";
+ctx.beginPath();
+ctx.arc(i*30+Math.sin(t2+i)*10,c.height/2+Math.cos(t2+i)*20,40,0,Math.PI*2);
+ctx.fill();
+}
+t2+=0.02;
+requestAnimationFrame(draw);
+}
+draw();
 
 </script>
 
