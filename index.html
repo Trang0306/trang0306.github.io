@@ -5,18 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Pro5 Ari</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
 --c1:#52EDFF;
+--c2:#054981;
 --c3:#041124;
 --text:#f4fcff;
 --muted:rgba(255,255,255,.72);
 }
 
-/* BASE */
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
 font-family:'Open Sans',sans-serif;
 background:#000;
@@ -44,7 +47,6 @@ background:linear-gradient(180deg,rgba(4,17,36,.25),rgba(4,17,36,.85));
 z-index:-2;
 }
 
-/* RIPPLE */
 @keyframes ripple{
 0%{filter:blur(8px) brightness(.35)}
 50%{filter:blur(10px) brightness(.4)}
@@ -63,13 +65,13 @@ z-index:0;
 .drop{
 position:absolute;
 width:1px;
-height:80px;
-background:rgba(255,255,255,.18);
+height:60px;
+background:rgba(255,255,255,0.2);
 animation:fall linear infinite;
 }
 
 @keyframes fall{
-to{transform:translateY(120vh)}
+to{transform:translateY(120vh);}
 }
 
 /* INTRO */
@@ -77,9 +79,9 @@ to{transform:translateY(120vh)}
 position:fixed;
 inset:0;
 display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
+justify-content:center;
+flex-direction:column;
 background:rgba(0,0,0,.85);
 z-index:9999;
 cursor:pointer;
@@ -87,10 +89,10 @@ cursor:pointer;
 
 /* MAIN */
 .wrap{
+display:none;
 width:min(1200px,94%);
 margin:auto;
 padding:25px 0;
-display:none;
 }
 
 /* HERO */
@@ -107,14 +109,29 @@ border-radius:24px;
 
 /* TEXT */
 .name{
-font-size:4rem;
+font-size:3.8rem;
 font-weight:800;
 background:linear-gradient(90deg,#fff,var(--c1),#fff);
 -webkit-background-clip:text;
 color:transparent;
 }
 
+.typing{
+font-size:1.2rem;
+border-right:2px solid var(--c1);
+white-space:nowrap;
+}
+
 /* STATUS */
+.pill{
+padding:8px 12px;
+border-radius:999px;
+background:rgba(255,255,255,.05);
+display:flex;
+gap:8px;
+align-items:center;
+}
+
 .dot{width:10px;height:10px;border-radius:50%}
 .online{background:#23a55a}
 .idle{background:#f0b232}
@@ -130,33 +147,46 @@ border-radius:50%;
 object-fit:cover;
 border:3px solid rgba(255,255,255,.1);
 }
+.status{
+position:absolute;
+right:15px;
+bottom:18px;
+width:18px;
+height:18px;
+border-radius:50%;
+border:3px solid #041124;
+}
+
+/* GUILD */
+.guild{
+display:flex;
+gap:10px;
+align-items:center;
+padding:10px;
+border-radius:16px;
+background:rgba(255,255,255,.04);
+}
+
+.guild img{
+width:40px;height:40px;border-radius:10px;
+}
 
 /* CARD */
 .card{
 background:rgba(4,17,36,.25);
-backdrop-filter:blur(26px);
-border:1px solid rgba(82,237,255,.15);
-border-radius:18px;
+backdrop-filter:blur(28px);
+border:1px solid rgba(82,237,255,.18);
 padding:16px;
+border-radius:18px;
+margin-top:16px;
 }
 
-/* SOCIAL */
-a{
-display:block;
-padding:12px;
-margin-bottom:10px;
-border-radius:12px;
-background:rgba(255,255,255,.05);
-color:#fff;
-text-decoration:none;
-}
-
-/* CLICK EFFECT */
+/* CLICK */
 .click{
 position:fixed;
+pointer-events:none;
 color:var(--c1);
 animation:fly .9s forwards;
-pointer-events:none;
 }
 
 @keyframes fly{
@@ -171,7 +201,7 @@ to{transform:translateY(-25px);opacity:0}
 
 <div id="intro">
 <h1>Liệu còn có ai ở đây?</h1>
-<p>Chạm để mở</p>
+<p>Chạm để vào</p>
 </div>
 
 <div class="wrap" id="main">
@@ -180,54 +210,62 @@ to{transform:translateY(-25px);opacity:0}
 
 <div>
 <div class="name">Ari</div>
-<div id="typing"></div>
+<div class="typing" id="typing"></div>
 
-<div>
-<span class="dot offline" id="dot"></span>
+<div class="pill">
+<div class="dot offline" id="dot"></div>
 <span id="statusText">offline</span>
 </div>
 
-<div id="activity">Loading...</div>
+<div class="pill" id="activity">Offline...</div>
 </div>
+
+<div>
 
 <div class="avatarWrap">
 <img id="avatar" class="avatar" src="file1.jpg">
+<div id="statusDot" class="status offline"></div>
+</div>
+
+<div class="guild">
+<img src="guild.png">
+<div>
+<div style="font-weight:700">Server</div>
+<div style="font-size:.85rem;color:#ccc">Discord Guild</div>
+</div>
+</div>
+
 </div>
 
 </div>
 
 <div class="card">
-<div>Discord Presence</div>
-<div id="presence"></div>
-</div>
-
-<div class="card">
-<div>Social</div>
-<a href="https://discord.gg/gachaparadise">Server</a>
+<div id="presence">Loading...</div>
 </div>
 
 </div>
 
 <script>
-
 const USER_ID="965608704974151710";
 
-/* INTRO */
+const intro=document.getElementById("intro");
+const main=document.getElementById("main");
+
 intro.onclick=()=>{
 intro.style.display="none";
 main.style.display="block";
 typing();
 getDiscord();
 rain();
-}
+};
 
-/* TYPING */
+/* typing */
 function typing(){
 let t="Don't call me tonight";
 let i=0;
 let el=document.getElementById("typing");
 let x=setInterval(()=>{
-el.innerText+=t[i++];
+el.innerHTML+=t[i++];
 if(i>=t.length)clearInterval(x);
 },80);
 }
@@ -236,42 +274,47 @@ if(i>=t.length)clearInterval(x);
 function setStatus(s){
 document.getElementById("statusText").innerText=s;
 document.getElementById("dot").className="dot "+s;
+document.getElementById("statusDot").className="status "+s;
 }
 
-/* DISCORD SAFE */
+/* DISCORD FIXED */
 async function getDiscord(){
 try{
-let r=await fetch("https://api.lanyard.rest/v1/users/"+USER_ID);
-let j=await r.json();
-if(!j.success) return;
+let res=await fetch("https://api.lanyard.rest/v1/users/"+USER_ID);
+let json=await res.json();
+let d=json.data;
 
-let d=j.data;
+if(!d) return;
 
-setStatus(d.discord_status||"offline");
-
-let act="Offline...";
-let a=d.activities||[];
-
-if(d.listening_to_spotify && d.spotify){
-act="🎧 "+d.spotify.song;
-}
-else{
-let c=a.find(x=>x.type===4);
-let g=a.find(x=>x.type===0);
-if(c) act=c.state||"";
-else if(g) act=g.name||"";
-}
-
-document.getElementById("activity").innerText=act;
-document.getElementById("presence").innerText=act;
-
+/* avatar */
 let av=d.discord_user.avatar;
 if(av){
 document.getElementById("avatar").src=
-`https://cdn.discordapp.com/avatars/${USER_ID}/${av}.png`;
+`https://cdn.discordapp.com/avatars/${USER_ID}/${av}.png?size=512`;
 }
 
-}catch(e){console.log(e);}
+/* status */
+setStatus(d.discord_status||"offline");
+
+/* activity safe */
+let text="Offline...";
+let act=d.activities||[];
+
+if(d.listening_to_spotify && d.spotify){
+text="🎧 "+d.spotify.song+" - "+d.spotify.artist;
+}else{
+let c=act.find(x=>x.type===4);
+let g=act.find(x=>x.type===0);
+if(c) text="💬 "+c.state;
+else if(g) text="🎮 "+g.name;
+}
+
+document.getElementById("activity").innerText=text;
+document.getElementById("presence").innerText=text;
+
+}catch(e){
+console.log(e);
+}
 }
 
 /* RAIN */
@@ -281,7 +324,7 @@ for(let i=0;i<60;i++){
 let d=document.createElement("div");
 d.className="drop";
 d.style.left=Math.random()*100+"vw";
-d.style.animationDuration=(0.6+Math.random()*1.2)+"s";
+d.style.animationDuration=(0.5+Math.random()*1.5)+"s";
 r.appendChild(d);
 }
 }
@@ -296,7 +339,6 @@ s.style.top=e.clientY+"px";
 document.body.appendChild(s);
 setTimeout(()=>s.remove(),900);
 }
-
 </script>
 
 </body>
