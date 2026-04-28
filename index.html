@@ -20,11 +20,7 @@
 --muted:rgba(255,255,255,.72);
 }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
 font-family:'Open Sans',sans-serif;
@@ -41,15 +37,34 @@ inset:0;
 background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
 filter:blur(8px) brightness(.35);
 transform:scale(1.08);
-z-index:-3;
+z-index:-5;
 }
 
 body::after{
 content:"";
 position:fixed;
 inset:0;
-background:linear-gradient(180deg,rgba(4,17,36,.25),rgba(4,17,36,.85));
-z-index:-2;
+background:linear-gradient(180deg,rgba(4,17,36,.2),rgba(4,17,36,.86));
+z-index:-4;
+}
+
+/* aurora */
+.aurora{
+position:fixed;
+inset:-20%;
+z-index:-3;
+pointer-events:none;
+background:
+radial-gradient(circle at 20% 30%,rgba(82,237,255,.13),transparent 22%),
+radial-gradient(circle at 80% 20%,rgba(5,73,129,.16),transparent 24%),
+radial-gradient(circle at 50% 70%,rgba(82,237,255,.08),transparent 24%);
+filter:blur(35px);
+animation:aurora 14s linear infinite alternate;
+}
+
+@keyframes aurora{
+from{transform:translate(-2%,-1%) scale(1)}
+to{transform:translate(2%,1%) scale(1.08)}
 }
 
 /* intro */
@@ -66,7 +81,7 @@ cursor:pointer;
 }
 
 #intro h1{
-font-size:2.1rem;
+font-size:2.2rem;
 text-align:center;
 }
 
@@ -79,21 +94,42 @@ color:#ccc;
 .wrap{
 width:min(1200px,94%);
 margin:auto;
-padding:25px 0;
+padding:24px 0;
 display:none;
 }
 
-/* top card */
+/* cards */
+.hero,.card{
+position:relative;
+background:var(--glass);
+border:1px solid var(--line);
+border-radius:24px;
+backdrop-filter:blur(14px);
+overflow:hidden;
+transition:.2s;
+transform-style:preserve-3d;
+}
+
+.hero::before,.card::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg,transparent,rgba(82,237,255,.08),transparent);
+transform:translateX(-100%);
+animation:borderMove 4s linear infinite;
+pointer-events:none;
+}
+
+@keyframes borderMove{
+to{transform:translateX(100%)}
+}
+
+/* hero */
 .hero{
 display:grid;
 grid-template-columns:1.2fr .9fr;
 gap:16px;
 padding:18px;
-background:var(--glass);
-border:1px solid var(--line);
-border-radius:24px;
-backdrop-filter:blur(14px);
-box-shadow:0 20px 50px rgba(0,0,0,.4);
 }
 
 /* left */
@@ -105,13 +141,12 @@ gap:12px;
 }
 
 .badge{
-display:inline-block;
 padding:7px 14px;
 border-radius:999px;
 border:1px solid var(--line);
 width:max-content;
 font-size:.8rem;
-letter-spacing:.15em;
+letter-spacing:.14em;
 }
 
 .name{
@@ -122,6 +157,7 @@ background:linear-gradient(90deg,#fff,var(--c1),#fff);
 color:transparent;
 background-size:220%;
 animation:shine 4s linear infinite;
+text-shadow:0 0 20px rgba(82,237,255,.18);
 }
 
 @keyframes shine{
@@ -137,9 +173,7 @@ overflow:hidden;
 width:max-content;
 }
 
-.sub{
-color:var(--muted);
-}
+.sub{color:var(--muted)}
 
 .row{
 display:flex;
@@ -150,18 +184,27 @@ gap:10px;
 .pill{
 padding:9px 14px;
 border-radius:999px;
-background:rgba(255,255,255,.05);
+background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
-font-size:.95rem;
 display:flex;
 align-items:center;
 gap:8px;
+font-size:.95rem;
 }
 
-.dot{
+.dot,.status{
 width:10px;
 height:10px;
 border-radius:50%;
+}
+
+.status{
+position:absolute;
+right:14px;
+bottom:18px;
+width:18px;
+height:18px;
+border:3px solid var(--c3);
 }
 
 .online{background:#23a55a}
@@ -190,7 +233,7 @@ height:100%;
 border-radius:50%;
 object-fit:cover;
 border:3px solid rgba(255,255,255,.08);
-box-shadow:0 0 30px rgba(82,237,255,.25);
+box-shadow:0 0 30px rgba(82,237,255,.24);
 }
 
 .deco{
@@ -201,16 +244,6 @@ height:114%;
 pointer-events:none;
 }
 
-.status{
-position:absolute;
-right:15px;
-bottom:18px;
-width:18px;
-height:18px;
-border-radius:50%;
-border:3px solid var(--c3);
-}
-
 .guild{
 width:100%;
 padding:12px;
@@ -218,17 +251,18 @@ border-radius:18px;
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
 display:flex;
-align-items:center;
 gap:10px;
+align-items:center;
 }
 
 .guild img{
-width:40px;
-height:40px;
+width:42px;
+height:42px;
 border-radius:12px;
 object-fit:cover;
 }
 
+/* lower */
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
@@ -236,13 +270,7 @@ gap:16px;
 margin-top:16px;
 }
 
-.card{
-padding:16px;
-border-radius:22px;
-background:var(--glass);
-border:1px solid var(--line);
-backdrop-filter:blur(14px);
-}
+.card{padding:16px}
 
 .title{
 font-size:.82rem;
@@ -258,6 +286,12 @@ padding-left:14px;
 line-height:1.8;
 }
 
+.timer{
+margin-top:14px;
+font-size:1.15rem;
+font-weight:700;
+}
+
 .social a{
 display:block;
 padding:12px;
@@ -269,20 +303,13 @@ color:white;
 margin-bottom:10px;
 }
 
-.timer{
-font-size:1.15rem;
-font-weight:700;
-margin-top:10px;
-}
-
+/* spotify */
 .spotify{
-margin-top:14px;
 display:none;
+margin-top:15px;
 }
 
-.spotify.show{
-display:block;
-}
+.spotify.show{display:block}
 
 .spotifyTop{
 display:flex;
@@ -298,8 +325,8 @@ border-radius:12px;
 
 .bar{
 height:8px;
-border-radius:999px;
 background:rgba(255,255,255,.08);
+border-radius:999px;
 overflow:hidden;
 margin-top:12px;
 }
@@ -310,31 +337,73 @@ width:0%;
 background:linear-gradient(90deg,var(--c1),white);
 }
 
+/* visualizer */
+.visualizer{
+display:flex;
+gap:5px;
+height:30px;
+align-items:flex-end;
+margin-top:14px;
+}
+
+.visualizer span{
+width:6px;
+background:linear-gradient(180deg,var(--c1),white);
+border-radius:999px;
+animation:bars 1s infinite ease-in-out;
+}
+
+.visualizer span:nth-child(2){animation-delay:.1s}
+.visualizer span:nth-child(3){animation-delay:.2s}
+.visualizer span:nth-child(4){animation-delay:.3s}
+.visualizer span:nth-child(5){animation-delay:.4s}
+
+@keyframes bars{
+0%,100%{height:8px}
+50%{height:28px}
+}
+
+/* bubbles */
+.bubble{
+position:fixed;
+bottom:-100px;
+border-radius:50%;
+background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.4),rgba(82,237,255,.15),transparent 70%);
+pointer-events:none;
+z-index:-2;
+animation:floatUp linear forwards;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:0}
+10%{opacity:.6}
+100%{transform:translateY(-120vh) translateX(60px);opacity:0}
+}
+
+/* click */
 .click{
 position:fixed;
 pointer-events:none;
 color:var(--c1);
-animation:fly .9s forwards;
+animation:fly .8s forwards;
 }
 
 @keyframes fly{
 to{
-transform:translateY(-25px) scale(1.2);
+transform:translateY(-30px) scale(1.2);
 opacity:0;
 }
 }
 
 @media(max-width:980px){
-.hero,.grid{
-grid-template-columns:1fr;
-}
-.name{
-font-size:3rem;
-}
+.hero,.grid{grid-template-columns:1fr}
+.name{font-size:3rem}
 }
 </style>
 </head>
 <body>
+
+<div class="aurora"></div>
 
 <div id="intro">
 <h1>Liệu còn có ai ở đây?</h1>
@@ -372,7 +441,7 @@ font-size:3rem;
 <div class="avatarWrap">
 <img id="avatar" class="avatar" src="file1.jpg">
 <img id="deco" class="deco">
-<div id="statusDot" class="status offline"></div>
+<div class="status offline" id="statusDot"></div>
 </div>
 
 <div class="guild">
@@ -423,6 +492,10 @@ Waifu: Cartethyia
 </div>
 </div>
 
+<div class="visualizer">
+<span></span><span></span><span></span><span></span><span></span>
+</div>
+
 </div>
 
 <div class="card social">
@@ -446,15 +519,12 @@ Waifu: Cartethyia
 <script>
 const USER_ID="965608704974151710";
 
-const intro=document.getElementById("intro");
-const main=document.getElementById("main");
-const music=document.getElementById("music");
-
-intro.onclick=async()=>{
-intro.style.display="none";
-main.style.display="block";
-try{await music.play()}catch(e){}
+/* open */
+document.getElementById("intro").onclick=async()=>{
+document.getElementById("intro").style.display="none";
+document.getElementById("main").style.display="block";
 typing();
+try{await document.getElementById("music").play()}catch(e){}
 getDiscord();
 }
 
@@ -471,24 +541,22 @@ if(i>=t.length) clearInterval(x);
 },80);
 }
 
-/* time auto */
+/* timer */
 function updateTime(){
-let start=new Date("2025-11-17T00:00:00");
+let start=new Date("2025-11-17");
 let now=new Date();
-
 let diff=now-start;
 
-let day=Math.floor(diff/86400000);
-let hour=Math.floor(diff/3600000)%24;
+let d=Math.floor(diff/86400000);
+let h=Math.floor(diff/3600000)%24;
 
-document.getElementById("time").innerHTML=
-day+" ngày "+hour+" giờ";
+document.getElementById("time").innerText=d+" ngày "+h+" giờ";
 
-let h=now.getHours();
+let hour=now.getHours();
 
-if(h>=5 && h<11)
+if(hour>=5 && hour<11)
 document.getElementById("autoStatus").innerText="Một ngày mới lại đến rồi";
-else if(h>=11 && h<18)
+else if(hour>=11 && hour<18)
 document.getElementById("autoStatus").innerText="Ngày trôi qua sắp hết rồi";
 else
 document.getElementById("autoStatus").innerText="Một ngày đi qua, có điều gì ở lại?";
@@ -498,10 +566,9 @@ updateTime();
 
 /* status */
 function setStatus(st){
-
-document.getElementById("statusText").innerText=st;
 document.getElementById("dot1").className="dot "+st;
 document.getElementById("statusDot").className="status "+st;
+document.getElementById("statusText").innerText=st;
 
 let av=document.getElementById("avatar");
 
@@ -511,11 +578,9 @@ else if(st=="dnd") av.style.boxShadow="0 0 35px #f23f43";
 else av.style.boxShadow="0 0 35px #666";
 }
 
-/* discord fetch */
+/* discord */
 async function getDiscord(){
-
 try{
-
 let res=await fetch("https://api.lanyard.rest/v1/users/"+USER_ID+"?t="+Date.now());
 let json=await res.json();
 
@@ -523,43 +588,34 @@ if(!json.success) return;
 
 let d=json.data;
 
-let av=d.discord_user.avatar;
-
 document.getElementById("avatar").src=
-"https://cdn.discordapp.com/avatars/"+USER_ID+"/"+av+".png?size=512";
+"https://cdn.discordapp.com/avatars/"+USER_ID+"/"+d.discord_user.avatar+".png?size=512";
 
-/* deco */
 if(d.discord_user.avatar_decoration_data){
 document.getElementById("deco").src=
-"https://cdn.discordapp.com/avatar-decoration-presets/"
-+d.discord_user.avatar_decoration_data.asset+".png";
+"https://cdn.discordapp.com/avatar-decoration-presets/"+d.discord_user.avatar_decoration_data.asset+".png";
 }
 
-/* status */
 setStatus(d.discord_status || "offline");
 
-/* activity */
-let text="Offline...";
+let txt="Offline...";
 
 if(d.listening_to_spotify){
-text="🎧 "+d.spotify.song+" - "+d.spotify.artist;
-}
-else if(d.activities.length>0){
+txt="🎧 "+d.spotify.song+" - "+d.spotify.artist;
+}else if(d.activities.length>0){
+let custom=d.activities.find(a=>a.type===4);
+let game=d.activities.find(a=>a.type===0);
 
-let custom=d.activities.find(x=>x.type===4);
-let game=d.activities.find(x=>x.type===0);
-
-if(custom) text="💬 "+custom.state;
-else if(game) text="🎮 "+game.name;
-else text="✨ "+d.activities[0].name;
+if(custom) txt="💬 "+custom.state;
+else if(game) txt="🎮 "+game.name;
+else txt="✨ "+d.activities[0].name;
 }
 
-document.getElementById("activity").innerText=text;
-document.getElementById("presence").innerText=text;
+document.getElementById("activity").innerText=txt;
+document.getElementById("presence").innerText=txt;
 
 /* spotify */
 if(d.listening_to_spotify){
-
 document.getElementById("spotifyBox").classList.add("show");
 
 document.getElementById("cover").src=d.spotify.album_art_url;
@@ -570,11 +626,11 @@ let start=d.spotify.timestamps.start;
 let end=d.spotify.timestamps.end;
 let now=Date.now();
 
-let percent=((now-start)/(end-start))*100;
-if(percent<0) percent=0;
-if(percent>100) percent=100;
+let p=((now-start)/(end-start))*100;
+if(p<0)p=0;
+if(p>100)p=100;
 
-document.getElementById("bar").style.width=percent+"%";
+document.getElementById("bar").style.width=p+"%";
 
 }else{
 document.getElementById("spotifyBox").classList.remove("show");
@@ -584,19 +640,51 @@ document.getElementById("spotifyBox").classList.remove("show");
 console.log(e);
 }
 }
-
 setInterval(getDiscord,5000);
 
-/* click effect */
+/* bubbles */
+function bubble(){
+let b=document.createElement("div");
+b.className="bubble";
+
+let s=10+Math.random()*28;
+b.style.width=s+"px";
+b.style.height=s+"px";
+b.style.left=Math.random()*100+"vw";
+b.style.animationDuration=(10+Math.random()*12)+"s";
+
+document.body.appendChild(b);
+setTimeout(()=>b.remove(),22000);
+}
+setInterval(bubble,700);
+
+/* click spark */
 document.onclick=e=>{
+for(let i=0;i<5;i++){
 let s=document.createElement("div");
 s.className="click";
 s.innerText="✨";
 s.style.left=e.clientX+"px";
 s.style.top=e.clientY+"px";
 document.body.appendChild(s);
-setTimeout(()=>s.remove(),900);
+setTimeout(()=>s.remove(),800);
 }
+}
+
+/* tilt */
+document.querySelectorAll(".hero,.card").forEach(el=>{
+el.addEventListener("mousemove",e=>{
+let r=el.getBoundingClientRect();
+let x=(e.clientX-r.left)/r.width-.5;
+let y=(e.clientY-r.top)/r.height-.5;
+
+el.style.transform=
+`perspective(1000px) rotateX(${y*-8}deg) rotateY(${x*10}deg)`;
+});
+el.addEventListener("mouseleave",()=>{
+el.style.transform="perspective(1000px) rotateX(0) rotateY(0)";
+});
+});
 </script>
 
 </body>
