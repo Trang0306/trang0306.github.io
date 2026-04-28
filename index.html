@@ -1,345 +1,635 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Pro5 Ari</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-:root{
---c1:#52EDFF;
---c2:#054981;
---c3:#041124;
---text:#f4fcff;
---muted:rgba(255,255,255,.72);
+<!DOCTYPE html>        
+<html lang="vi">        
+<head>        
+<meta charset="UTF-8">        
+<meta name="viewport" content="width=device-width,initial-scale=1.0">        
+<title>Pro5 Ari</title>        
+        
+<link rel="preconnect" href="https://fonts.googleapis.com">        
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>        
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">        
+        
+<style>        
+:root{        
+--c1:#52EDFF;        
+--c2:#054981;        
+--c3:#041124;        
+--glass:rgba(4,17,36,.62);        
+--line:rgba(82,237,255,.16);        
+--text:#f4fcff;        
+--muted:rgba(255,255,255,.72);        
+}        
+        
+*{        
+margin:0;        
+padding:0;        
+box-sizing:border-box;        
+}        
+        
+body{        
+font-family:'Open Sans',sans-serif;        
+background:#000;        
+color:var(--text);        
+overflow-x:hidden;        
+<div class="rain"></div>       
+}        
+        
+/* GIF BG */        
+body::before{        
+content:"";        
+position:fixed;        
+inset:0;        
+background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;        
+filter:blur(8px) brightness(.35);        
+transform:scale(1.08);        
+z-index:-3;        
+}        
+        
+body::after{        
+content:"";        
+position:fixed;        
+inset:0;        
+background:linear-gradient(180deg,rgba(4,17,36,.25),rgba(4,17,36,.85));        
+z-index:-2;        
+}        
+        
+/* intro */        
+#intro{        
+position:fixed;        
+inset:0;        
+display:flex;        
+justify-content:center;        
+align-items:center;        
+flex-direction:column;        
+background:rgba(0,0,0,.84);        
+z-index:9999;        
+cursor:pointer;        
+}        
+        
+#intro h1{        
+font-size:2.1rem;        
+text-align:center;        
+}        
+        
+#intro p{        
+margin-top:10px;        
+color:#ccc;        
+}        
+        
+/* main */        
+.wrap{        
+width:min(1200px,94%);        
+margin:auto;        
+padding:25px 0;        
+display:none;        
+}        
+        
+/* top card */        
+.hero{        
+display:grid;        
+grid-template-columns:1.2fr .9fr;        
+gap:16px;        
+padding:18px;        
+background:var(--glass);        
+border:1px solid var(--line);        
+border-radius:24px;        
+backdrop-filter:blur(14px);        
+box-shadow:0 20px 50px rgba(0,0,0,.4);        
+}        
+        
+/* left */        
+.left{        
+display:flex;        
+flex-direction:column;        
+justify-content:center;        
+gap:12px;        
+}        
+        
+.badge{        
+display:inline-block;        
+padding:7px 14px;        
+border-radius:999px;        
+border:1px solid var(--line);        
+width:max-content;        
+font-size:.8rem;        
+letter-spacing:.15em;        
+}        
+        
+.name{        
+font-size:4rem;        
+font-weight:800;        
+background:linear-gradient(90deg,#fff,var(--c1),#fff);        
+-webkit-background-clip:text;        
+color:transparent;        
+background-size:220%;        
+animation:shine 4s linear infinite;        
+}        
+        
+@keyframes shine{        
+to{background-position:220%}        
+}        
+        
+.typing{        
+font-size:1.2rem;        
+font-weight:700;        
+border-right:2px solid var(--c1);        
+white-space:nowrap;        
+overflow:hidden;        
+width:max-content;        
+}        
+        
+.sub{        
+color:var(--muted);        
+}        
+        
+.row{        
+display:flex;        
+flex-wrap:wrap;        
+gap:10px;        
+}        
+        
+.pill{        
+padding:9px 14px;        
+border-radius:999px;        
+background:rgba(255,255,255,.05);        
+border:1px solid rgba(255,255,255,.08);        
+font-size:.95rem;        
+display:flex;        
+align-items:center;        
+gap:8px;        
+}        
+        
+.dot{        
+width:10px;        
+height:10px;        
+border-radius:50%;        
+}        
+        
+.online{background:#23a55a}        
+.idle{background:#f0b232}        
+.dnd{background:#f23f43}        
+.offline{background:#666}        
+        
+/* right */        
+.right{        
+display:flex;        
+flex-direction:column;        
+align-items:center;        
+justify-content:center;        
+gap:14px;        
+}        
+        
+.avatarWrap{        
+position:relative;        
+width:220px;        
+height:220px;        
+}        
+        
+.avatar{        
+width:100%;        
+height:100%;        
+border-radius:50%;        
+object-fit:cover;        
+border:3px solid rgba(255,255,255,.08);        
+box-shadow:0 0 30px rgba(82,237,255,.25);        
+}        
+        
+.deco{        
+position:absolute;        
+inset:-7%;        
+width:114%;        
+height:114%;        
+pointer-events:none;        
+}        
+        
+.status{        
+position:absolute;        
+right:15px;        
+bottom:18px;        
+width:18px;        
+height:18px;        
+border-radius:50%;        
+border:3px solid var(--c3);        
+}        
+        
+.guild{        
+width:100%;        
+padding:12px;        
+border-radius:18px;        
+background:rgba(255,255,255,.04);        
+border:1px solid rgba(255,255,255,.08);        
+display:flex;        
+align-items:center;        
+gap:10px;        
+}        
+        
+.guild img{        
+width:40px;        
+height:40px;        
+border-radius:12px;        
+object-fit:cover;        
+}        
+        
+.grid{        
+display:grid;        
+grid-template-columns:1fr 1fr 1fr;        
+gap:16px;        
+margin-top:16px;        
+}        
+        
+.card{
+  background: rgba(4,17,36,0.15);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(82,237,255,0.18);
 }
+        
+.title{        
+font-size:.82rem;        
+letter-spacing:.14em;        
+color:#9bcddb;        
+margin-bottom:14px;        
+text-transform:uppercase;        
+}        
+        
+.embed{        
+border-left:4px solid var(--c1);        
+padding-left:14px;        
+line-height:1.8;        
+}        
+        
+.social a{        
+display:block;        
+padding:12px;        
+border-radius:14px;        
+background:rgba(255,255,255,.04);        
+border:1px solid rgba(255,255,255,.08);        
+text-decoration:none;        
+color:white;        
+margin-bottom:10px;        
+}        
+        
+.timer{        
+font-size:1.15rem;        
+font-weight:700;        
+margin-top:10px;        
+}        
+        
+.spotify{        
+margin-top:14px;        
+display:none;        
+}        
+        
+.spotify.show{        
+display:block;        
+}        
+        
+.spotifyTop{        
+display:flex;        
+gap:12px;        
+align-items:center;        
+}        
+        
+.spotifyTop img{        
+width:60px;        
+height:60px;        
+border-radius:12px;        
+}        
+        
+.bar{        
+height:8px;        
+border-radius:999px;        
+background:rgba(255,255,255,.08);        
+overflow:hidden;        
+margin-top:12px;        
+}        
+        
+.fill{        
+height:100%;        
+width:0%;        
+background:linear-gradient(90deg,var(--c1),white);        
+}        
+        
+.click{        
+position:fixed;        
+pointer-events:none;        
+color:var(--c1);        
+animation:fly .9s forwards;        
+}        
 
-*{margin:0;padding:0;box-sizing:border-box}
-
-body{
-font-family:'Open Sans',sans-serif;
-background:#000;
-color:var(--text);
-overflow-x:hidden;
-}
-
-/* BACKGROUND */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
-filter:blur(8px) brightness(.35);
-transform:scale(1.08);
-z-index:-3;
-animation:ripple 10s infinite linear;
-}
-
-body::after{
-content:"";
-position:fixed;
-inset:0;
-background:linear-gradient(180deg,rgba(4,17,36,.25),rgba(4,17,36,.85));
-z-index:-2;
-}
-
-@keyframes ripple{
-0%{filter:blur(8px) brightness(.35)}
-50%{filter:blur(10px) brightness(.4)}
-100%{filter:blur(8px) brightness(.35)}
-}
-
-/* RAIN */
-.rain{
-position:fixed;
-inset:0;
-pointer-events:none;
-overflow:hidden;
-z-index:0;
+ .rain{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
 }
 
 .drop{
-position:absolute;
-width:1px;
-height:60px;
-background:rgba(255,255,255,0.2);
-animation:fall linear infinite;
+  position:absolute;
+  width:1px;
+  height:60px;
+  background:rgba(255,255,255,0.2);
+  animation: fall linear infinite;
 }
 
 @keyframes fall{
-to{transform:translateY(120vh);}
+  to{
+    transform: translateY(120vh);
+  }
 }
+       
+@keyframes fly{        
+to{        
+transform:translateY(-25px) scale(1.2);        
+opacity:0;        
+}        
+}        
+        
+@media(max-width:980px){        
+.hero,.grid{        
+grid-template-columns:1fr;        
+}        
+.name{        
+font-size:3rem;        
+}        
+}        
+</style>        
+</head>        
+<body>        
+        
+<div id="intro">        
+<h1>Liệu còn có ai ở đây?</h1>        
+<p>Chạm để mở profile</p>        
+</div>        
+        
+<div class="wrap" id="main">        
+        
+<div class="hero">        
+        
+<div class="left">        
+<div class="badge">DISCORD PRO5</div>        
+        
+<div class="name">Ari nèk</div>        
+        
+<div class="typing" id="typing"></div>        
+        
+<div class="sub">Date to marry 💍</div>        
+        
+<div class="row">        
+<div class="pill" id="autoStatus">...</div>        
+        
+<div class="pill">        
+<div class="dot offline" id="dot1"></div>        
+<span id="statusText">offline</span>        
+</div>        
+</div>        
+        
+<div class="pill" id="activity">Offline...</div>        
+        
+</div>        
+        
+<div class="right">        
+        
+<div class="avatarWrap">        
+<img id="avatar" class="avatar" src="file1.jpg">        
+<img id="deco" class="deco">        
+<div id="statusDot" class="status offline"></div>        
+</div>        
+        
+<div class="guild">        
+<img src="guild.png">        
+<div>        
+<div style="font-weight:700">ᒪᑌᑎᗩ</div>        
+<div style="font-size:.85rem;color:#ccc">Discord Guild</div>        
+</div>        
+</div>        
+        
+</div>        
+        
+</div>        
+        
+<div class="grid">        
+        
+<div class="card">        
+<div class="title">About me</div>        
+<div class="embed">        
+MBTI: INFP<br>        
+Song Ngư<br>        
+Vẽ • Viết • Đọc truyện • Nghe nhạc<br>        
+Game: Genshin Impact<br>        
+Honkai Star Rail<br>        
+Wuthering Wave<br>        
+Waifu: Cartethyia        
+</div>        
+</div>        
+        
+<div class="card">        
+<div class="title">Presence</div>        
+        
+<div id="presence">Đang tải...</div>        
+        
+<div class="timer" id="time"></div>        
+        
+<div class="spotify" id="spotifyBox">        
+<div class="spotifyTop">        
+<img id="cover">        
+<div>        
+<div id="song"></div>        
+<div id="artist" style="color:#ccc;font-size:.9rem"></div>        
+</div>        
+</div>        
+        
+<div class="bar">        
+<div class="fill" id="bar"></div>        
+</div>        
+</div>        
+        
+</div>        
+        
+<div class="card social">        
+<div class="title">Social</div>        
+        
+<a href="https://www.facebook.com/share/1AuHDmJLrP/" target="_blank">Facebook</a>        
+<a href="https://x.com/PhmQunh42254275" target="_blank">X</a>        
+<a href="https://discord.gg/XZAk8MWx" target="_blank">Discord</a>        
+<a href="https://discord.gg/gachaparadise" target="_blank">Server</a>        
+        
+</div>        
+        
+</div>        
+        
+</div>        
+        
+<audio id="music" loop>        
+<source src="music.mp3">        
+</audio>        
+        
+<script>        
+const USER_ID="965608704974151710";        
+        
+const intro=document.getElementById("intro");        
+const main=document.getElementById("main");        
+const music=document.getElementById("music");        
+        
+intro.onclick=async()=>{        
+intro.style.display="none";        
+main.style.display="block";        
+try{await music.play()}catch(e){}        
+typing();        
+getDiscord();        
+}        
+        
+/* typing */        
+function typing(){        
+let t="Don't call me tonight";        
+let i=0;        
+let el=document.getElementById("typing");        
+el.innerHTML="";        
+let x=setInterval(()=>{        
+el.innerHTML+=t[i];        
+i++;        
+if(i>=t.length) clearInterval(x);        
+},80);        
+}        
+        
+/* time auto */        
+function updateTime(){        
+let start=new Date("2025-11-17T00:00:00");        
+let now=new Date();        
+        
+let diff=now-start;        
+        
+let day=Math.floor(diff/86400000);        
+let hour=Math.floor(diff/3600000)%24;        
+        
+document.getElementById("time").innerHTML=        
+day+" ngày "+hour+" giờ";        
+        
+let h=now.getHours();        
+        
+if(h>=5 && h<11)        
+document.getElementById("autoStatus").innerText="Một ngày mới lại đến rồi";        
+else if(h>=11 && h<18)        
+document.getElementById("autoStatus").innerText="Ngày trôi qua sắp hết rồi";        
+else        
+document.getElementById("autoStatus").innerText="Một ngày đi qua, có điều gì ở lại?";        
+}        
+setInterval(updateTime,1000);        
+updateTime();        
+        
+/* status */        
+function setStatus(st){        
+        
+document.getElementById("statusText").innerText=st;        
+document.getElementById("dot1").className="dot "+st;        
+document.getElementById("statusDot").className="status "+st;        
+        
+let av=document.getElementById("avatar");        
+        
+if(st=="online") av.style.boxShadow="0 0 35px #23a55a";        
+else if(st=="idle") av.style.boxShadow="0 0 35px #f0b232";        
+else if(st=="dnd") av.style.boxShadow="0 0 35px #f23f43";        
+else av.style.boxShadow="0 0 35px #666";        
+}        
+        
+/* discord fetch */        
+async function getDiscord(){        
+        
+try{        
+        
+let res=await fetch("https://api.lanyard.rest/v1/users/"+USER_ID+"?t="+Date.now());        
+let json=await res.json();        
+        
+if(!json.success) return;        
+        
+let d=json.data;        
+        
+let av=d.discord_user.avatar;        
+        
+document.getElementById("avatar").src=        
+"https://cdn.discordapp.com/avatars/"+USER_ID+"/"+av+".png?size=512";        
+        
+/* deco */        
+if(d.discord_user.avatar_decoration_data){        
+document.getElementById("deco").src=        
+"https://cdn.discordapp.com/avatar-decoration-presets/"        
++d.discord_user.avatar_decoration_data.asset+".png";        
+}        
+        
+/* status */        
+setStatus(d.discord_status || "offline");        
+        
+/* activity */        
+let text="Offline...";        
+        
+if(d.listening_to_spotify){        
+text="🎧 "+d.spotify.song+" - "+d.spotify.artist;        
+}        
+else if(d.activities.length>0){        
+        
+let custom=d.activities.find(x=>x.type===4);        
+let game=d.activities.find(x=>x.type===0);        
+        
+if(custom) text="💬 "+custom.state;        
+else if(game) text="🎮 "+game.name;        
+else text="✨ "+d.activities[0].name;        
+}        
+        
+document.getElementById("activity").innerText=text;        
+document.getElementById("presence").innerText=text;        
+        
+/* spotify */        
+if(d.listening_to_spotify){        
+        
+document.getElementById("spotifyBox").classList.add("show");        
+        
+document.getElementById("cover").src=d.spotify.album_art_url;        
+document.getElementById("song").innerText=d.spotify.song;        
+document.getElementById("artist").innerText=d.spotify.artist;        
+        
+let start=d.spotify.timestamps.start;        
+let end=d.spotify.timestamps.end;        
+let now=Date.now();        
+        
+let percent=((now-start)/(end-start))*100;        
+if(percent<0) percent=0;        
+if(percent>100) percent=100;        
+        
+document.getElementById("bar").style.width=percent+"%";        
+        
+}else{        
+document.getElementById("spotifyBox").classList.remove("show");        
+}        
+        
+}catch(e){        
+console.log(e);        
+}        
+}        
+        
+setInterval(getDiscord,5000);        
+        
+/* click effect */        
+document.onclick=e=>{        
+let s=document.createElement("div");        
+s.className="click";        
+s.innerText="✨";        
+s.style.left=e.clientX+"px";        
+s.style.top=e.clientY+"px";        
+document.body.appendChild(s);        
+setTimeout(()=>s.remove(),900);        
+} 
+ const rain = document.querySelector(".rain");
 
-/* INTRO */
-#intro{
-position:fixed;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-background:rgba(0,0,0,.85);
-z-index:9999;
-cursor:pointer;
-}
+for(let i=0;i<70;i++){
+  let drop = document.createElement("div");
+  drop.className = "drop";
 
-/* MAIN */
-.wrap{
-display:none;
-width:min(1200px,94%);
-margin:auto;
-padding:25px 0;
-}
+  drop.style.left = Math.random()*100 + "vw";
+  drop.style.animationDuration = (0.5 + Math.random()*1.5) + "s";
+  drop.style.opacity = Math.random();
 
-/* HERO */
-.hero{
-display:grid;
-grid-template-columns:1.2fr .9fr;
-gap:16px;
-padding:18px;
-background:rgba(4,17,36,.25);
-backdrop-filter:blur(28px);
-border:1px solid rgba(82,237,255,.18);
-border-radius:24px;
-}
-
-/* TEXT */
-.name{
-font-size:3.8rem;
-font-weight:800;
-background:linear-gradient(90deg,#fff,var(--c1),#fff);
--webkit-background-clip:text;
-color:transparent;
-}
-
-.typing{
-font-size:1.2rem;
-border-right:2px solid var(--c1);
-white-space:nowrap;
-}
-
-/* STATUS */
-.pill{
-padding:8px 12px;
-border-radius:999px;
-background:rgba(255,255,255,.05);
-display:flex;
-gap:8px;
-align-items:center;
-}
-
-.dot{width:10px;height:10px;border-radius:50%}
-.online{background:#23a55a}
-.idle{background:#f0b232}
-.dnd{background:#f23f43}
-.offline{background:#666}
-
-/* AVATAR */
-.avatarWrap{position:relative;width:220px;height:220px}
-.avatar{
-width:100%;
-height:100%;
-border-radius:50%;
-object-fit:cover;
-border:3px solid rgba(255,255,255,.1);
-}
-.status{
-position:absolute;
-right:15px;
-bottom:18px;
-width:18px;
-height:18px;
-border-radius:50%;
-border:3px solid #041124;
-}
-
-/* GUILD */
-.guild{
-display:flex;
-gap:10px;
-align-items:center;
-padding:10px;
-border-radius:16px;
-background:rgba(255,255,255,.04);
-}
-
-.guild img{
-width:40px;height:40px;border-radius:10px;
-}
-
-/* CARD */
-.card{
-background:rgba(4,17,36,.25);
-backdrop-filter:blur(28px);
-border:1px solid rgba(82,237,255,.18);
-padding:16px;
-border-radius:18px;
-margin-top:16px;
-}
-
-/* CLICK */
-.click{
-position:fixed;
-pointer-events:none;
-color:var(--c1);
-animation:fly .9s forwards;
-}
-
-@keyframes fly{
-to{transform:translateY(-25px);opacity:0}
-}
-</style>
-</head>
-
-<body>
-
-<div class="rain"></div>
-
-<div id="intro">
-<h1>Liệu còn có ai ở đây?</h1>
-<p>Chạm để vào</p>
-</div>
-
-<div class="wrap" id="main">
-
-<div class="hero">
-
-<div>
-<div class="name">Ari</div>
-<div class="typing" id="typing"></div>
-
-<div class="pill">
-<div class="dot offline" id="dot"></div>
-<span id="statusText">offline</span>
-</div>
-
-<div class="pill" id="activity">Offline...</div>
-</div>
-
-<div>
-
-<div class="avatarWrap">
-<img id="avatar" class="avatar" src="file1.jpg">
-<div id="statusDot" class="status offline"></div>
-</div>
-
-<div class="guild">
-<img src="guild.png">
-<div>
-<div style="font-weight:700">Server</div>
-<div style="font-size:.85rem;color:#ccc">Discord Guild</div>
-</div>
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-<div id="presence">Loading...</div>
-</div>
-
-</div>
-
-<script>
-const USER_ID="965608704974151710";
-
-const intro=document.getElementById("intro");
-const main=document.getElementById("main");
-
-intro.onclick=()=>{
-intro.style.display="none";
-main.style.display="block";
-typing();
-getDiscord();
-rain();
-};
-
-/* typing */
-function typing(){
-let t="Don't call me tonight";
-let i=0;
-let el=document.getElementById("typing");
-let x=setInterval(()=>{
-el.innerHTML+=t[i++];
-if(i>=t.length)clearInterval(x);
-},80);
-}
-
-/* STATUS */
-function setStatus(s){
-document.getElementById("statusText").innerText=s;
-document.getElementById("dot").className="dot "+s;
-document.getElementById("statusDot").className="status "+s;
-}
-
-/* DISCORD FIXED */
-async function getDiscord(){
-try{
-let res=await fetch("https://api.lanyard.rest/v1/users/"+USER_ID);
-let json=await res.json();
-let d=json.data;
-
-if(!d) return;
-
-/* avatar */
-let av=d.discord_user.avatar;
-if(av){
-document.getElementById("avatar").src=
-`https://cdn.discordapp.com/avatars/${USER_ID}/${av}.png?size=512`;
-}
-
-/* status */
-setStatus(d.discord_status||"offline");
-
-/* activity safe */
-let text="Offline...";
-let act=d.activities||[];
-
-if(d.listening_to_spotify && d.spotify){
-text="🎧 "+d.spotify.song+" - "+d.spotify.artist;
-}else{
-let c=act.find(x=>x.type===4);
-let g=act.find(x=>x.type===0);
-if(c) text="💬 "+c.state;
-else if(g) text="🎮 "+g.name;
-}
-
-document.getElementById("activity").innerText=text;
-document.getElementById("presence").innerText=text;
-
-}catch(e){
-console.log(e);
-}
-}
-
-/* RAIN */
-function rain(){
-const r=document.querySelector(".rain");
-for(let i=0;i<60;i++){
-let d=document.createElement("div");
-d.className="drop";
-d.style.left=Math.random()*100+"vw";
-d.style.animationDuration=(0.5+Math.random()*1.5)+"s";
-r.appendChild(d);
-}
-}
-
-/* CLICK */
-document.onclick=e=>{
-let s=document.createElement("div");
-s.className="click";
-s.innerText="✨";
-s.style.left=e.clientX+"px";
-s.style.top=e.clientY+"px";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),900);
-}
-</script>
-
-</body>
+  rain.appendChild(drop);
+}   
+   
+</script>        
+        
+</body>        
 </html>
