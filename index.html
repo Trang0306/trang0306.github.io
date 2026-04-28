@@ -49,7 +49,6 @@
       padding:20px 0;
     }
 
-    /* INTRO */
     .intro{
       position:fixed;
       inset:0;
@@ -160,7 +159,6 @@
       margin:6px 0;
     }
 
-    /* CLICK */
     .click{
       position:fixed;
       color:var(--c1);
@@ -169,6 +167,13 @@
 
     @keyframes fly{
       to{transform:translateY(-20px);opacity:0}
+    }
+
+    .about-move{
+      margin-top:8px;
+      font-size:0.85rem;
+      color:var(--muted);
+      line-height:1.4;
     }
   </style></head>
 <body><div class="intro" id="intro">
@@ -186,8 +191,13 @@
     <div id="typing" class="typing"></div>
     <div class="sub">Date to marry 💍</div>
 
-    <div class="sub" id="about">
-      MBTI: INFP | Song Ngư | vẽ, đọc, game
+    <!-- moved about here -->
+    <div class="about-move">
+      MBTI: INFP<br>
+      Cung: Song Ngư<br>
+      Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
+      Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
+      Waifu: Cartethyia
     </div>
   </div>
 </div>
@@ -196,9 +206,9 @@
 <div class="right">
   <div class="box" id="timeBox"></div>
   <div class="box social">
-    <a href="#">Facebook</a>
-    <a href="#">X</a>
-    <a href="#">Discord</a>
+    <a href="https://www.facebook.com/share/1AuHDmJLrP/">Facebook</a>
+    <a href="https://x.com/PhmQunh42254275">X</a>
+    <a href="https://discord.gg/XZAk8MWx">Discord</a>
   </div>
 </div>
 
@@ -215,7 +225,6 @@ intro.onclick=()=>{
   music.play();
 }
 
-// typing
 let txt="Don't call me tonight";
 let i=0;
 setInterval(()=>{
@@ -224,7 +233,6 @@ setInterval(()=>{
   }
 },80);
 
-// time
 let start=new Date("2025-11-17");
 setInterval(()=>{
   let now=new Date();
@@ -232,7 +240,6 @@ setInterval(()=>{
   document.getElementById('timeBox').innerText="+"+d+" days";
 },1000);
 
-// click
 window.onclick=e=>{
   let c=document.createElement('div');
   c.className='click';
