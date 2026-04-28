@@ -1,11 +1,15 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pro5</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
     :root{
       --c1:#52EDFF;
       --c2:#054981;
@@ -17,6 +21,7 @@
     }
 
     *{box-sizing:border-box}
+
     body{
       margin:0;
       font-family:'Open Sans',sans-serif;
@@ -64,7 +69,6 @@
       text-align:center;
     }
 
-    /* CARD */
     .card{
       display:grid;
       grid-template-columns:1.3fr 1fr;
@@ -77,12 +81,11 @@
       backdrop-filter:blur(12px);
     }
 
-    /* LEFT */
     .left{
       display:grid;
       grid-template-columns:150px 1fr;
       gap:14px;
-      align-items:center;
+      align-items:start;
     }
 
     .avatar-wrap{
@@ -139,7 +142,6 @@
       margin-top:6px;
     }
 
-    /* RIGHT */
     .right{
       display:grid;
       gap:12px;
@@ -168,53 +170,58 @@
     @keyframes fly{
       to{transform:translateY(-20px);opacity:0}
     }
+  </style>
+</head>
 
-    .about-move{
-      margin-top:8px;
-      font-size:0.85rem;
-      color:var(--muted);
-      line-height:1.4;
-    }
-  </style></head>
-<body><div class="intro" id="intro">
+<body>
+
+<div class="intro" id="intro">
   <h1>Liệu còn có ai ở đây?</h1>
-</div><div class="wrap" id="main" style="display:none">  <div class="card"><!-- LEFT -->
-<div class="left">
-  <div class="avatar-wrap">
-    <img id="avatar" class="avatar" src="file1.jpg">
-    <img id="deco" class="deco">
-    <div id="status" class="status offline"></div>
-  </div>
+</div>
 
-  <div>
-    <div class="name" id="username">Ari</div>
-    <div id="typing" class="typing"></div>
-    <div class="sub">Date to marry 💍</div>
+<div class="wrap" id="main" style="display:none">
 
-    <!-- moved about here -->
-    <div class="about-move">
-      MBTI: INFP<br>
-      Cung: Song Ngư<br>
-      Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
-      Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
-      Waifu: Cartethyia
+  <div class="card">
+
+    <div class="left">
+
+      <div>
+        <div class="avatar-wrap">
+          <img id="avatar" class="avatar" src="file1.jpg">
+          <img id="deco" class="deco">
+          <div id="status" class="status offline"></div>
+        </div>
+
+        <div class="sub" id="about">
+          MBTI: INFP | Song Ngư | vẽ, đọc, game
+        </div>
+      </div>
+
+      <div>
+        <div class="name" id="username">Ari</div>
+        <div id="typing" class="typing"></div>
+        <div class="sub">Date to marry 💍</div>
+      </div>
+
     </div>
+
+    <div class="right">
+      <div class="box" id="timeBox"></div>
+      <div class="box social">
+        <a href="#">Facebook</a>
+        <a href="#">X</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- RIGHT -->
-<div class="right">
-  <div class="box" id="timeBox"></div>
-  <div class="box social">
-    <a href="https://www.facebook.com/share/1AuHDmJLrP/">Facebook</a>
-    <a href="https://x.com/PhmQunh42254275">X</a>
-    <a href="https://discord.gg/XZAk8MWx">Discord</a>
-  </div>
-</div>
-
-  </div></div><audio id="music" loop>
+<audio id="music" loop>
   <source src="music.mp3">
-</audio><script>
+</audio>
+
+<script>
 const intro=document.getElementById('intro');
 const main=document.getElementById('main');
 const music=document.getElementById('music');
@@ -249,5 +256,7 @@ window.onclick=e=>{
   document.body.appendChild(c);
   setTimeout(()=>c.remove(),1000);
 }
-</script></body>
+</script>
+
+</body>
 </html>
