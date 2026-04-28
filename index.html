@@ -1,300 +1,273 @@
 <!DOCTYPE html><html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>@Ari nèk</title><link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"><style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro5 Ocean Card</title><link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet"><style>
 :root{
   --c1:#52EDFF;
   --c2:#054981;
   --c3:#041124;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Open Sans',sans-serif;
-}
-
 body{
-  height:100vh;
-  overflow:hidden;
+  margin:0;
+  font-family:'Open Sans',sans-serif;
   color:white;
-  background:black;
+  overflow-x:hidden;
+  background:var(--c3);
 }
 
-/* BACKGROUND */
-.bg{
+/* BACKGROUND GIF */
+body::before{
+  content:"";
   position:fixed;
   inset:0;
-  background:url('https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif') center/cover no-repeat;
-  filter:blur(6px) brightness(0.5);
-  transform:scale(1.1);
-  z-index:-3;
-}
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(120deg,var(--c3),var(--c2));
-  opacity:0.65;
+  background:url('https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif') center/cover;
+  filter:brightness(0.35) blur(2px);
   z-index:-2;
 }
 
-/* CLICK INTRO */
-.intro{
-  position:absolute;
+/* PARTICLES */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
+/* INTRO */
+#intro{
+  position:fixed;
   inset:0;
   display:flex;
-  align-items:center;
   justify-content:center;
-  background:rgba(0,0,0,0.7);
-  z-index:999;
-  cursor:pointer;
-}
-
-.intro h1{
+  align-items:center;
   font-size:28px;
-  letter-spacing:2px;
-  animation:fade 2s infinite alternate;
+  background:rgba(0,0,0,0.8);
+  cursor:pointer;
+  z-index:999;
 }
 
-@keyframes fade{
-  from{opacity:0.3}
-  to{opacity:1}
-}
-
-/* MAIN CARD */
+/* CARD */
 .container{
-  display:none;
-  width:100%;
-  height:100%;
-  padding:30px;
+  display:flex;
+  gap:20px;
+  padding:40px;
+  max-width:1100px;
+  margin:auto;
+  perspective:1000px;
 }
 
 .card{
-  display:flex;
-  gap:20px;
-  height:100%;
-}
-
-.left{
   flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
+  background:rgba(5,73,129,0.25);
+  border:1px solid rgba(82,237,255,0.2);
+  border-radius:20px;
+  padding:20px;
+  backdrop-filter:blur(10px);
+  transform-style:preserve-3d;
+  transition:0.3s;
+}
+.card:hover{
+  transform:rotateY(5deg) rotateX(5deg);
 }
 
-.right{
-  width:320px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+.left, .right{
+  flex:1;
 }
 
-.name{
-  font-size:48px;
-  font-weight:700;
-  color:var(--c1);
-  overflow:hidden;
-  white-space:nowrap;
-  border-right:2px solid var(--c1);
-  width:0;
-  animation:typing 3s steps(20,end) forwards;
+.center{
+  flex:1.2;
 }
 
-@keyframes typing{
-  to{width:100%}
-}
-
-.sub{
-  margin-top:10px;
-  font-size:18px;
-  opacity:0.8;
-}
-
-.section{
-  margin-top:20px;
-  padding:10px 15px;
-  background:rgba(0,0,0,0.3);
-  border-left:3px solid var(--c1);
-  border-radius:8px;
-}
-
-.marquee{
-  white-space:nowrap;
-  overflow:hidden;
-  border-top:1px solid rgba(255,255,255,0.2);
-  border-bottom:1px solid rgba(255,255,255,0.2);
-  padding:8px;
-}
-
-.marquee span{
-  display:inline-block;
-  animation:move 8s linear infinite;
-}
-
-@keyframes move{
-  from{transform:translateX(100%)}
-  to{transform:translateX(-100%)}
+/* AVATAR */
+.avatar-wrap{
+  position:relative;
+  width:140px;
+  margin:auto;
 }
 
 .avatar{
-  width:180px;
-  height:180px;
-  border-radius:20px;
-  border:2px solid var(--c1);
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  border:3px solid var(--c1);
   box-shadow:0 0 20px var(--c1);
-  object-fit:cover;
 }
 
-.badge{
-  margin-top:10px;
-  font-size:14px;
-  opacity:0.8;
+.status-dot{
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:3px solid black;
 }
 
-.info{
-  margin-top:15px;
-  font-size:14px;
-  line-height:1.6;
+/* TEXT */
+.typing{
+  font-size:20px;
+  border-right:2px solid var(--c1);
+  white-space:nowrap;
+  overflow:hidden;
 }
 
-.social a{
+h2{
   color:var(--c1);
+}
+
+/* BUTTON */
+.btn{
   display:block;
-  margin-top:5px;
-  font-size:13px;
+  margin:8px 0;
+  padding:10px;
+  border-radius:12px;
   text-decoration:none;
+  color:white;
+  background:rgba(255,255,255,0.08);
 }
 
-.time{
-  margin-top:15px;
-  font-size:14px;
-  color:#fff;
-  opacity:0.8;
+/* LANYARD */
+#lanyard img{
+  width:100%;
+  border-radius:12px;
 }
 
-.footer-img{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
+/* CLICK EFFECT */
+.click{
+  position:absolute;
+  color:var(--c1);
+  animation:fade 1s forwards;
 }
-
-.footer-img img{
-  width:120px;
-  height:80px;
-  object-fit:cover;
-  border-radius:10px;
-  border:1px solid var(--c1);
+@keyframes fade{
+  to{opacity:0;transform:translateY(-20px);}
 }
-
 </style></head>
-<body><div class="bg"></div>
-<div class="overlay"></div><div class="intro" onclick="start()">
-  <h1>Liệu còn có ai ở đây?</h1>
-</div><div class="container" id="app">
-  <div class="card"><div class="left">
-  <div class="name" id="name">Ari</div>
-  <div class="sub">Don't call me tonight</div>
-  <div class="sub">Date to marry 💍</div>
+<body><div id="intro">Liệu còn có ai ở đây?</div><audio id="music" src="music.mp3" loop></audio>
 
-  <div class="marquee"><span id="statusText">Loading status...</span></div>
+<canvas id="particles"></canvas>
 
-  <div class="section">
-    MBTI: INFP<br>
-    Zodiac: Song Ngư<br>
-    Sở thích: vẽ, đọc truyện, nghe nhạc<br>
-    Game: Genshin, HSR, Wuthering Waves<br>
-    Waifu: Cartethyia
-  </div>
+<div class="container" id="main" style="display:none">  <!-- LEFT -->  <div class="card left">
+    <h2 id="typing"></h2>
+    <p>"Date to marry 💍"</p>
+    <p id="statusText"></p>
+    <p id="timer"></p>
+  </div>  <!-- CENTER -->  <div class="card center">
+    <div class="avatar-wrap">
+      <img src="file1.jpg" class="avatar" id="avatar">
+      <div class="status-dot" id="dot"></div>
+    </div><p><b>MBTI:</b> INFP</p>
+<p><b>Cung:</b> Song Ngư</p>
+<p><b>Sở thích:</b> vẽ, viết, đọc truyện, nghe nhạc</p>
+<p><b>Game:</b> Genshin, HSR, Wuthering Waves</p>
+<p><b>Waifu:</b> Cartethyia</p>
 
-  <div class="time" id="timer"></div>
+  </div>  <!-- RIGHT -->  <div class="card right">
+    <div id="lanyard"></div><a class="btn" href="#">Facebook</a>
+<a class="btn" href="#">X</a>
+<a class="btn" href="#">Discord</a>
+<a class="btn" href="#">Server ᒪᑌᑎᗩ</a>
 
-  <div class="social">
-    <a href="https://www.facebook.com/share/1AuHDmJLrP/">Facebook</a>
-    <a href="https://x.com/PhmQunh42254275">X</a>
-    <a href="https://discord.gg/XZAk8MWx">Discord</a>
-    <a href="https://discord.gg/gachaparadise">Server Discord (ᒪᑌᑎᗩ)</a>
-  </div>
+<img src="file1.jpg" width="100%" style="border-radius:12px;margin-top:10px">
+<img src="file2.jpg" width="100%" style="border-radius:12px;margin-top:10px">
 
-  <div class="footer-img">
-    <img src="file1.jpg" />
-    <img src="file2.jpg" />
-  </div>
-</div>
+  </div></div><script>
+const intro=document.getElementById('intro');
+const main=document.getElementById('main');
+const music=document.getElementById('music');
 
-<div class="right">
-  <img class="avatar" src="file1.jpg" id="avatar" />
-  <div class="badge">Discord ID: 965608704974151710</div>
-</div>
-
-  </div>
-</div><audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio><script>
-function start(){
-  document.querySelector('.intro').style.display='none';
-  document.getElementById('app').style.display='block';
-  document.getElementById('music').play();
-  typeName();
+intro.onclick=()=>{
+  intro.style.display='none';
+  main.style.display='flex';
+  music.play();
 }
 
-function typeName(){
-  let el=document.getElementById('name');
-  let text="Ari";
-  el.textContent="";
-  let i=0;
-  let t=setInterval(()=>{
-    el.textContent+=text[i];
-    i++;
-    if(i>=text.length) clearInterval(t);
-  },150);
+/* typing */
+let txt="Don't call me tonight";
+let i=0;
+function type(){
+  if(i<txt.length){
+    document.getElementById('typing').innerHTML+=txt[i++];
+    setTimeout(type,80);
+  }
 }
+type();
 
-function updateStatus(){
+/* TIME TIMER */
+let start=new Date("2025-11-17");
+setInterval(()=>{
+  let n=new Date();
+  let d=n-start;
+  let days=Math.floor(d/86400000);
+  let h=Math.floor(d/3600000)%24;
+  let m=Math.floor(d/60000)%60;
+  document.getElementById('timer').innerText=`${days}d ${h}h ${m}m`;
+},1000);
+
+/* STATUS TEXT */
+function statusMsg(){
   let h=new Date().getHours();
-  let msg="";
-  if(h>=5 && h<11) msg="Một ngày mới lại đến rồi";
-  else if(h>=11 && h<18) msg="Ngày trôi qua sắp hết rồi";
-  else msg="Mội ngày đi qua, có điều gì ở lại với chúng ta?";
-  document.getElementById('statusText').textContent=msg;
+  if(h<11) return "Một ngày mới lại đến rồi";
+  if(h<18) return "Ngày trôi qua sắp hết rồi";
+  return "Mọi điều ở lại với chúng ta?";
+}
+setInterval(()=>{
+  document.getElementById('statusText').innerText=statusMsg();
+},2000);
+
+/* LANYARD DISCORD */
+async function loadLanyard(){
+  let res=await fetch("https://api.lanyard.rest/v1/users/965608704974151710");
+  let data=await res.json();
+  let d=data.data;
+
+  let status=d.discord_status;
+  let dot=document.getElementById('dot');
+
+  dot.style.background=
+    status==='online'?'#00ff88':
+    status==='dnd'?'red':
+    status==='idle'?'orange':'gray';
+
+  document.getElementById('lanyard').innerHTML=
+  `<img src='https://cdn.lanyard.rest/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png'>`;
+}
+loadLanyard();
+
+/* PARTICLES */
+const c=document.getElementById('particles');
+const ctx=c.getContext('2d');
+c.width=innerWidth;
+c.height=innerHeight;
+
+let p=[];
+for(let i=0;i<80;i++){
+  p.push({x:Math.random()*c.width,y:Math.random()*c.height,r:2});
 }
 
-function timer(){
-  let start=new Date("2025-11-17T00:00:00");
-  setInterval(()=>{
-    let now=new Date();
-    let diff=now-start;
-
-    let d=Math.floor(diff/(1000*60*60*24));
-    let h=Math.floor(diff/(1000*60*60)%24);
-    let m=Math.floor(diff/(1000*60)%60);
-    let s=Math.floor(diff/1000%60);
-
-    document.getElementById('timer').textContent=
-    `Time: ${d}d ${h}h ${m}m ${s}s`;
-  },1000);
+function draw(){
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle="#52EDFF";
+  p.forEach(v=>{
+    v.y+=0.5;
+    if(v.y>c.height)v.y=0;
+    ctx.beginPath();
+    ctx.arc(v.x,v.y,v.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
 }
+draw();
 
-function lanyard(){
-  const ws=new WebSocket("wss://api.lanyard.rest/socket");
-  ws.onopen=()=>{
-    ws.send(JSON.stringify({op:2,d:{subscribe_to_id:"965608704974151710"}}));
-  };
-
-  ws.onmessage=(m)=>{
-    let data=JSON.parse(m.data);
-    if(!data || !data.d) return;
-    let status=data.d.discord_status;
-    document.title="Ari | "+status;
-  };
+/* CLICK EFFECT */
+document.onclick=e=>{
+  let d=document.createElement('div');
+  d.className='click';
+  d.style.left=e.pageX+'px';
+  d.style.top=e.pageY+'px';
+  d.innerHTML='✨';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),1000);
 }
-
-updateStatus();
-timer();
-lanyard();
-setInterval(updateStatus,60000);
 </script></body>
 </html>
