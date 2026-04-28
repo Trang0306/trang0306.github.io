@@ -1,302 +1,300 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>@Ari nèk</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pro5 Decor</title><link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"><style>
+:root{
+  --c1:#52EDFF;
+  --c2:#054981;
+  --c3:#041124;
+}
 
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Open Sans', sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Open Sans',sans-serif;
 }
 
 body{
-    background:#041124;
-    color:white;
-    overflow-x:hidden;
+  height:100vh;
+  overflow:hidden;
+  color:white;
+  background:black;
 }
 
 /* BACKGROUND */
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover;
-    opacity:0.22;
-    z-index:-2;
+.bg{
+  position:fixed;
+  inset:0;
+  background:url('https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif') center/cover no-repeat;
+  filter:blur(6px) brightness(0.5);
+  transform:scale(1.1);
+  z-index:-3;
 }
 
-/* INTRO */
-#intro{
-    position:fixed;
-    inset:0;
-    background:#041124;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:22px;
-    cursor:pointer;
-    z-index:999;
-    transition:0.6s;
+.overlay{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(120deg,var(--c3),var(--c2));
+  opacity:0.65;
+  z-index:-2;
 }
 
-/* LAYOUT */
-.wrapper{
-    display:flex;
-    gap:20px;
-    padding:40px;
+/* CLICK INTRO */
+.intro{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.7);
+  z-index:999;
+  cursor:pointer;
 }
 
-/* LEFT PROFILE */
+.intro h1{
+  font-size:28px;
+  letter-spacing:2px;
+  animation:fade 2s infinite alternate;
+}
+
+@keyframes fade{
+  from{opacity:0.3}
+  to{opacity:1}
+}
+
+/* MAIN CARD */
+.container{
+  display:none;
+  width:100%;
+  height:100%;
+  padding:30px;
+}
+
+.card{
+  display:flex;
+  gap:20px;
+  height:100%;
+}
+
 .left{
-    width:280px;
-    background:rgba(5,73,129,0.25);
-    border:1px solid #52EDFF;
-    border-radius:20px;
-    padding:20px;
-    backdrop-filter:blur(12px);
-    text-align:center;
-    transition:0.3s;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
-.left:hover{
-    transform:scale(1.02);
-}
-
-.avatar{
-    width:110px;
-    height:110px;
-    border-radius:50%;
-    border:3px solid #52EDFF;
-    box-shadow:0 0 15px #52EDFF;
+.right{
+  width:320px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
 .name{
-    margin-top:10px;
-    font-size:20px;
-    font-weight:700;
-    color:#52EDFF;
+  font-size:48px;
+  font-weight:700;
+  color:var(--c1);
+  overflow:hidden;
+  white-space:nowrap;
+  border-right:2px solid var(--c1);
+  width:0;
+  animation:typing 3s steps(20,end) forwards;
 }
 
-.typing{
-    font-size:12px;
-    margin-top:5px;
-    opacity:0.8;
+@keyframes typing{
+  to{width:100%}
 }
 
-/* STATUS */
-.statusText{
-    margin-top:8px;
-    font-size:12px;
-    color:#52EDFF;
+.sub{
+  margin-top:10px;
+  font-size:18px;
+  opacity:0.8;
 }
 
-/* RIGHT CARD */
-.right{
-    flex:1;
-    background:rgba(4,17,36,0.55);
-    border:1px solid #52EDFF;
-    border-radius:20px;
-    padding:20px;
-    backdrop-filter:blur(15px);
-    transform-style:preserve-3d;
-    transition:0.3s;
+.section{
+  margin-top:20px;
+  padding:10px 15px;
+  background:rgba(0,0,0,0.3);
+  border-left:3px solid var(--c1);
+  border-radius:8px;
 }
 
-.right:hover{
-    transform:rotateY(5deg) rotateX(2deg);
-}
-
-/* HEADER */
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.title{
-    font-size:22px;
-    font-weight:600;
-    color:#52EDFF;
-}
-
-/* MARQUEE */
 .marquee{
-    overflow:hidden;
-    white-space:nowrap;
+  white-space:nowrap;
+  overflow:hidden;
+  border-top:1px solid rgba(255,255,255,0.2);
+  border-bottom:1px solid rgba(255,255,255,0.2);
+  padding:8px;
 }
 
 .marquee span{
-    display:inline-block;
-    animation:move 7s linear infinite;
+  display:inline-block;
+  animation:move 8s linear infinite;
 }
 
 @keyframes move{
-    0%{transform:translateX(100%)}
-    100%{transform:translateX(-100%)}
+  from{transform:translateX(100%)}
+  to{transform:translateX(-100%)}
 }
 
-/* BLOCKS */
-.block{
-    margin-top:15px;
-    padding:12px;
-    border-left:3px solid #52EDFF;
-    background:rgba(5,73,129,0.15);
-    border-radius:10px;
+.avatar{
+  width:180px;
+  height:180px;
+  border-radius:20px;
+  border:2px solid var(--c1);
+  box-shadow:0 0 20px var(--c1);
+  object-fit:cover;
 }
 
-/* SOCIAL */
-a{
-    color:#52EDFF;
-    text-decoration:none;
+.badge{
+  margin-top:10px;
+  font-size:14px;
+  opacity:0.8;
 }
 
-/* SPOTIFY */
-.spotify{
-    margin-top:15px;
-    padding:10px;
-    background:#0b1f33;
-    border-radius:12px;
+.info{
+  margin-top:15px;
+  font-size:14px;
+  line-height:1.6;
 }
 
-.bar{
-    height:5px;
-    background:#054981;
-    margin-top:6px;
-    border-radius:10px;
-    overflow:hidden;
+.social a{
+  color:var(--c1);
+  display:block;
+  margin-top:5px;
+  font-size:13px;
+  text-decoration:none;
 }
 
-.bar::after{
-    content:"";
-    display:block;
-    height:100%;
-    width:55%;
-    background:#52EDFF;
-    animation:load 6s linear infinite;
+.time{
+  margin-top:15px;
+  font-size:14px;
+  color:#fff;
+  opacity:0.8;
 }
 
-@keyframes load{
-    0%{width:0}
-    100%{width:100%}
+.footer-img{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
 }
 
-/* AVATAR STATUS GLOW */
-.online{box-shadow:0 0 15px #00ff99;}
-.dnd{box-shadow:0 0 15px red;}
-.idle{box-shadow:0 0 15px yellow;}
-.offline{box-shadow:0 0 15px gray;}
+.footer-img img{
+  width:120px;
+  height:80px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid var(--c1);
+}
 
-</style>
-</head>
+</style></head>
+<body><div class="bg"></div>
+<div class="overlay"></div><div class="intro" onclick="start()">
+  <h1>Liệu còn có ai ở đây?</h1>
+</div><div class="container" id="app">
+  <div class="card"><div class="left">
+  <div class="name" id="name">Ari</div>
+  <div class="sub">Don't call me tonight</div>
+  <div class="sub">Date to marry 💍</div>
 
-<body>
+  <div class="marquee"><span id="statusText">Loading status...</span></div>
 
-<div id="intro">Liệu còn có ai ở đây?</div>
+  <div class="section">
+    MBTI: INFP<br>
+    Zodiac: Song Ngư<br>
+    Sở thích: vẽ, đọc truyện, nghe nhạc<br>
+    Game: Genshin, HSR, Wuthering Waves<br>
+    Waifu: Cartethyia
+  </div>
 
-<div class="wrapper">
+  <div class="time" id="timer"></div>
 
-    <!-- LEFT -->
-    <div class="left">
-        <img src="file1.jpg" class="avatar" id="avatar">
-        <div class="name">Ari</div>
-        <div class="typing">Don't call me tonight</div>
-        <div class="statusText" id="statusText"></div>
-    </div>
+  <div class="social">
+    <a href="https://www.facebook.com/share/1AuHDmJLrP/">Facebook</a>
+    <a href="https://x.com/PhmQunh42254275">X</a>
+    <a href="https://discord.gg/XZAk8MWx">Discord</a>
+    <a href="https://discord.gg/gachaparadise">Server Discord (ᒪᑌᑎᗩ)</a>
+  </div>
 
-    <!-- RIGHT -->
-    <div class="right" id="card">
-
-        <div class="header">
-            <div class="title">Profile Decor</div>
-            <div class="marquee"><span>Don't call me tonight</span></div>
-        </div>
-
-        <div class="block">💍 Date to marry</div>
-
-        <div class="block" id="timeBox"></div>
-
-        <div class="block">
-            MBTI: INFP <br>
-            Cung: Song Ngư <br>
-            Sở thích: vẽ, đọc truyện, nghe nhạc <br>
-            Game: Genshin / HSR / Wuwa <br>
-            Waifu: Cartethyia
-        </div>
-
-        <div class="block">
-            FB: <a href="#">link</a><br>
-            X: <a href="#">link</a><br>
-            Discord: <a href="#">link</a><br>
-            Server: <a href="#">ᒪᑌᑎᗩ</a>
-        </div>
-
-        <div class="spotify">
-            🎧 Now Playing: music.mp3
-            <div class="bar"></div>
-        </div>
-
-        <div class="block">
-            <img src="file2.jpg" width="100%">
-        </div>
-
-    </div>
-
+  <div class="footer-img">
+    <img src="file1.jpg" />
+    <img src="file2.jpg" />
+  </div>
 </div>
 
-<script>
+<div class="right">
+  <img class="avatar" src="file1.jpg" id="avatar" />
+  <div class="badge">Discord ID: 965608704974151710</div>
+</div>
 
-/* INTRO */
-document.getElementById("intro").onclick = ()=>{
-    document.getElementById("intro").style.opacity="0";
-    setTimeout(()=>document.getElementById("intro").remove(),600);
-};
-
-/* TIME COUNTER */
-function updateTime(){
-    let start = new Date("2025-11-17");
-    let now = new Date();
-    let diff = now - start;
-
-    let days = Math.floor(diff/86400000);
-    let hours = Math.floor(diff/3600000);
-
-    document.getElementById("timeBox").innerHTML =
-    `⏳ ${days} ngày | ${hours} giờ`;
+  </div>
+</div><audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio><script>
+function start(){
+  document.querySelector('.intro').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('music').play();
+  typeName();
 }
-setInterval(updateTime,1000);
-updateTime();
 
-/* STATUS TEXT */
-let h = new Date().getHours();
-let msg =
-h<11 ? "Một ngày mới lại đến rồi" :
-h<18 ? "Ngày trôi qua sắp hết rồi" :
-"Một ngày đi qua, có điều gì ở lại với chúng ta?";
+function typeName(){
+  let el=document.getElementById('name');
+  let text="Ari";
+  el.textContent="";
+  let i=0;
+  let t=setInterval(()=>{
+    el.textContent+=text[i];
+    i++;
+    if(i>=text.length) clearInterval(t);
+  },150);
+}
 
-document.getElementById("statusText").innerText = msg;
+function updateStatus(){
+  let h=new Date().getHours();
+  let msg="";
+  if(h>=5 && h<11) msg="Một ngày mới lại đến rồi";
+  else if(h>=11 && h<18) msg="Ngày trôi qua sắp hết rồi";
+  else msg="Mội ngày đi qua, có điều gì ở lại với chúng ta?";
+  document.getElementById('statusText').textContent=msg;
+}
 
-/* LANYARD */
-fetch("https://api.lanyard.rest/v1/users/965608704974151710")
-.then(r=>r.json())
-.then(data=>{
-    let s = data.data.discord_status;
-    document.getElementById("avatar").classList.add(s);
-});
+function timer(){
+  let start=new Date("2025-11-17T00:00:00");
+  setInterval(()=>{
+    let now=new Date();
+    let diff=now-start;
 
-/* LIGHT TILT */
-document.getElementById("card").onmousemove=(e)=>{
-    let x = (window.innerWidth/2 - e.pageX)/40;
-    let y = (window.innerHeight/2 - e.pageY)/40;
-    e.currentTarget.style.transform =
-    `rotateY(${x}deg) rotateX(${y}deg)`;
-};
+    let d=Math.floor(diff/(1000*60*60*24));
+    let h=Math.floor(diff/(1000*60*60)%24);
+    let m=Math.floor(diff/(1000*60)%60);
+    let s=Math.floor(diff/1000%60);
 
-</script>
+    document.getElementById('timer').textContent=
+    `Time: ${d}d ${h}h ${m}m ${s}s`;
+  },1000);
+}
 
-</body>
+function lanyard(){
+  const ws=new WebSocket("wss://api.lanyard.rest/socket");
+  ws.onopen=()=>{
+    ws.send(JSON.stringify({op:2,d:{subscribe_to_id:"965608704974151710"}}));
+  };
+
+  ws.onmessage=(m)=>{
+    let data=JSON.parse(m.data);
+    if(!data || !data.d) return;
+    let status=data.d.discord_status;
+    document.title="Ari | "+status;
+  };
+}
+
+updateStatus();
+timer();
+lanyard();
+setInterval(updateStatus,60000);
+</script></body>
 </html>
