@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>@Ari nèk</title>
+<title>Pro5 Ari</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,57 +14,44 @@
 --c1:#52EDFF;
 --c2:#054981;
 --c3:#041124;
+--txt:#f3fcff;
 --glass:rgba(4,17,36,.62);
---line:rgba(82,237,255,.16);
---text:#f4fcff;
---muted:rgba(255,255,255,.72);
+--line:rgba(82,237,255,.18);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
 
-body{
+html,body{
+width:100%;
+height:100%;
 font-family:'Open Sans',sans-serif;
-background:#000;
-color:var(--text);
 overflow-x:hidden;
+color:var(--txt);
+background:#000;
 }
 
-/* GIF BG */
+/* background gif */
 body::before{
 content:"";
 position:fixed;
 inset:0;
 background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
-filter:blur(8px) brightness(.35);
+filter:brightness(.28) blur(6px);
 transform:scale(1.08);
-z-index:-5;
+z-index:-4;
+transition:transform .2s linear;
 }
 
+/* overlay */
 body::after{
 content:"";
 position:fixed;
 inset:0;
-background:linear-gradient(180deg,rgba(4,17,36,.2),rgba(4,17,36,.86));
-z-index:-4;
-}
-
-/* aurora */
-.aurora{
-position:fixed;
-inset:-20%;
-z-index:-3;
-pointer-events:none;
 background:
-radial-gradient(circle at 20% 30%,rgba(82,237,255,.13),transparent 22%),
-radial-gradient(circle at 80% 20%,rgba(5,73,129,.16),transparent 24%),
-radial-gradient(circle at 50% 70%,rgba(82,237,255,.08),transparent 24%);
-filter:blur(35px);
-animation:aurora 14s linear infinite alternate;
-}
-
-@keyframes aurora{
-from{transform:translate(-2%,-1%) scale(1)}
-to{transform:translate(2%,1%) scale(1.08)}
+radial-gradient(circle at 20% 20%, rgba(82,237,255,.08), transparent 20%),
+radial-gradient(circle at 80% 10%, rgba(5,73,129,.15), transparent 20%),
+linear-gradient(180deg, rgba(4,17,36,.35), rgba(4,17,36,.88));
+z-index:-3;
 }
 
 /* intro */
@@ -72,67 +59,50 @@ to{transform:translate(2%,1%) scale(1.08)}
 position:fixed;
 inset:0;
 display:flex;
-justify-content:center;
 align-items:center;
+justify-content:center;
 flex-direction:column;
-background:rgba(0,0,0,.84);
+background:rgba(0,0,0,.8);
+backdrop-filter:blur(8px);
 z-index:9999;
 cursor:pointer;
+transition:.4s;
 }
 
 #intro h1{
-font-size:2.2rem;
+font-size:clamp(1.8rem,6vw,3rem);
 text-align:center;
+padding:0 20px;
 }
 
 #intro p{
 margin-top:10px;
-color:#ccc;
+opacity:.75;
 }
 
 /* main */
-.wrap{
-width:min(1200px,94%);
-margin:auto;
-padding:24px 0;
+#main{
 display:none;
+padding:28px 14px 50px;
+max-width:1200px;
+margin:auto;
 }
 
-/* cards */
-.hero,.card{
-position:relative;
+/* hero card */
+.hero{
+display:grid;
+grid-template-columns:1.2fr .95fr;
+gap:18px;
+padding:22px;
 background:var(--glass);
 border:1px solid var(--line);
-border-radius:24px;
-backdrop-filter:blur(14px);
-overflow:hidden;
-transition:.2s;
+border-radius:28px;
+backdrop-filter:blur(18px);
+box-shadow:0 25px 60px rgba(0,0,0,.45);
+transition:.2s ease;
 transform-style:preserve-3d;
 }
 
-.hero::before,.card::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(120deg,transparent,rgba(82,237,255,.08),transparent);
-transform:translateX(-100%);
-animation:borderMove 4s linear infinite;
-pointer-events:none;
-}
-
-@keyframes borderMove{
-to{transform:translateX(100%)}
-}
-
-/* hero */
-.hero{
-display:grid;
-grid-template-columns:1.2fr .9fr;
-gap:16px;
-padding:18px;
-}
-
-/* left */
 .left{
 display:flex;
 flex-direction:column;
@@ -141,550 +111,569 @@ gap:12px;
 }
 
 .badge{
-padding:7px 14px;
-border-radius:999px;
-border:1px solid var(--line);
+display:inline-block;
 width:max-content;
+padding:8px 14px;
+border-radius:999px;
+background:rgba(255,255,255,.05);
+border:1px solid var(--line);
 font-size:.8rem;
-letter-spacing:.14em;
+letter-spacing:.12em;
 }
 
 .name{
-font-size:4rem;
+font-size:clamp(2.4rem,7vw,5rem);
 font-weight:800;
 background:linear-gradient(90deg,#fff,var(--c1),#fff);
+background-size:200%;
 -webkit-background-clip:text;
 color:transparent;
-background-size:220%;
 animation:shine 4s linear infinite;
-text-shadow:0 0 20px rgba(82,237,255,.18);
 }
 
 @keyframes shine{
-to{background-position:220%}
+to{background-position:200%}
 }
 
-.typing{
+#typing{
 font-size:1.2rem;
 font-weight:700;
 border-right:2px solid var(--c1);
 white-space:nowrap;
 overflow:hidden;
 width:max-content;
+max-width:100%;
 }
 
-.sub{color:var(--muted)}
+.sub{
+opacity:.82;
+font-size:1rem;
+}
 
 .row{
 display:flex;
 flex-wrap:wrap;
 gap:10px;
+margin-top:5px;
 }
 
 .pill{
-padding:9px 14px;
+padding:10px 14px;
 border-radius:999px;
-background:rgba(255,255,255,.04);
+background:rgba(255,255,255,.05);
 border:1px solid rgba(255,255,255,.08);
+font-size:.92rem;
 display:flex;
 align-items:center;
 gap:8px;
-font-size:.95rem;
 }
 
-.dot,.status{
+.dot{
 width:10px;
 height:10px;
 border-radius:50%;
+background:#666;
+box-shadow:0 0 12px currentColor;
 }
 
-.status{
-position:absolute;
-right:14px;
-bottom:18px;
-width:18px;
-height:18px;
-border:3px solid var(--c3);
-}
-
-.online{background:#23a55a}
-.idle{background:#f0b232}
-.dnd{background:#f23f43}
-.offline{background:#666}
-
-/* right */
+/* avatar */
 .right{
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-gap:14px;
+gap:15px;
 }
 
-.avatarWrap{
+.avatar-box{
 position:relative;
-width:220px;
-height:220px;
+width:240px;
+height:240px;
 }
 
-.avatar{
+#avatar{
 width:100%;
 height:100%;
 border-radius:50%;
 object-fit:cover;
-border:3px solid rgba(255,255,255,.08);
-box-shadow:0 0 30px rgba(82,237,255,.24);
+border:3px solid rgba(255,255,255,.1);
+box-shadow:0 0 25px rgba(82,237,255,.18);
 }
 
-.deco{
+#deco{
 position:absolute;
-inset:-7%;
-width:114%;
-height:114%;
+inset:-8%;
+width:116%;
+height:116%;
+object-fit:contain;
 pointer-events:none;
 }
 
-.guild{
+#status{
+position:absolute;
+right:14px;
+bottom:14px;
+width:20px;
+height:20px;
+border-radius:50%;
+border:3px solid var(--c3);
+background:#666;
+}
+
+.server{
 width:100%;
+max-width:320px;
 padding:12px;
 border-radius:18px;
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
 display:flex;
-gap:10px;
 align-items:center;
+gap:10px;
 }
 
-.guild img{
+.server img{
 width:42px;
 height:42px;
 border-radius:12px;
 object-fit:cover;
 }
 
-/* lower */
+.server strong{display:block}
+.server span{font-size:.85rem;opacity:.72}
+
+/* bottom */
 .grid{
+margin-top:18px;
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
 gap:16px;
-margin-top:16px;
 }
 
-.card{padding:16px}
+.box{
+padding:18px;
+border-radius:24px;
+background:var(--glass);
+border:1px solid var(--line);
+backdrop-filter:blur(14px);
+}
 
 .title{
 font-size:.82rem;
 letter-spacing:.14em;
-color:#9bcddb;
-margin-bottom:14px;
+opacity:.65;
+margin-bottom:12px;
 text-transform:uppercase;
 }
 
 .embed{
+padding:14px;
 border-left:4px solid var(--c1);
-padding-left:14px;
+border-radius:18px;
+background:rgba(255,255,255,.04);
 line-height:1.8;
 }
 
-.timer{
-margin-top:14px;
-font-size:1.15rem;
+#time{
+font-size:1.1rem;
 font-weight:700;
+margin-top:8px;
 }
 
 .social a{
-display:block;
+display:flex;
+justify-content:space-between;
 padding:12px;
+margin-bottom:10px;
 border-radius:14px;
+text-decoration:none;
+color:#fff;
 background:rgba(255,255,255,.04);
 border:1px solid rgba(255,255,255,.08);
-text-decoration:none;
-color:white;
-margin-bottom:10px;
+transition:.2s;
+}
+
+.social a:hover{
+transform:translateY(-2px);
+background:rgba(82,237,255,.08);
 }
 
 /* spotify */
-.spotify{
+#spotify{
 display:none;
-margin-top:15px;
+margin-top:14px;
+padding:12px;
+border-radius:18px;
+background:rgba(255,255,255,.04);
 }
 
-.spotify.show{display:block}
-
-.spotifyTop{
+#spotifyTop{
 display:flex;
-gap:12px;
+gap:10px;
 align-items:center;
 }
 
-.spotifyTop img{
-width:60px;
-height:60px;
-border-radius:12px;
+#spotifyCover{
+width:62px;
+height:62px;
+border-radius:14px;
+object-fit:cover;
 }
 
-.bar{
+#bar{
 height:8px;
-background:rgba(255,255,255,.08);
 border-radius:999px;
+background:rgba(255,255,255,.08);
+margin-top:10px;
 overflow:hidden;
-margin-top:12px;
 }
 
-.fill{
+#bar span{
+display:block;
 height:100%;
 width:0%;
-background:linear-gradient(90deg,var(--c1),white);
+background:linear-gradient(90deg,var(--c1),#fff);
 }
 
-/* visualizer */
-.visualizer{
-display:flex;
-gap:5px;
-height:30px;
-align-items:flex-end;
-margin-top:14px;
-}
-
-.visualizer span{
-width:6px;
-background:linear-gradient(180deg,var(--c1),white);
-border-radius:999px;
-animation:bars 1s infinite ease-in-out;
-}
-
-.visualizer span:nth-child(2){animation-delay:.1s}
-.visualizer span:nth-child(3){animation-delay:.2s}
-.visualizer span:nth-child(4){animation-delay:.3s}
-.visualizer span:nth-child(5){animation-delay:.4s}
-
-@keyframes bars{
-0%,100%{height:8px}
-50%{height:28px}
-}
-
-/* bubbles */
-.bubble{
-position:fixed;
-bottom:-100px;
-border-radius:50%;
-background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.4),rgba(82,237,255,.15),transparent 70%);
-pointer-events:none;
-z-index:-2;
-animation:floatUp linear forwards;
-}
-
-@keyframes floatUp{
-0%{transform:translateY(0);opacity:0}
-10%{opacity:.6}
-100%{transform:translateY(-120vh) translateX(60px);opacity:0}
-}
-
-/* click */
-.click{
+/* spark */
+.spark{
 position:fixed;
 pointer-events:none;
+animation:spark .9s forwards;
+z-index:999;
 color:var(--c1);
-animation:fly .8s forwards;
+text-shadow:0 0 14px var(--c1);
 }
 
-@keyframes fly{
+@keyframes spark{
 to{
-transform:translateY(-30px) scale(1.2);
+transform:translateY(-25px) scale(1.3);
 opacity:0;
 }
 }
 
+/* rain */
+.rain{
+position:fixed;
+top:-30px;
+width:2px;
+height:24px;
+background:linear-gradient(transparent,#8befff);
+opacity:.35;
+pointer-events:none;
+animation:rain .8s linear forwards;
+z-index:2;
+}
+
+@keyframes rain{
+to{
+transform:translateY(110vh);
+opacity:0;
+}
+}
+
+/* sakura */
+.sakura{
+position:fixed;
+top:-40px;
+pointer-events:none;
+animation:sakura linear forwards;
+z-index:2;
+}
+
+@keyframes sakura{
+to{
+transform:translateY(110vh) translateX(120px) rotate(360deg);
+opacity:0;
+}
+}
+
+canvas{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:1;
+}
+
+/* mobile */
 @media(max-width:980px){
-.hero,.grid{grid-template-columns:1fr}
-.name{font-size:3rem}
+.hero{grid-template-columns:1fr}
+.grid{grid-template-columns:1fr}
+.avatar-box{width:220px;height:220px}
 }
 </style>
 </head>
-<body>
 
-<div class="aurora"></div>
+<body>
 
 <div id="intro">
 <h1>Liệu còn có ai ở đây?</h1>
 <p>Chạm để mở profile</p>
 </div>
 
-<div class="wrap" id="main">
+<canvas id="ripple"></canvas>
 
-<div class="hero">
+<div id="main">
+
+<div class="hero" id="hero">
 
 <div class="left">
-<div class="badge">DISCORD PRO5</div>
-
-<div class="name">Ari nèk</div>
-
-<div class="typing" id="typing"></div>
-
+<div class="badge">PRO5 / DISCORD</div>
+<div class="name">Ari</div>
+<div id="typing"></div>
 <div class="sub">Date to marry 💍</div>
 
 <div class="row">
-<div class="pill" id="autoStatus">...</div>
-
-<div class="pill">
-<div class="dot offline" id="dot1"></div>
-<span id="statusText">offline</span>
-</div>
+<div class="pill" id="banner">...</div>
+<div class="pill"><span class="dot" id="dot"></span><span id="statusText">offline</span></div>
 </div>
 
 <div class="pill" id="activity">Offline...</div>
-
 </div>
 
 <div class="right">
-
-<div class="avatarWrap">
-<img id="avatar" class="avatar" src="file1.jpg">
-<img id="deco" class="deco">
-<div class="status offline" id="statusDot"></div>
+<div class="avatar-box">
+<img id="avatar" src="file1.jpg">
+<img id="deco">
+<div id="status"></div>
 </div>
 
-<div class="guild">
+<div class="server">
 <img src="guild.png">
 <div>
-<div style="font-weight:700">ᒪᑌᑎᗩ</div>
-<div style="font-size:.85rem;color:#ccc">Discord Guild</div>
+<strong>ᒪᑌᑎᗩ</strong>
+<span>Guild Badge</span>
 </div>
 </div>
-
 </div>
 
 </div>
 
 <div class="grid">
 
-<div class="card">
+<div class="box">
 <div class="title">About me</div>
 <div class="embed">
 MBTI: INFP<br>
-Song Ngư<br>
-Vẽ • Viết • Đọc truyện • Nghe nhạc<br>
-Game: Genshin Impact<br>
-Honkai Star Rail<br>
-Wuthering Wave<br>
+Cung hoàng đạo: Song Ngư<br>
+Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
+Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
 Waifu: Cartethyia
 </div>
 </div>
 
-<div class="card">
+<div class="box">
 <div class="title">Presence</div>
+<div id="time">0 tháng 0 ngày 0 giờ</div>
 
-<div id="presence">Đang tải...</div>
-
-<div class="timer" id="time"></div>
-
-<div class="spotify" id="spotifyBox">
-<div class="spotifyTop">
-<img id="cover">
+<div id="spotify">
+<div id="spotifyTop">
+<img id="spotifyCover">
 <div>
-<div id="song"></div>
-<div id="artist" style="color:#ccc;font-size:.9rem"></div>
+<div id="song">...</div>
+<div id="artist" style="opacity:.7;font-size:.9rem"></div>
+</div>
+</div>
+<div id="bar"><span></span></div>
 </div>
 </div>
 
-<div class="bar">
-<div class="fill" id="bar"></div>
+<div class="box">
+<div class="title">Socials</div>
+<div class="social">
+<a href="https://www.facebook.com/share/1AuHDmJLrP/" target="_blank">Facebook <span>fb</span></a>
+<a href="https://x.com/PhmQunh42254275" target="_blank">X <span>x</span></a>
+<a href="https://discord.gg/XZAk8MWx" target="_blank">Discord <span>invite</span></a>
+<a href="https://discord.gg/gachaparadise" target="_blank">Server <span>guild</span></a>
 </div>
 </div>
 
-<div class="visualizer">
-<span></span><span></span><span></span><span></span><span></span>
 </div>
-
-</div>
-
-<div class="card social">
-<div class="title">Social</div>
-
-<a href="https://www.facebook.com/share/1AuHDmJLrP/" target="_blank">Facebook</a>
-<a href="https://x.com/PhmQunh42254275" target="_blank">X</a>
-<a href="https://discord.gg/XZAk8MWx" target="_blank">Discord</a>
-<a href="https://discord.gg/gachaparadise" target="_blank">Server</a>
-
-</div>
-
-</div>
-
 </div>
 
 <audio id="music" loop>
-<source src="music.mp3">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 const USER_ID="965608704974151710";
 
-/* open */
-document.getElementById("intro").onclick=async()=>{
-document.getElementById("intro").style.display="none";
-document.getElementById("main").style.display="block";
-typing();
-try{await document.getElementById("music").play()}catch(e){}
+/* intro */
+intro.onclick=async()=>{
+intro.style.opacity="0";
+setTimeout(()=>intro.style.display="none",400);
+main.style.display="block";
+try{await music.play()}catch(e){}
+typingLoop();
 getDiscord();
 }
 
 /* typing */
-function typing(){
-let t="Don't call me tonight";
-let i=0;
-let el=document.getElementById("typing");
-el.innerHTML="";
-let x=setInterval(()=>{
-el.innerHTML+=t[i];
-i++;
-if(i>=t.length) clearInterval(x);
-},80);
+function typingLoop(){
+const t="Don't call me tonight";
+let i=0,del=false;
+
+setInterval(()=>{
+if(!del){
+typing.innerHTML=t.slice(0,i++);
+if(i>t.length+8)del=true;
+}else{
+typing.innerHTML=t.slice(0,i--);
+if(i<=0)del=false;
+}
+},100);
 }
 
-/* timer */
-function updateTime(){
-let start=new Date("2025-11-17");
+/* auto banner */
+function autoText(){
+let h=new Date().getHours();
+if(h>=5&&h<11)return" Một ngày mới lại đến rồi";
+if(h>=11&&h<18)return" Ngày trôi qua sắp hết rồi";
+return" Một ngày đi qua, có điều gì ở lại?";
+}
+setInterval(()=>banner.innerText=autoText(),1000);
+
+/* time */
+const start=new Date("2025-11-17T00:00:00");
+setInterval(()=>{
 let now=new Date();
-let diff=now-start;
-
+let months=(now.getFullYear()-start.getFullYear())*12+(now.getMonth()-start.getMonth());
+let anchor=new Date(start);
+anchor.setMonth(anchor.getMonth()+months);
+if(anchor>now){months--;anchor=new Date(start);anchor.setMonth(anchor.getMonth()+months);}
+let diff=now-anchor;
 let d=Math.floor(diff/86400000);
-let h=Math.floor(diff/3600000)%24;
-
-document.getElementById("time").innerText=d+" ngày "+h+" giờ";
-
-let hour=now.getHours();
-
-if(hour>=5 && hour<11)
-document.getElementById("autoStatus").innerText="Một ngày mới lại đến rồi";
-else if(hour>=11 && hour<18)
-document.getElementById("autoStatus").innerText="Ngày trôi qua sắp hết rồi";
-else
-document.getElementById("autoStatus").innerText="Một ngày đi qua, có điều gì ở lại?";
-}
-setInterval(updateTime,1000);
-updateTime();
-
-/* status */
-function setStatus(st){
-document.getElementById("dot1").className="dot "+st;
-document.getElementById("statusDot").className="status "+st;
-document.getElementById("statusText").innerText=st;
-
-let av=document.getElementById("avatar");
-
-if(st=="online") av.style.boxShadow="0 0 35px #23a55a";
-else if(st=="idle") av.style.boxShadow="0 0 35px #f0b232";
-else if(st=="dnd") av.style.boxShadow="0 0 35px #f23f43";
-else av.style.boxShadow="0 0 35px #666";
-}
+let h=Math.floor(diff%86400000/3600000);
+time.innerHTML=`${months} tháng ${d} ngày ${h} giờ`;
+},1000);
 
 /* discord */
 async function getDiscord(){
 try{
-let res=await fetch("https://api.lanyard.rest/v1/users/"+USER_ID+"?t="+Date.now());
+let res=await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}?t=`+Date.now());
 let json=await res.json();
-
-if(!json.success) return;
-
 let d=json.data;
 
-document.getElementById("avatar").src=
-"https://cdn.discordapp.com/avatars/"+USER_ID+"/"+d.discord_user.avatar+".png?size=512";
+if(!d)return;
 
-if(d.discord_user.avatar_decoration_data){
-document.getElementById("deco").src=
-"https://cdn.discordapp.com/avatar-decoration-presets/"+d.discord_user.avatar_decoration_data.asset+".png";
-}
+let u=d.discord_user;
+avatar.src=`https://cdn.discordapp.com/avatars/${USER_ID}/${u.avatar}.png?size=512`;
 
-setStatus(d.discord_status || "offline");
+if(u.avatar_decoration_data?.asset){
+deco.src=`https://cdn.discordapp.com/avatar-decoration-presets/${u.avatar_decoration_data.asset}.png`;
+deco.style.display="block";
+}else deco.style.display="none";
 
-let txt="Offline...";
+let st=d.discord_status||"offline";
+statusText.innerText=st;
+activity.innerText="Offline...";
 
-if(d.listening_to_spotify){
-txt="🎧 "+d.spotify.song+" - "+d.spotify.artist;
-}else if(d.activities.length>0){
-let custom=d.activities.find(a=>a.type===4);
-let game=d.activities.find(a=>a.type===0);
+let color="#666";
+if(st=="online")color="#23a55a";
+if(st=="idle")color="#f0b232";
+if(st=="dnd")color="#f23f43";
 
-if(custom) txt="💬 "+custom.state;
-else if(game) txt="🎮 "+game.name;
-else txt="✨ "+d.activities[0].name;
-}
+status.style.background=color;
+dot.style.background=color;
+dot.style.color=color;
+avatar.style.boxShadow=`0 0 28px ${color}`;
 
-document.getElementById("activity").innerText=txt;
-document.getElementById("presence").innerText=txt;
+if(d.listening_to_spotify && d.spotify){
+activity.innerText=`🎧 ${d.spotify.song} - ${d.spotify.artist}`;
 
-/* spotify */
-if(d.listening_to_spotify){
-document.getElementById("spotifyBox").classList.add("show");
+spotify.style.display="block";
+spotifyCover.src=d.spotify.album_art_url;
+song.innerText=d.spotify.song;
+artist.innerText=d.spotify.artist;
 
-document.getElementById("cover").src=d.spotify.album_art_url;
-document.getElementById("song").innerText=d.spotify.song;
-document.getElementById("artist").innerText=d.spotify.artist;
-
-let start=d.spotify.timestamps.start;
-let end=d.spotify.timestamps.end;
-let now=Date.now();
-
-let p=((now-start)/(end-start))*100;
-if(p<0)p=0;
-if(p>100)p=100;
-
-document.getElementById("bar").style.width=p+"%";
-
+let s=new Date(d.spotify.timestamps.start).getTime();
+let e=new Date(d.spotify.timestamps.end).getTime();
+let n=Date.now();
+let p=Math.min((n-s)/(e-s)*100,100);
+document.querySelector("#bar span").style.width=p+"%";
 }else{
-document.getElementById("spotifyBox").classList.remove("show");
+spotify.style.display="none";
+if(d.activities.length){
+let a=d.activities.find(x=>x.type===0)||d.activities[0];
+activity.innerText="🎮 "+(a.name||"Activity");
 }
-
-}catch(e){
-console.log(e);
 }
+}catch(err){}
 }
-setInterval(getDiscord,5000);
+setInterval(getDiscord,10000);
 
-/* bubbles */
-function bubble(){
-let b=document.createElement("div");
-b.className="bubble";
+/* parallax */
+document.addEventListener("mousemove",e=>{
+let x=(e.clientX/innerWidth-.5)*12;
+let y=(e.clientY/innerHeight-.5)*12;
+document.body.style.transform=`translate(${x/8}px,${y/8}px)`;
+document.body.style.backgroundPosition=`${50+x}% ${50+y}%`;
+});
 
-let s=10+Math.random()*28;
-b.style.width=s+"px";
-b.style.height=s+"px";
-b.style.left=Math.random()*100+"vw";
-b.style.animationDuration=(10+Math.random()*12)+"s";
-
-document.body.appendChild(b);
-setTimeout(()=>b.remove(),22000);
-}
-setInterval(bubble,700);
-
-/* click spark */
-document.onclick=e=>{
-for(let i=0;i<5;i++){
+/* sparkle */
+document.addEventListener("pointerdown",e=>{
 let s=document.createElement("div");
-s.className="click";
-s.innerText="✨";
+s.className="spark";
+s.innerHTML="✨";
 s.style.left=e.clientX+"px";
 s.style.top=e.clientY+"px";
 document.body.appendChild(s);
-setTimeout(()=>s.remove(),800);
-}
+setTimeout(()=>s.remove(),900);
+addRipple(e.clientX,e.clientY);
+});
+
+/* rain */
+setInterval(()=>{
+let r=document.createElement("div");
+r.className="rain";
+r.style.left=Math.random()*100+"vw";
+r.style.animationDuration=(.5+Math.random()*.4)+"s";
+document.body.appendChild(r);
+setTimeout(()=>r.remove(),1000);
+},70);
+
+/* sakura */
+setInterval(()=>{
+let s=document.createElement("div");
+s.className="sakura";
+s.innerHTML="🌸";
+s.style.left=Math.random()*100+"vw";
+s.style.fontSize=(14+Math.random()*16)+"px";
+s.style.animationDuration=(7+Math.random()*6)+"s";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),14000);
+},900);
+
+/* ripple */
+const cv=document.getElementById("ripple");
+const ctx=cv.getContext("2d");
+function rs(){cv.width=innerWidth;cv.height=innerHeight}
+rs();addEventListener("resize",rs);
+
+let arr=[];
+
+function addRipple(x,y){
+arr.push({x,y,r:0,a:.55});
 }
 
-/* tilt */
-document.querySelectorAll(".hero,.card").forEach(el=>{
-el.addEventListener("mousemove",e=>{
-let r=el.getBoundingClientRect();
-let x=(e.clientX-r.left)/r.width-.5;
-let y=(e.clientY-r.top)/r.height-.5;
+function loop(){
+ctx.clearRect(0,0,cv.width,cv.height);
 
-el.style.transform=
-`perspective(1000px) rotateX(${y*-8}deg) rotateY(${x*10}deg)`;
-});
-el.addEventListener("mouseleave",()=>{
-el.style.transform="perspective(1000px) rotateX(0) rotateY(0)";
-});
-});
+for(let i=0;i<arr.length;i++){
+let p=arr[i];
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.strokeStyle=`rgba(82,237,255,${p.a})`;
+ctx.lineWidth=2;
+ctx.stroke();
+p.r+=2.4;
+p.a-=0.01;
+if(p.a<=0){arr.splice(i,1);i--;}
+}
+
+requestAnimationFrame(loop);
+}
+loop();
 </script>
 
 </body>
