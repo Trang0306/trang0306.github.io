@@ -14,14 +14,16 @@
       --c1:#52EDFF;
       --c2:#054981;
       --c3:#041124;
-      --text:rgba(240,251,255,0.95);
-      --muted:rgba(240,251,255,0.7);
-      --glass:rgba(4,17,36,0.55);
-      --shadow:0 20px 60px rgba(0,0,0,0.45);
+      --text:rgba(245,252,255,.96);
+      --muted:rgba(245,252,255,.72);
+      --glass:rgba(4,17,36,.56);
+      --line:rgba(82,237,255,.14);
+      --line2:rgba(255,255,255,.08);
+      --shadow:0 22px 70px rgba(0,0,0,.45);
     }
 
     *{box-sizing:border-box}
-
+    html,body{height:100%}
     body{
       margin:0;
       font-family:'Open Sans',sans-serif;
@@ -34,229 +36,1047 @@
       content:"";
       position:fixed;
       inset:0;
-      background:url('https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif') center/cover no-repeat;
-      filter:blur(8px) brightness(0.35);
-      transform:scale(1.05);
-      z-index:-2;
+      background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
+      filter:blur(10px) brightness(.35) saturate(1.05);
+      transform:scale(1.06);
+      z-index:-3;
     }
 
     body::after{
       content:"";
       position:fixed;
       inset:0;
-      background:linear-gradient(180deg,rgba(4,17,36,0.4),rgba(4,17,36,0.85));
+      background:
+        radial-gradient(circle at 20% 20%, rgba(82,237,255,.10), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(5,73,129,.18), transparent 28%),
+        linear-gradient(180deg, rgba(4,17,36,.34), rgba(4,17,36,.86));
+      z-index:-2;
+    }
+
+    .ambient{
+      position:fixed;
+      inset:-30%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(82,237,255,.16), transparent 16%),
+        radial-gradient(circle at 75% 25%, rgba(82,237,255,.08), transparent 14%),
+        radial-gradient(circle at 50% 75%, rgba(82,237,255,.08), transparent 18%);
+      filter:blur(20px);
+      animation: drift 18s linear infinite alternate;
+      pointer-events:none;
       z-index:-1;
+      opacity:.8;
     }
 
-    .wrap{
-      width:min(1200px,95%);
-      margin:auto;
-      padding:20px 0;
+    @keyframes drift{
+      from{transform:translate3d(-1.5%, -1%, 0) scale(1)}
+      to{transform:translate3d(1.5%, 1%, 0) scale(1.05)}
     }
 
+    .page{
+      width:min(1220px, 94vw);
+      margin:0 auto;
+      padding:24px 0 36px;
+    }
+
+    .hidden{display:none}
+
+    /* INTRO */
     .intro{
       position:fixed;
       inset:0;
+      z-index:9999;
       display:grid;
       place-items:center;
-      background:rgba(0,0,0,0.85);
-      z-index:9999;
       cursor:pointer;
+      background:rgba(0,0,0,.82);
+      backdrop-filter:blur(10px);
+      transition:opacity .35s ease, transform .35s ease;
     }
-
-    .intro h1{
-      font-size:2.5rem;
+    .intro.hide{
+      opacity:0;
+      pointer-events:none;
+      transform:scale(1.03);
+    }
+    .intro-inner{
       text-align:center;
+      padding:24px 28px;
+    }
+    .intro-inner h1{
+      margin:0;
+      font-size:clamp(1.8rem, 5vw, 3.2rem);
+      letter-spacing:.2px;
+      text-shadow:0 0 25px rgba(82,237,255,.16);
+    }
+    .intro-inner p{
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:.98rem;
     }
 
+    /* CARDS */
     .card{
-      display:grid;
-      grid-template-columns:1.3fr 1fr;
-      gap:16px;
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(82,237,255,0.15);
-      border-radius:24px;
-      padding:18px;
+      position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:26px;
       box-shadow:var(--shadow);
-      backdrop-filter:blur(12px);
+      backdrop-filter:blur(14px);
+      overflow:hidden;
     }
 
-    .left{
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(82,237,255,.08), transparent 25%, transparent 70%, rgba(82,237,255,.05));
+      pointer-events:none;
+    }
+
+    .hero{
       display:grid;
-      grid-template-columns:150px 1fr;
+      grid-template-columns: 1.25fr .95fr;
+      gap:16px;
+      padding:18px;
+      margin-bottom:16px;
+      transform-style:preserve-3d;
+      transition:transform .18s ease;
+    }
+
+    .hero-left{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:10px;
+      min-height:240px;
+      padding:12px 12px 12px 4px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:max-content;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(82,237,255,.18);
+      background:rgba(4,17,36,.42);
+      color:rgba(245,252,255,.88);
+      font-size:.82rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .eyebrow::before{
+      content:"";
+      width:7px;height:7px;border-radius:50%;
+      background:var(--c1);
+      box-shadow:0 0 14px var(--c1);
+    }
+
+    .name{
+      margin:0;
+      font-size:clamp(2.5rem, 6vw, 5.2rem);
+      line-height:1;
+      font-weight:800;
+      letter-spacing:.4px;
+      display:inline-block;
+      width:max-content;
+      background:linear-gradient(90deg, #f7feff, var(--c1), #dffcff, #ffffff);
+      background-size:220% auto;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      animation:shine 4s linear infinite;
+      text-shadow:0 0 18px rgba(82,237,255,.12);
+    }
+
+    @keyframes shine{
+      to{background-position:200% center}
+    }
+
+    .typing{
+      font-size:clamp(1rem, 2.1vw, 1.35rem);
+      font-weight:700;
+      color:rgba(255,255,255,.96);
+      white-space:nowrap;
+      overflow:hidden;
+      border-right:2px solid var(--c1);
+      width:max-content;
+      max-width:100%;
+      animation:blink .8s step-end infinite;
+    }
+    @keyframes blink{
+      50%{border-color:transparent}
+    }
+
+    .subtitle{
+      font-size:1rem;
+      color:rgba(255,255,255,.82);
+    }
+
+    .live-banner{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 10px;
+      align-items:center;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(4,17,36,.46);
+      border:1px solid var(--line2);
+      white-space:nowrap;
+    }
+
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      display:inline-block;
+      box-shadow:0 0 16px currentColor;
+      flex:none;
+    }
+    .online{color:#23a55a;background:#23a55a}
+    .idle{color:#f0b232;background:#f0b232}
+    .dnd{color:#f23f43;background:#f23f43}
+    .offline{color:#666;background:#666}
+
+    .hero-right{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
       gap:14px;
-      align-items:start;
+      min-height:240px;
+      padding:8px;
+    }
+
+    .avatar-shell{
+      position:relative;
+      width:min(100%, 250px);
+      aspect-ratio:1;
+      display:grid;
+      place-items:center;
+      filter:drop-shadow(0 0 30px rgba(82,237,255,.12));
     }
 
     .avatar-wrap{
       position:relative;
-      width:150px;
-      height:150px;
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      transform-style:preserve-3d;
+      transition:transform .15s ease;
     }
 
     .avatar{
       width:100%;
       height:100%;
-      border-radius:50%;
       object-fit:cover;
-      border:3px solid rgba(255,255,255,0.1);
-      box-shadow:0 0 25px rgba(82,237,255,0.2);
-    }
-
-    .deco{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      pointer-events:none;
-    }
-
-    .status{
-      position:absolute;
-      bottom:10px;
-      right:10px;
-      width:16px;
-      height:16px;
       border-radius:50%;
-      border:2px solid #041124;
+      border:3px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.04);
+      box-shadow:
+        0 0 0 1px rgba(82,237,255,.14),
+        0 0 34px rgba(82,237,255,.12);
+      position:relative;
+      z-index:1;
     }
 
-    .online{background:#23a55a}
-    .idle{background:#f0b232}
-    .dnd{background:#f23f43}
-    .offline{background:#666}
-
-    .name{
-      font-size:1.6rem;
-      font-weight:800;
+    .avatar-deco{
+      position:absolute;
+      inset:-6%;
+      width:112%;
+      height:112%;
+      pointer-events:none;
+      z-index:2;
+      object-fit:contain;
+      filter:drop-shadow(0 0 20px rgba(82,237,255,.12));
     }
 
-    .typing{
-      border-right:2px solid var(--c1);
+    .status-dot{
+      position:absolute;
+      right:14px;
+      bottom:18px;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      border:3px solid var(--c3);
+      z-index:3;
+    }
+
+    .discord-box{
+      width:100%;
+      max-width:320px;
+      background:rgba(4,17,36,.48);
+      border:1px solid var(--line2);
+      border-radius:18px;
+      padding:12px 14px;
+    }
+
+    .discord-box .label{
+      font-size:.8rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.55);
+      margin-bottom:7px;
+    }
+
+    .server-badge{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 11px;
+      border-radius:14px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(82,237,255,.12);
+    }
+
+    .server-badge img{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      object-fit:cover;
+      background:rgba(255,255,255,.06);
+      flex:none;
+    }
+
+    .server-badge .server-text{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:1px;
+    }
+
+    .server-badge .server-text strong{
+      font-size:.98rem;
+      color:white;
       white-space:nowrap;
       overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .sub{
+    .server-badge .server-text span{
+      font-size:.82rem;
       color:var(--muted);
-      margin-top:6px;
     }
 
-    .right{
+    .grid-3{
       display:grid;
-      gap:12px;
+      grid-template-columns: 1.05fr 1fr 0.9fr;
+      gap:16px;
+      margin-top:16px;
     }
 
-    .box{
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(82,237,255,0.1);
-      border-radius:16px;
+    .panel{
+      padding:16px;
+      min-height:100%;
+    }
+
+    .panel-title{
+      font-size:.82rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.56);
+      margin-bottom:12px;
+    }
+
+    .embed{
+      border-left:4px solid var(--c1);
+      background:rgba(255,255,255,.03);
+      border-radius:18px;
+      padding:14px 14px 14px 16px;
+      border:1px solid rgba(82,237,255,.10);
+    }
+
+    .embed .title{
+      font-size:1.02rem;
+      font-weight:800;
+      margin-bottom:8px;
+      color:rgba(255,255,255,.96);
+    }
+
+    .embed .content{
+      color:rgba(255,255,255,.86);
+      line-height:1.75;
+      font-size:.96rem;
+    }
+
+    .presence{
+      display:grid;
+      gap:10px;
+    }
+
+    .presence-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      color:rgba(255,255,255,.95);
+    }
+
+    .presence-activity{
+      font-size:.95rem;
+      color:rgba(255,255,255,.82);
+      line-height:1.55;
+      padding:12px 12px;
+      border-radius:14px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(82,237,255,.08);
+      min-height:54px;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .timer{
+      margin-top:12px;
       padding:12px;
+      border-radius:14px;
+      background:rgba(4,17,36,.42);
+      border:1px solid rgba(82,237,255,.10);
+    }
+
+    .timer .small{
+      color:rgba(255,255,255,.58);
+      font-size:.84rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:8px;
+    }
+
+    .timer .value{
+      font-size:1.15rem;
+      font-weight:800;
+      color:rgba(255,255,255,.96);
+    }
+
+    .spotify{
+      margin-top:12px;
+      padding:12px;
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(82,237,255,.08), rgba(255,255,255,.03));
+      border:1px solid rgba(82,237,255,.12);
+      display:none;
+    }
+
+    .spotify.show{display:block}
+
+    .spotify-head{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .spotify-cover{
+      width:62px;
+      height:62px;
+      border-radius:14px;
+      object-fit:cover;
+      flex:none;
+      background:rgba(255,255,255,.06);
+      box-shadow:0 8px 24px rgba(0,0,0,.22);
+    }
+
+    .spotify-meta{
+      min-width:0;
+      flex:1;
+    }
+
+    .spotify-meta .song{
+      font-weight:800;
+      font-size:.98rem;
+      color:white;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .spotify-meta .artist{
+      margin-top:3px;
+      color:var(--muted);
+      font-size:.89rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .progress{
+      margin-top:12px;
+      height:8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .progress > span{
+      display:block;
+      height:100%;
+      width:0%;
+      border-radius:inherit;
+      background:linear-gradient(90deg, var(--c1), rgba(255,255,255,.88));
+      box-shadow:0 0 18px rgba(82,237,255,.18);
+      transition:width .5s linear;
+    }
+
+    .progress-time{
+      margin-top:8px;
+      display:flex;
+      justify-content:space-between;
+      font-size:.82rem;
+      color:rgba(255,255,255,.65);
+    }
+
+    .social{
+      display:grid;
+      gap:10px;
     }
 
     .social a{
-      display:block;
-      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
       text-decoration:none;
-      margin:6px 0;
+      color:white;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(82,237,255,.10);
+      transition:transform .2s ease, background .2s ease, border-color .2s ease;
     }
 
-    .click{
+    .social a:hover{
+      transform:translateY(-2px);
+      background:rgba(82,237,255,.08);
+      border-color:rgba(82,237,255,.22);
+    }
+
+    .social small{
+      color:var(--muted);
+      font-size:.82rem;
+    }
+
+    .music-note{
+      font-size:.9rem;
+      color:rgba(255,255,255,.72);
+      line-height:1.6;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(4,17,36,.34);
+      border:1px solid rgba(82,237,255,.08);
+    }
+
+    /* CLICK EFFECT */
+    .spark{
       position:fixed;
+      pointer-events:none;
+      z-index:9998;
       color:var(--c1);
-      animation:fly 1s forwards;
+      text-shadow:0 0 16px rgba(82,237,255,.75);
+      animation:spark 900ms ease-out forwards;
+      will-change:transform,opacity;
+    }
+    @keyframes spark{
+      from{transform:translate3d(0,0,0) scale(.7); opacity:1}
+      to{transform:translate3d(0,-26px,0) scale(1.25); opacity:0}
     }
 
-    @keyframes fly{
-      to{transform:translateY(-20px);opacity:0}
+    /* FLOATING BUBBLES */
+    .bubble{
+      position:fixed;
+      border-radius:50%;
+      pointer-events:none;
+      z-index:-1;
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.24), rgba(82,237,255,.10) 30%, rgba(82,237,255,.02) 65%, transparent 72%);
+      box-shadow:0 0 20px rgba(82,237,255,.05);
+      filter:blur(.2px);
+      animation: floatUp linear infinite;
+      opacity:.55;
+    }
+
+    @keyframes floatUp{
+      from{transform:translateY(15vh) translateX(0) scale(1)}
+      to{transform:translateY(-130vh) translateX(40px) scale(1.12)}
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .hero{
+        grid-template-columns:1fr;
+      }
+      .hero-left{
+        min-height:auto;
+        padding:8px 4px 0;
+      }
+      .hero-right{
+        min-height:auto;
+      }
+      .grid-3{
+        grid-template-columns:1fr;
+      }
+      .name{
+        width:100%;
+      }
+    }
+
+    @media (max-width: 560px){
+      .page{width:min(100vw, 94vw)}
+      .hero{padding:14px}
+      .panel{padding:14px}
+      .avatar-shell{max-width:220px}
+      .typing{white-space:normal; border-right:none; animation:none}
     }
   </style>
 </head>
 
 <body>
-
-<div class="intro" id="intro">
-  <h1>Liệu còn có ai ở đây?</h1>
-</div>
-
-<div class="wrap" id="main" style="display:none">
-
-  <div class="card">
-
-    <div class="left">
-
-      <div>
-        <div class="avatar-wrap">
-          <img id="avatar" class="avatar" src="file1.jpg">
-          <img id="deco" class="deco">
-          <div id="status" class="status offline"></div>
-        </div>
-
-        <div class="sub" id="about">
-          MBTI: INFP | Song Ngư | vẽ, đọc, game
-        </div>
-      </div>
-
-      <div>
-        <div class="name" id="username">Ari</div>
-        <div id="typing" class="typing"></div>
-        <div class="sub">Date to marry 💍</div>
-      </div>
-
+  <div class="intro" id="intro">
+    <div class="intro-inner">
+      <h1>Liệu còn có ai ở đây?</h1>
+      <p>Chạm để mở profile</p>
     </div>
-
-    <div class="right">
-      <div class="box" id="timeBox"></div>
-      <div class="box social">
-        <a href="#">Facebook</a>
-        <a href="#">X</a>
-        <a href="#">Discord</a>
-      </div>
-    </div>
-
   </div>
-</div>
 
-<audio id="music" loop>
-  <source src="music.mp3">
-</audio>
+  <div class="ambient"></div>
 
-<script>
-const intro=document.getElementById('intro');
-const main=document.getElementById('main');
-const music=document.getElementById('music');
+  <main class="page hidden" id="main">
+    <section class="card hero tilt" id="hero">
+      <div class="hero-left">
+        <div class="eyebrow">PRO5 / Discord Decor</div>
+        <h1 class="name">Ari</h1>
 
-intro.onclick=()=>{
-  intro.style.display='none';
-  main.style.display='block';
-  music.play();
-}
+        <div id="typing" class="typing"></div>
+        <div class="subtitle">Date to marry 💍</div>
 
-let txt="Don't call me tonight";
-let i=0;
-setInterval(()=>{
-  if(i<txt.length){
-    document.getElementById('typing').innerText+=txt[i++];
-  }
-},80);
+        <div class="live-banner">
+          <span class="pill" id="autoBanner">...</span>
+          <span class="pill"><span id="presenceDot" class="dot offline"></span><span id="discordStatusText">offline</span></span>
+          <span class="pill" id="discordActivity">Offline...</span>
+        </div>
+      </div>
 
-let start=new Date("2025-11-17");
-setInterval(()=>{
-  let now=new Date();
-  let d=Math.floor((now-start)/86400000);
-  document.getElementById('timeBox').innerText="+"+d+" days";
-},1000);
+      <div class="hero-right">
+        <div class="avatar-shell">
+          <div class="avatar-wrap tilt">
+            <img id="avatar" class="avatar" src="file1.jpg" alt="Discord avatar">
+            <img id="deco" class="avatar-deco" alt="">
+            <div id="statusDot" class="status-dot offline"></div>
+          </div>
+        </div>
 
-window.onclick=e=>{
-  let c=document.createElement('div');
-  c.className='click';
-  c.style.left=e.clientX+'px';
-  c.style.top=e.clientY+'px';
-  c.innerText='✨';
-  document.body.appendChild(c);
-  setTimeout(()=>c.remove(),1000);
-}
-</script>
+        <div class="discord-box">
+          <div class="label">Server badge</div>
+          <div class="server-badge" id="serverBadge">
+            <img id="serverIcon" src="" alt="Server icon">
+            <div class="server-text">
+              <strong id="serverName">ᒪᑌᑎᗩ</strong>
+              <span id="serverHint">Guild badge via Lanyard</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <section class="grid-3">
+      <article class="card panel tilt">
+        <div class="panel-title">About me</div>
+        <div class="embed">
+          <div class="title">Thông tin</div>
+          <div class="content">
+            MBTI: INFP<br>
+            Cung hoàng đạo: Song Ngư<br>
+            Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
+            Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
+            Waifu: Cartethyia
+          </div>
+        </div>
+      </article>
+
+      <article class="card panel tilt">
+        <div class="panel-title">Discord presence + Spotify</div>
+
+        <div class="presence">
+          <div class="presence-row">
+            <span class="dot offline" id="presenceDot2"></span>
+            <span id="presenceText">Đang chờ dữ liệu...</span>
+          </div>
+
+          <div class="presence-activity" id="presenceActivity">
+            Offline...
+          </div>
+
+          <div class="muted" id="liveClock">...</div>
+        </div>
+
+        <div class="timer">
+          <div class="small">Từ 17/11/2025 đến hiện tại</div>
+          <div class="value" id="timeSince">0 tháng 0 ngày 0 giờ</div>
+        </div>
+
+        <div class="spotify" id="spotifyBox">
+          <div class="spotify-head">
+            <img id="spotifyCover" class="spotify-cover" src="" alt="Spotify cover">
+            <div class="spotify-meta">
+              <div class="song" id="spotifySong">...</div>
+              <div class="artist" id="spotifyArtist">...</div>
+            </div>
+          </div>
+          <div class="progress"><span id="spotifyProgress"></span></div>
+          <div class="progress-time">
+            <span id="spotifyElapsed">0:00</span>
+            <span id="spotifyTotal">0:00</span>
+          </div>
+        </div>
+
+        <div class="music-note" style="margin-top:12px;">
+          Nền gif + nhạc nền + click sparkle đã bật. Hiệu ứng avatar glow sẽ đổi theo status Discord real-time.
+        </div>
+      </article>
+
+      <article class="card panel tilt">
+        <div class="panel-title">Socials</div>
+        <div class="social">
+          <a href="https://www.facebook.com/share/1AuHDmJLrP/" target="_blank" rel="noopener noreferrer">
+            <span>Facebook</span>
+            <small>fb</small>
+          </a>
+          <a href="https://x.com/PhmQunh42254275" target="_blank" rel="noopener noreferrer">
+            <span>X</span>
+            <small>twitter</small>
+          </a>
+          <a href="https://discord.gg/XZAk8MWx" target="_blank" rel="noopener noreferrer">
+            <span>Discord</span>
+            <small>invite</small>
+          </a>
+          <a href="https://discord.gg/gachaparadise" target="_blank" rel="noopener noreferrer">
+            <span>Server Discord</span>
+            <small>guild</small>
+          </a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const USER_ID = "965608704974151710";
+    const intro = document.getElementById("intro");
+    const main = document.getElementById("main");
+    const music = document.getElementById("music");
+
+    const avatar = document.getElementById("avatar");
+    const deco = document.getElementById("deco");
+    const statusDot = document.getElementById("statusDot");
+    const presenceDot = document.getElementById("presenceDot");
+    const presenceDot2 = document.getElementById("presenceDot2");
+    const discordStatusText = document.getElementById("discordStatusText");
+    const presenceText = document.getElementById("presenceText");
+    const discordActivity = document.getElementById("discordActivity");
+    const presenceActivity = document.getElementById("presenceActivity");
+    const serverIcon = document.getElementById("serverIcon");
+    const serverName = document.getElementById("serverName");
+    const serverHint = document.getElementById("serverHint");
+    const spotifyBox = document.getElementById("spotifyBox");
+    const spotifyCover = document.getElementById("spotifyCover");
+    const spotifySong = document.getElementById("spotifySong");
+    const spotifyArtist = document.getElementById("spotifyArtist");
+    const spotifyProgress = document.getElementById("spotifyProgress");
+    const spotifyElapsed = document.getElementById("spotifyElapsed");
+    const spotifyTotal = document.getElementById("spotifyTotal");
+    const autoBanner = document.getElementById("autoBanner");
+    const typing = document.getElementById("typing");
+    const timeSince = document.getElementById("timeSince");
+    const liveClock = document.getElementById("liveClock");
+
+    const startDate = new Date("2025-11-17T00:00:00");
+
+    function pad(n){ return String(n).padStart(2,"0"); }
+
+    function formatDuration(ms){
+      if (ms < 0) ms = 0;
+      const totalSec = Math.floor(ms / 1000);
+      const h = Math.floor(totalSec / 3600);
+      const m = Math.floor((totalSec % 3600) / 60);
+      const s = totalSec % 60;
+      return `${h}:${pad(m)}:${pad(s)}`;
+    }
+
+    function getTimeBanner(){
+      const h = new Date().getHours();
+      if (h >= 5 && h < 11) return "Một ngày mới lại đến rồi";
+      if (h >= 11 && h < 18) return "Ngày trôi qua sắp hết rồi";
+      return "Một ngày đi qua, có điều gì ở lại với chúng ta?";
+    }
+
+    function updateAutoBanner(){
+      autoBanner.textContent = getTimeBanner();
+    }
+
+    function updateClock(){
+      const now = new Date();
+      liveClock.textContent = now.toLocaleString("vi-VN", {
+        weekday: "long",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+
+      const diff = now - startDate;
+      const months = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+      const anchor = new Date(startDate);
+      anchor.setMonth(anchor.getMonth() + months);
+
+      let fixedMonths = months;
+      let fixedAnchor = new Date(anchor);
+      if (fixedAnchor > now) {
+        fixedMonths -= 1;
+        fixedAnchor = new Date(startDate);
+        fixedAnchor.setMonth(fixedAnchor.getMonth() + fixedMonths);
+      }
+
+      const remain = now - fixedAnchor;
+      const days = Math.floor(remain / 86400000);
+      const hours = Math.floor((remain % 86400000) / 3600000);
+
+      timeSince.textContent = `${fixedMonths} tháng ${days} ngày ${hours} giờ`;
+    }
+
+    function typingText(text, el, speed = 85){
+      el.textContent = "";
+      let i = 0;
+      const timer = setInterval(() => {
+        el.textContent += text[i] ?? "";
+        i++;
+        if (i >= text.length) clearInterval(timer);
+      }, speed);
+    }
+
+    function statusClass(status){
+      if (status === "online") return "online";
+      if (status === "idle") return "idle";
+      if (status === "dnd") return "dnd";
+      return "offline";
+    }
+
+    function setStatus(status){
+      const cls = statusClass(status);
+
+      statusDot.className = `status-dot ${cls}`;
+      presenceDot.className = `dot ${cls}`;
+      presenceDot2.className = `dot ${cls}`;
+
+      const labelMap = {
+        online: "online",
+        idle: "idle",
+        dnd: "dnd",
+        offline: "offline"
+      };
+
+      discordStatusText.textContent = labelMap[status] || "offline";
+      presenceText.textContent = `Discord status: ${labelMap[status] || "offline"}`;
+
+      if (status === "online") {
+        avatar.style.boxShadow = "0 0 0 1px rgba(35,165,90,.2), 0 0 34px rgba(35,165,90,.22)";
+      } else if (status === "idle") {
+        avatar.style.boxShadow = "0 0 0 1px rgba(240,178,50,.2), 0 0 34px rgba(240,178,50,.22)";
+      } else if (status === "dnd") {
+        avatar.style.boxShadow = "0 0 0 1px rgba(242,63,67,.2), 0 0 34px rgba(242,63,67,.22)";
+      } else {
+        avatar.style.boxShadow = "0 0 0 1px rgba(82,237,255,.14), 0 0 34px rgba(82,237,255,.12)";
+      }
+    }
+
+    function shortActivityText(d){
+      if (!d) return "Offline...";
+      if (d.listening_to_spotify && d.spotify) {
+        return `🎧 ${d.spotify.song} — ${d.spotify.artist}`;
+      }
+      const activities = Array.isArray(d.activities) ? d.activities : [];
+      const custom = activities.find(a => a.type === 4 && (a.state || a.name));
+      if (custom) return `💬 ${custom.state || custom.name}`;
+      const game = activities.find(a => a.type === 0 && a.name);
+      if (game) return `🎮 ${game.name}`;
+      const other = activities.find(a => a.name);
+      if (other) return `✨ ${other.name}`;
+      return "Offline...";
+    }
+
+    function updateSpotify(d){
+      if (d && d.listening_to_spotify && d.spotify) {
+        const s = d.spotify;
+        spotifyBox.classList.add("show");
+        spotifyCover.src = s.album_art_url || "";
+        spotifySong.textContent = s.song || "Unknown track";
+        spotifyArtist.textContent = s.artist || "Unknown artist";
+
+        const start = s.timestamps?.start ? new Date(s.timestamps.start).getTime() : Date.now();
+        const end = s.timestamps?.end ? new Date(s.timestamps.end).getTime() : Date.now();
+        const now = Date.now();
+        const total = Math.max(end - start, 1);
+        const elapsed = Math.max(now - start, 0);
+        const progress = Math.min((elapsed / total) * 100, 100);
+
+        spotifyProgress.style.width = `${progress}%`;
+        spotifyElapsed.textContent = formatDuration(elapsed);
+        spotifyTotal.textContent = formatDuration(total);
+      } else {
+        spotifyBox.classList.remove("show");
+      }
+    }
+
+    async function getDiscord(){
+      try{
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}`, { cache: "no-store" });
+        const json = await res.json();
+        const d = json?.data;
+
+        if (!d) return;
+
+        const user = d.discord_user || {};
+        const avatarHash = user.avatar;
+        const avatarUrl = avatarHash
+          ? `https://cdn.discordapp.com/avatars/${USER_ID}/${avatarHash}.png?size=512`
+          : `https://cdn.discordapp.com/embed/avatars/0.png`;
+
+        avatar.src = avatarUrl;
+
+        if (user.avatar_decoration_data?.asset) {
+          deco.src = `https://cdn.discordapp.com/avatar-decoration-presets/${user.avatar_decoration_data.asset}.png`;
+          deco.style.display = "block";
+        } else {
+          deco.style.display = "none";
+        }
+
+        setStatus(d.discord_status || "offline");
+
+        const actText = shortActivityText(d);
+        discordActivity.textContent = actText;
+        presenceActivity.textContent = actText;
+
+        updateSpotify(d);
+
+        const guilds = d.guilds || user.guilds || [];
+        const targetGuild = guilds.find(g => (g.name || "").toLowerCase().includes("ᒪᑌᑎᗩ".toLowerCase())) || guilds[0];
+
+        if (targetGuild) {
+          serverName.textContent = targetGuild.name || "ᒪᑌᑎᗩ";
+          serverHint.textContent = "Guild icon + name by Lanyard";
+          if (targetGuild.icon) {
+            const ext = String(targetGuild.icon).startsWith("a_") ? "gif" : "png";
+            serverIcon.src = `https://cdn.discordapp.com/icons/${targetGuild.id}/${targetGuild.icon}.${ext}?size=128`;
+          } else {
+            serverIcon.src = `https://cdn.discordapp.com/embed/avatars/0.png`;
+          }
+        } else {
+          serverName.textContent = "ᒪᑌᑎᗩ";
+          serverHint.textContent = "Guild icon not available";
+          serverIcon.src = `https://cdn.discordapp.com/embed/avatars/0.png`;
+        }
+
+        updateAutoBanner();
+        updateClock();
+      }catch(err){
+        console.log("Lanyard error:", err);
+        setStatus("offline");
+        discordActivity.textContent = "Offline...";
+        presenceActivity.textContent = "Offline...";
+        serverHint.textContent = "Lanyard đang lỗi hoặc chưa trả dữ liệu";
+        spotifyBox.classList.remove("show");
+      }
+    }
+
+    function createBubble(){
+      const b = document.createElement("div");
+      b.className = "bubble";
+      const size = 8 + Math.random() * 28;
+      b.style.width = `${size}px`;
+      b.style.height = `${size}px`;
+      b.style.left = `${Math.random() * 100}vw`;
+      b.style.bottom = `-10vh`;
+      b.style.opacity = `${0.18 + Math.random() * 0.45}`;
+      b.style.animationDuration = `${12 + Math.random() * 18}s`;
+      b.style.animationDelay = `${Math.random() * 6}s`;
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 30000);
+    }
+
+    function spawnBubbles(count = 18){
+      for (let i = 0; i < count; i++) createBubble();
+    }
+
+    function spark(x, y){
+      const s = document.createElement("div");
+      s.className = "spark";
+      s.textContent = "✨";
+      s.style.left = `${x}px`;
+      s.style.top = `${y}px`;
+      s.style.fontSize = `${12 + Math.random() * 12}px`;
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 900);
+    }
+
+    function setupTilt(el){
+      let raf = null;
+      el.addEventListener("mousemove", (e) => {
+        const r = el.getBoundingClientRect();
+        const px = ((e.clientX - r.left) / r.width) - 0.5;
+        const py = ((e.clientY - r.top) / r.height) - 0.5;
+        const rx = (-py * 8).toFixed(2);
+        const ry = (px * 10).toFixed(2);
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          el.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-1px)`;
+        });
+      });
+      el.addEventListener("mouseleave", () => {
+        el.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0px)";
+      });
+    }
+
+    intro.addEventListener("click", async () => {
+      intro.classList.add("hide");
+      main.classList.remove("hidden");
+
+      try{
+        await music.play();
+      }catch(e){
+        console.log("Audio autoplay bị chặn, cần chạm thêm 1 lần.");
+      }
+
+      typingText("Don't call me tonight", typing, 80);
+      updateAutoBanner();
+      updateClock();
+      getDiscord();
+      spawnBubbles(22);
+    });
+
+    document.addEventListener("pointerdown", (e) => {
+      spark(e.clientX, e.clientY);
+    });
+
+    setupTilt(document.getElementById("hero"));
+    document.querySelectorAll(".tilt").forEach(el => setupTilt(el));
+
+    setInterval(() => {
+      updateAutoBanner();
+      updateClock();
+    }, 1000);
+
+    setInterval(getDiscord, 15000);
+  </script>
 </body>
 </html>
