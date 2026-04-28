@@ -2,330 +2,299 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Pro5 Ari</title>
+<title>@Ari nèk</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-    --c1:#52EDFF;
-    --c2:#054981;
-    --c3:#041124;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Open Sans', sans-serif;
 }
 
 body{
-    margin:0;
-    font-family:'Open Sans', sans-serif;
+    background:#041124;
     color:white;
-    overflow:hidden;
-    background:var(--c3);
+    overflow-x:hidden;
 }
 
-/* BACKGROUND GIF */
-#bg{
+/* BACKGROUND */
+body::before{
+    content:"";
     position:fixed;
-    width:120%;
-    height:120%;
-    background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
-    filter:brightness(0.35);
-    z-index:-3;
-}
-
-#overlay{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:linear-gradient(120deg,var(--c3),var(--c2));
-    opacity:0.6;
+    inset:0;
+    background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover;
+    opacity:0.22;
     z-index:-2;
-}
-
-/* canvas wave */
-canvas{
-    position:fixed;
-    top:0;left:0;
-    z-index:-1;
 }
 
 /* INTRO */
 #intro{
     position:fixed;
-    width:100%;
-    height:100%;
-    background:var(--c3);
+    inset:0;
+    background:#041124;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:28px;
-    z-index:999;
-    cursor:pointer;
-}
-
-/* MAIN */
-#main{display:none;text-align:center;padding-top:40px;}
-
-/* typing */
-#text{
     font-size:22px;
-    border-right:2px solid white;
-    display:inline-block;
-    white-space:nowrap;
+    cursor:pointer;
+    z-index:999;
+    transition:0.6s;
 }
 
-/* CARD */
-.card{
-    background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(12px);
-    width:340px;
-    margin:20px auto;
-    padding:20px;
-    border-radius:18px;
-    border:1px solid rgba(82,237,255,0.2);
-    box-shadow:0 0 30px rgba(82,237,255,0.15);
+/* LAYOUT */
+.wrapper{
+    display:flex;
+    gap:20px;
+    padding:40px;
 }
 
-/* avatar */
-.avatar-wrap{position:relative;display:inline-block;}
-
-.avatar{
-    width:120px;
-    border-radius:50%;
-}
-
-/* STATUS */
-.status{
-    width:14px;
-    height:14px;
-    border-radius:50%;
-    position:absolute;
-    bottom:6px;
-    right:6px;
-    border:3px solid var(--c3);
-}
-
-/* ===================== */
-/* DECO DISCORD FIX HERE */
-/* ===================== */
-#deco{
-    position:absolute;
-    top:-15px;
-    left:-15px;
-    width:150px;
-    pointer-events:none;
-    z-index:2;
-}
-
-/* NAME */
-.name{
-    font-size:20px;
-    font-weight:600;
-    background:linear-gradient(90deg,var(--c1),var(--c2),var(--c1));
-    background-size:200%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:flow 3s linear infinite;
-}
-
-@keyframes flow{
-    to{background-position:200%;}
-}
-
-/* BUTTON */
-.btn{
-    display:block;
-    margin:10px auto;
-    padding:10px;
-    width:220px;
+/* LEFT PROFILE */
+.left{
+    width:280px;
+    background:rgba(5,73,129,0.25);
+    border:1px solid #52EDFF;
     border-radius:20px;
-    text-decoration:none;
-    color:white;
-    background:rgba(82,237,255,0.08);
+    padding:20px;
+    backdrop-filter:blur(12px);
+    text-align:center;
     transition:0.3s;
 }
 
-.btn:hover{
-    background:var(--c1);
-    color:black;
-    box-shadow:0 0 15px var(--c1);
+.left:hover{
+    transform:scale(1.02);
 }
 
-/* spark */
-.spark{
-    position:absolute;
-    color:var(--c1);
-    animation:up 1s forwards;
+.avatar{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    border:3px solid #52EDFF;
+    box-shadow:0 0 15px #52EDFF;
 }
 
-@keyframes up{
-    to{transform:translateY(-20px);opacity:0;}
+.name{
+    margin-top:10px;
+    font-size:20px;
+    font-weight:700;
+    color:#52EDFF;
 }
+
+.typing{
+    font-size:12px;
+    margin-top:5px;
+    opacity:0.8;
+}
+
+/* STATUS */
+.statusText{
+    margin-top:8px;
+    font-size:12px;
+    color:#52EDFF;
+}
+
+/* RIGHT CARD */
+.right{
+    flex:1;
+    background:rgba(4,17,36,0.55);
+    border:1px solid #52EDFF;
+    border-radius:20px;
+    padding:20px;
+    backdrop-filter:blur(15px);
+    transform-style:preserve-3d;
+    transition:0.3s;
+}
+
+.right:hover{
+    transform:rotateY(5deg) rotateX(2deg);
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.title{
+    font-size:22px;
+    font-weight:600;
+    color:#52EDFF;
+}
+
+/* MARQUEE */
+.marquee{
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+.marquee span{
+    display:inline-block;
+    animation:move 7s linear infinite;
+}
+
+@keyframes move{
+    0%{transform:translateX(100%)}
+    100%{transform:translateX(-100%)}
+}
+
+/* BLOCKS */
+.block{
+    margin-top:15px;
+    padding:12px;
+    border-left:3px solid #52EDFF;
+    background:rgba(5,73,129,0.15);
+    border-radius:10px;
+}
+
+/* SOCIAL */
+a{
+    color:#52EDFF;
+    text-decoration:none;
+}
+
+/* SPOTIFY */
+.spotify{
+    margin-top:15px;
+    padding:10px;
+    background:#0b1f33;
+    border-radius:12px;
+}
+
+.bar{
+    height:5px;
+    background:#054981;
+    margin-top:6px;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.bar::after{
+    content:"";
+    display:block;
+    height:100%;
+    width:55%;
+    background:#52EDFF;
+    animation:load 6s linear infinite;
+}
+
+@keyframes load{
+    0%{width:0}
+    100%{width:100%}
+}
+
+/* AVATAR STATUS GLOW */
+.online{box-shadow:0 0 15px #00ff99;}
+.dnd{box-shadow:0 0 15px red;}
+.idle{box-shadow:0 0 15px yellow;}
+.offline{box-shadow:0 0 15px gray;}
+
 </style>
 </head>
 
 <body>
 
-<div id="bg"></div>
-<div id="overlay"></div>
-<canvas id="wave"></canvas>
-
 <div id="intro">Liệu còn có ai ở đây?</div>
 
-<audio id="music" loop>
-<source src="music.mp3">
-</audio>
+<div class="wrapper">
 
-<div id="main">
+    <!-- LEFT -->
+    <div class="left">
+        <img src="file1.jpg" class="avatar" id="avatar">
+        <div class="name">Ari</div>
+        <div class="typing">Don't call me tonight</div>
+        <div class="statusText" id="statusText"></div>
+    </div>
 
-<h2 id="text"></h2>
+    <!-- RIGHT -->
+    <div class="right" id="card">
 
-<div class="card">
+        <div class="header">
+            <div class="title">Profile Decor</div>
+            <div class="marquee"><span>Don't call me tonight</span></div>
+        </div>
 
-<div class="avatar-wrap">
-<img id="avatar" class="avatar">
-<img id="deco">
-<span id="status" class="status"></span>
-</div>
+        <div class="block">💍 Date to marry</div>
 
-<h3 class="name">Ari</h3>
+        <div class="block" id="timeBox"></div>
 
-<p id="activity"></p>
+        <div class="block">
+            MBTI: INFP <br>
+            Cung: Song Ngư <br>
+            Sở thích: vẽ, đọc truyện, nghe nhạc <br>
+            Game: Genshin / HSR / Wuwa <br>
+            Waifu: Cartethyia
+        </div>
 
-<h4>Date to marry 💍</h4>
-<p id="time"></p>
+        <div class="block">
+            FB: <a href="#">link</a><br>
+            X: <a href="#">link</a><br>
+            Discord: <a href="#">link</a><br>
+            Server: <a href="#">ᒪᑌᑎᗩ</a>
+        </div>
 
-<p>
-MBTI: INFP<br>
-Cung: Song Ngư<br>
-Sở thích: vẽ, viết, đọc truyện, nghe nhạc<br>
-Game: Genshin / HSR / Wuthering Wave<br>
-Waifu: Cartethyia
-</p>
+        <div class="spotify">
+            🎧 Now Playing: music.mp3
+            <div class="bar"></div>
+        </div>
 
-<a class="btn" href="https://www.facebook.com/share/1AuHDmJLrP/">Facebook</a>
-<a class="btn" href="https://x.com/PhmQunh42254275">X</a>
-<a class="btn" href="https://discord.gg/XZAk8MWx">Discord</a>
-<a class="btn" href="https://discord.gg/gachaparadise">Server</a>
+        <div class="block">
+            <img src="file2.jpg" width="100%">
+        </div>
 
-</div>
-
-<img src="file1.jpg" width="180">
-<img src="file2.jpg" width="180">
+    </div>
 
 </div>
 
 <script>
 
 /* INTRO */
-intro.onclick=()=>{
-    intro.style.display="none";
-    main.style.display="block";
-    music.play();
+document.getElementById("intro").onclick = ()=>{
+    document.getElementById("intro").style.opacity="0";
+    setTimeout(()=>document.getElementById("intro").remove(),600);
+};
+
+/* TIME COUNTER */
+function updateTime(){
+    let start = new Date("2025-11-17");
+    let now = new Date();
+    let diff = now - start;
+
+    let days = Math.floor(diff/86400000);
+    let hours = Math.floor(diff/3600000);
+
+    document.getElementById("timeBox").innerHTML =
+    `⏳ ${days} ngày | ${hours} giờ`;
 }
+setInterval(updateTime,1000);
+updateTime();
 
-/* typing */
-let t="Don't call me tonight";
-let i=0;
-setInterval(()=>{
-    if(i<t.length) text.innerHTML+=t[i++];
-},90);
+/* STATUS TEXT */
+let h = new Date().getHours();
+let msg =
+h<11 ? "Một ngày mới lại đến rồi" :
+h<18 ? "Ngày trôi qua sắp hết rồi" :
+"Một ngày đi qua, có điều gì ở lại với chúng ta?";
 
-/* time */
-let start=new Date("2025-11-17");
-setInterval(()=>{
-    let d=new Date()-start;
-    time.innerHTML=
-    Math.floor(d/86400000)+" ngày "+
-    Math.floor(d/3600000)%24+" giờ "+
-    Math.floor(d/60000)%60+" phút "+
-    Math.floor(d/1000)%60+" giây";
-},1000);
+document.getElementById("statusText").innerText = msg;
 
-/* DISCORD */
-const id="965608704974151710";
+/* LANYARD */
+fetch("https://api.lanyard.rest/v1/users/965608704974151710")
+.then(r=>r.json())
+.then(data=>{
+    let s = data.data.discord_status;
+    document.getElementById("avatar").classList.add(s);
+});
 
-async function load(){
-let r=await fetch(`https://api.lanyard.rest/v1/users/${id}`);
-let d=(await r.json()).data;
-
-/* avatar */
-avatar.src=`https://cdn.discordapp.com/avatars/${id}/${d.discord_user.avatar}.png`;
-
-/* name */
-username.innerHTML=d.discord_user.global_name||"Ari";
-
-/* status glow */
-let stColor=
-d.discord_status=="online"?"#23a55a":
-d.discord_status=="idle"?"#f0b232":
-d.discord_status=="dnd"?"#f23f43":"gray";
-
-status.style.background=stColor;
-avatar.style.boxShadow=`0 0 20px ${stColor}`;
-
-/* ACTIVITY */
-if(d.listening_to_spotify){
-    activity.innerHTML="🎧 "+d.spotify.song;
-}
-else if(d.activities.length){
-    activity.innerHTML="🎮 "+d.activities[0].name;
-}
-else{
-    activity.innerHTML="🌙 Chill mode";
-}
-
-/* ========================= */
-/* DECO DISCORD (FIXED) */
-/* ========================= */
-if(
-    d.discord_user.avatar_decoration_data &&
-    d.discord_user.avatar_decoration_data.asset
-){
-    let decoId = d.discord_user.avatar_decoration_data.asset;
-
-    document.getElementById("deco").src =
-    `https://cdn.discordapp.com/avatar-decoration-presets/${decoId}.png`;
-
-    document.getElementById("deco").style.filter =
-    `drop-shadow(0 0 10px ${stColor})`;
-}
-else{
-    document.getElementById("deco").src="";
-}
-}
-
-setInterval(load,5000);
-load();
-
-/* click sparkle */
-document.onclick=e=>{
-let s=document.createElement("div");
-s.className="spark";
-s.innerHTML="✨";
-s.style.left=e.pageX+"px";
-s.style.top=e.pageY+"px";
-document.body.appendChild(s);
-setTimeout(()=>s.remove(),1000);
-}
-
-/* wave */
-let c=document.getElementById("wave");
-let ctx=c.getContext("2d");
-c.width=innerWidth;
-c.height=innerHeight;
-
-let t2=0;
-function draw(){
-ctx.clearRect(0,0,c.width,c.height);
-for(let i=0;i<50;i++){
-ctx.fillStyle="rgba(82,237,255,0.08)";
-ctx.beginPath();
-ctx.arc(i*30+Math.sin(t2+i)*10,c.height/2+Math.cos(t2+i)*20,40,0,Math.PI*2);
-ctx.fill();
-}
-t2+=0.02;
-requestAnimationFrame(draw);
-}
-draw();
+/* LIGHT TILT */
+document.getElementById("card").onmousemove=(e)=>{
+    let x = (window.innerWidth/2 - e.pageX)/40;
+    let y = (window.innerHeight/2 - e.pageY)/40;
+    e.currentTarget.style.transform =
+    `rotateY(${x}deg) rotateX(${y}deg)`;
+};
 
 </script>
 
