@@ -1,234 +1,265 @@
-<!DOCTYPE html>  
-<html lang="vi">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width,initial-scale=1.0">  
-<title>Pro5 Ari</title>  
+<!DOCTYPE html>    
+<html lang="vi">    
+<head>    
+<meta charset="UTF-8">    
+<meta name="viewport" content="width=device-width,initial-scale=1.0">    
+<title>Pro5 Ari</title>    
 
-<link rel="preconnect" href="https://fonts.googleapis.com">  
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">  
+<link rel="preconnect" href="https://fonts.googleapis.com">    
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">    
 
-<style>  
-:root{  
---c1:#52EDFF;  
---c2:#054981;  
---c3:#041124;  
---glass:rgba(4,17,36,.30); /* ↓ giảm còn ~50% opacity */  
---line:rgba(82,237,255,.16);  
---text:#f4fcff;  
---muted:rgba(255,255,255,.72);  
-}  
+<style>    
+:root{    
+--c1:#52EDFF;    
+--c2:#054981;    
+--c3:#041124;    
+--glass:rgba(4,17,36,.5); /* 👈 giảm còn ~50% */    
+--line:rgba(82,237,255,.16);    
+--text:#f4fcff;    
+--muted:rgba(255,255,255,.72);    
+}    
 
-*{margin:0;padding:0;box-sizing:border-box;}  
+*{margin:0;padding:0;box-sizing:border-box;}    
 
-body{  
-font-family:'Open Sans',sans-serif;  
-background:#000;  
-color:var(--text);  
-overflow-x:hidden;  
-}  
+body{    
+font-family:'Open Sans',sans-serif;    
+background:#000;    
+color:var(--text);    
+overflow-x:hidden;    
+}    
 
-/* ===== BACKGROUND GIF ===== */  
-body::before{  
-content:"";  
-position:fixed;  
-inset:0;  
-background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;  
-filter:blur(8px) brightness(.35);  
-transform:scale(1.08);  
-z-index:-3;  
-}  
+/* GIF BG */    
+body::before{    
+content:"";    
+position:fixed;    
+inset:0;    
+background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;    
+filter:blur(8px) brightness(.35);    
+transform:scale(1.08);    
+z-index:-3;    
+}    
 
-body::after{  
-content:"";  
-position:fixed;  
-inset:0;  
-background:linear-gradient(180deg,rgba(4,17,36,.25),rgba(4,17,36,.85));  
-z-index:-2;  
-}  
+body::after{    
+content:"";    
+position:fixed;    
+inset:0;    
+background:linear-gradient(180deg,rgba(4,17,36,.25),rgba(4,17,36,.85));    
+z-index:-2;    
+}    
 
-/* ===== RAIN EFFECT ===== */  
-canvas#rain{  
-position:fixed;  
-inset:0;  
-z-index:-1;  
-pointer-events:none;  
-}  
+/* 🌧️ canvas mưa */    
+#rain{    
+position:fixed;    
+top:0;    
+left:0;    
+width:100%;    
+height:100%;    
+pointer-events:none;    
+z-index:-1;    
+opacity:.35;    
+}    
 
-/* ===== INTRO ===== */  
-#intro{  
-position:fixed;  
-inset:0;  
-display:flex;  
-justify-content:center;  
-align-items:center;  
-flex-direction:column;  
-background:rgba(0,0,0,.84);  
-z-index:9999;  
-cursor:pointer;  
-}  
+/* intro */    
+#intro{    
+position:fixed;    
+inset:0;    
+display:flex;    
+justify-content:center;    
+align-items:center;    
+flex-direction:column;    
+background:rgba(0,0,0,.84);    
+z-index:9999;    
+cursor:pointer;    
+}    
 
-#intro h1{font-size:2.1rem;text-align:center;}  
-#intro p{margin-top:10px;color:#ccc;}  
+#intro h1{font-size:2.1rem;text-align:center;}    
+#intro p{margin-top:10px;color:#ccc;}    
 
-/* ===== MAIN ===== */  
-.wrap{  
-width:min(1200px,94%);  
-margin:auto;  
-padding:25px 0;  
-display:none;  
-}  
+.wrap{width:min(1200px,94%);margin:auto;padding:25px 0;display:none;}    
 
-/* ===== HERO ===== */  
-.hero{  
-display:grid;  
-grid-template-columns:1.2fr .9fr;  
-gap:16px;  
-padding:18px;  
-background:var(--glass);  
-border:1px solid var(--line);  
-border-radius:24px;  
-backdrop-filter:blur(14px);  
-box-shadow:0 20px 50px rgba(0,0,0,.4);  
-}  
+.hero{    
+display:grid;    
+grid-template-columns:1.2fr .9fr;    
+gap:16px;    
+padding:18px;    
+background:var(--glass);    
+border:1px solid var(--line);    
+border-radius:24px;    
+backdrop-filter:blur(14px);    
+box-shadow:0 20px 50px rgba(0,0,0,.4);    
+}    
 
-.card{  
-padding:16px;  
-border-radius:22px;  
-background:var(--glass);  
-border:1px solid var(--line);  
-backdrop-filter:blur(14px);  
-}  
+.left{display:flex;flex-direction:column;gap:12px;}    
 
-/* ===== RIPPLE ===== */  
-.ripple{  
-position:fixed;  
-width:20px;height:20px;  
-border-radius:50%;  
-border:2px solid var(--c1);  
-transform:translate(-50%,-50%);  
-animation:ripple .6s linear forwards;  
-pointer-events:none;  
-}  
+.badge{padding:7px 14px;border-radius:999px;border:1px solid var(--line);width:max-content;font-size:.8rem;}    
 
-@keyframes ripple{  
-to{  
-width:200px;  
-height:200px;  
-opacity:0;  
-}  
-}  
+.name{    
+font-size:4rem;    
+font-weight:800;    
+background:linear-gradient(90deg,#fff,var(--c1),#fff);    
+-webkit-background-clip:text;    
+color:transparent;    
+animation:shine 4s linear infinite;    
+}    
 
-/* ===== KEEP YOUR ORIGINAL STYLE ===== */  
-.left{display:flex;flex-direction:column;gap:12px;}  
-.name{font-size:4rem;font-weight:800;}  
-.typing{border-right:2px solid var(--c1);}  
+@keyframes shine{to{background-position:220%}}    
 
-</style>  
-</head>  
+.typing{font-size:1.2rem;font-weight:700;border-right:2px solid var(--c1);}    
 
-<body>  
+.sub{color:var(--muted);}    
 
-<canvas id="rain"></canvas>  
+.row{display:flex;flex-wrap:wrap;gap:10px;}    
 
-<div id="intro">  
-<h1>Liệu còn có ai ở đây?</h1>  
-<p>Chạm để mở profile</p>  
-</div>  
+.pill{padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.05);}    
 
-<div class="wrap" id="main">  
+.dot{width:10px;height:10px;border-radius:50%;}    
 
-<div class="hero">  
-<div class="left">  
-<div class="name">Ari nèk</div>  
-<div class="typing" id="typing"></div>  
-</div>  
-</div>  
+.online{background:#23a55a}    
+.idle{background:#f0b232}    
+.dnd{background:#f23f43}    
+.offline{background:#666}    
 
-</div>  
+.right{display:flex;flex-direction:column;align-items:center;gap:14px;}    
 
-<script>  
+.avatarWrap{position:relative;width:220px;height:220px;}    
 
-/* ===== INTRO ===== */  
-const intro=document.getElementById("intro");  
-const main=document.getElementById("main");  
+.avatar{width:100%;height:100%;border-radius:50%;object-fit:cover;}    
 
-intro.onclick=()=>{  
-intro.style.display="none";  
-main.style.display="block";  
-startRain();  
-typing();  
-};  
+.status{position:absolute;right:15px;bottom:18px;width:18px;height:18px;border-radius:50%;}    
 
-/* ===== TYPING ===== */  
-function typing(){  
-let t="Don't call me tonight";  
-let i=0;  
-let el=document.getElementById("typing");  
-let x=setInterval(()=>{  
-el.innerHTML+=t[i++];  
-if(i>=t.length) clearInterval(x);  
-},80);  
-}  
+.card{    
+padding:16px;    
+border-radius:22px;    
+background:var(--glass); /* 👈 mờ 50% */    
+border:1px solid var(--line);    
+backdrop-filter:blur(14px);    
+}    
 
-/* ===== RAIN EFFECT ===== */  
-const canvas=document.getElementById("rain");  
-const ctx=canvas.getContext("2d");  
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px;}    
 
-let w,h;  
-function resize(){  
-w=canvas.width=window.innerWidth;  
-h=canvas.height=window.innerHeight;  
-}  
-resize();  
-window.addEventListener("resize",resize);  
+.click{position:fixed;pointer-events:none;color:var(--c1);animation:fly .9s forwards;}    
 
-let drops=[];  
-for(let i=0;i<120;i++){  
-drops.push({  
-x:Math.random()*w,  
-y:Math.random()*h,  
-l:Math.random()*20+10,  
-s:Math.random()*4+4  
-});  
-}  
+@keyframes fly{to{transform:translateY(-25px) scale(1.2);opacity:0;}}    
 
-function drawRain(){  
-ctx.clearRect(0,0,w,h);  
-ctx.strokeStyle="rgba(82,237,255,.25)";  
-ctx.lineWidth=1;  
+/* 💧 ripple */    
+.ripple{    
+position:fixed;    
+width:20px;height:20px;    
+border-radius:50%;    
+border:2px solid rgba(82,237,255,.6);    
+transform:translate(-50%,-50%);    
+animation:rip .8s ease-out forwards;    
+pointer-events:none;    
+}    
 
-for(let d of drops){  
-ctx.beginPath();  
-ctx.moveTo(d.x,d.y);  
-ctx.lineTo(d.x,d.y+d.l);  
-ctx.stroke();  
+@keyframes rip{    
+from{opacity:1;transform:scale(0.2)}    
+to{opacity:0;transform:scale(6)}    
+}    
 
-d.y+=d.s;  
-if(d.y>h){  
-d.y=-20;  
-d.x=Math.random()*w;  
-}  
-}  
-requestAnimationFrame(drawRain);  
-}  
+@media(max-width:980px){.hero,.grid{grid-template-columns:1fr;} .name{font-size:3rem;}}    
+</style>    
+</head>    
 
-function startRain(){  
-drawRain();  
-}  
+<body>    
 
-/* ===== RIPPLE CLICK ===== */  
-document.addEventListener("click",(e)=>{  
-let r=document.createElement("div");  
-r.className="ripple";  
-r.style.left=e.clientX+"px";  
-r.style.top=e.clientY+"px";  
-document.body.appendChild(r);  
-setTimeout(()=>r.remove(),600);  
-});  
+<canvas id="rain"></canvas>    
 
-</script>  
+<div id="intro">    
+<h1>Liệu còn có ai ở đây?</h1>    
+<p>Chạm để mở profile</p>    
+</div>    
 
-</body>  
+<div class="wrap" id="main">    
+<div class="hero">    
+<div class="left">    
+<div class="badge">DISCORD PRO5</div>    
+<div class="name">Ari nèk</div>    
+<div class="typing" id="typing"></div>    
+<div class="sub">Date to marry 💍</div>    
+</div>    
+</div>    
+
+<div class="grid">    
+<div class="card">About me...</div>    
+<div class="card">Presence...</div>    
+<div class="card">Social...</div>    
+</div>    
+</div>    
+
+<script>    
+/* intro */    
+const intro=document.getElementById("intro");    
+const main=document.getElementById("main");    
+
+intro.onclick=()=>{    
+intro.style.display="none";    
+main.style.display="block";    
+typing();    
+}    
+
+/* typing */    
+function typing(){    
+let t="Don't call me tonight";    
+let i=0;    
+let el=document.getElementById("typing");    
+let x=setInterval(()=>{    
+el.innerHTML+=t[i];    
+i++;    
+if(i>=t.length) clearInterval(x);    
+},80);    
+}    
+
+/* 💧 ripple effect */    
+document.addEventListener("click",(e)=>{    
+let r=document.createElement("div");    
+r.className="ripple";    
+r.style.left=e.clientX+"px";    
+r.style.top=e.clientY+"px";    
+document.body.appendChild(r);    
+setTimeout(()=>r.remove(),800);    
+});    
+
+/* 🌧️ rain effect */    
+const canvas=document.getElementById("rain");    
+const ctx=canvas.getContext("2d");    
+
+canvas.width=window.innerWidth;    
+canvas.height=window.innerHeight;    
+
+let drops=[];    
+for(let i=0;i<120;i++){    
+drops.push({    
+x:Math.random()*canvas.width,    
+y:Math.random()*canvas.height,    
+l:Math.random()*1.5+1,    
+s:Math.random()*3+2    
+});    
+}    
+
+function rain(){    
+ctx.clearRect(0,0,canvas.width,canvas.height);    
+ctx.strokeStyle="rgba(174,194,224,.5)";    
+ctx.lineWidth=1;    
+ctx.lineCap="round";    
+
+for(let d of drops){    
+ctx.beginPath();    
+ctx.moveTo(d.x,d.y);    
+ctx.lineTo(d.x,d.y+d.l*10);    
+ctx.stroke();    
+
+d.y+=d.s;    
+if(d.y>canvas.height){    
+d.y=-20;    
+d.x=Math.random()*canvas.width;    
+}    
+}    
+requestAnimationFrame(rain);    
+}    
+rain();    
+</script>    
+
+</body>    
 </html>
