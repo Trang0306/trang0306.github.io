@@ -14,36 +14,41 @@
 --c1:#52EDFF;
 --c2:#054981;
 --c3:#041124;
---txt:#f5fcff;
+--glass:rgba(4,17,36,.62);
+--line:rgba(82,237,255,.16);
+--text:#f4fcff;
 --muted:rgba(255,255,255,.72);
---glass:rgba(4,17,36,.58);
---line:rgba(82,237,255,.12);
 }
 
-*{box-sizing:border-box}
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
 font-family:'Open Sans',sans-serif;
-color:var(--txt);
-background:#020816;
+background:#000;
+color:var(--text);
 overflow-x:hidden;
 }
 
-/* nền */
+/* GIF BG */
 body::before{
 content:"";
 position:fixed;
 inset:0;
 background:url("https://i.pinimg.com/originals/a5/fc/80/a5fc80fb3e5fc8b422d4ed0b11201aee.gif") center/cover no-repeat;
 filter:blur(8px) brightness(.35);
-transform:scale(1.05);
+transform:scale(1.08);
 z-index:-3;
 }
+
 body::after{
 content:"";
 position:fixed;
 inset:0;
-background:linear-gradient(180deg,rgba(4,17,36,.35),rgba(4,17,36,.9));
+background:linear-gradient(180deg,rgba(4,17,36,.25),rgba(4,17,36,.85));
 z-index:-2;
 }
 
@@ -51,20 +56,23 @@ z-index:-2;
 #intro{
 position:fixed;
 inset:0;
-display:grid;
-place-items:center;
-background:rgba(0,0,0,.85);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:rgba(0,0,0,.84);
 z-index:9999;
 cursor:pointer;
+}
+
+#intro h1{
+font-size:2.1rem;
 text-align:center;
 }
-#intro h1{
-font-size:clamp(1.8rem,6vw,3rem);
-margin:0;
-}
+
 #intro p{
 margin-top:10px;
-color:var(--muted);
+color:#ccc;
 }
 
 /* main */
@@ -75,20 +83,17 @@ padding:25px 0;
 display:none;
 }
 
-/* card */
-.card{
-background:rgba(255,255,255,.04);
-border:1px solid var(--line);
-border-radius:28px;
-backdrop-filter:blur(14px);
-padding:18px;
-box-shadow:0 25px 70px rgba(0,0,0,.45);
-}
-
+/* top card */
 .hero{
 display:grid;
-grid-template-columns:1.25fr .95fr;
-gap:18px;
+grid-template-columns:1.2fr .9fr;
+gap:16px;
+padding:18px;
+background:var(--glass);
+border:1px solid var(--line);
+border-radius:24px;
+backdrop-filter:blur(14px);
+box-shadow:0 20px 50px rgba(0,0,0,.4);
 }
 
 /* left */
@@ -96,32 +101,31 @@ gap:18px;
 display:flex;
 flex-direction:column;
 justify-content:center;
-gap:10px;
+gap:12px;
 }
 
 .badge{
 display:inline-block;
 padding:7px 14px;
 border-radius:999px;
-background:rgba(255,255,255,.04);
 border:1px solid var(--line);
-font-size:.8rem;
 width:max-content;
+font-size:.8rem;
+letter-spacing:.15em;
 }
 
 .name{
-font-size:clamp(2.5rem,8vw,5rem);
+font-size:4rem;
 font-weight:800;
-line-height:1;
 background:linear-gradient(90deg,#fff,var(--c1),#fff);
 -webkit-background-clip:text;
 color:transparent;
-background-size:200%;
+background-size:220%;
 animation:shine 4s linear infinite;
 }
 
 @keyframes shine{
-to{background-position:200%}
+to{background-position:220%}
 }
 
 .typing{
@@ -131,30 +135,39 @@ border-right:2px solid var(--c1);
 white-space:nowrap;
 overflow:hidden;
 width:max-content;
-animation:blink .8s infinite;
-}
-@keyframes blink{
-50%{border-color:transparent}
 }
 
 .sub{
-color:rgba(255,255,255,.84);
+color:var(--muted);
 }
 
 .row{
 display:flex;
 flex-wrap:wrap;
-gap:8px;
-margin-top:5px;
+gap:10px;
 }
 
 .pill{
-padding:8px 12px;
+padding:9px 14px;
 border-radius:999px;
-background:rgba(255,255,255,.04);
-border:1px solid var(--line);
-font-size:.92rem;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+font-size:.95rem;
+display:flex;
+align-items:center;
+gap:8px;
 }
+
+.dot{
+width:10px;
+height:10px;
+border-radius:50%;
+}
+
+.online{background:#23a55a}
+.idle{background:#f0b232}
+.dnd{background:#f23f43}
+.offline{background:#666}
 
 /* right */
 .right{
@@ -165,237 +178,255 @@ justify-content:center;
 gap:14px;
 }
 
-.avatarbox{
+.avatarWrap{
 position:relative;
-width:240px;
-height:240px;
+width:220px;
+height:220px;
 }
 
-#avatar{
+.avatar{
 width:100%;
 height:100%;
 border-radius:50%;
 object-fit:cover;
 border:3px solid rgba(255,255,255,.08);
-box-shadow:0 0 35px rgba(82,237,255,.18);
+box-shadow:0 0 30px rgba(82,237,255,.25);
 }
 
-#deco{
+.deco{
 position:absolute;
-inset:-6%;
-width:112%;
-height:112%;
+inset:-7%;
+width:114%;
+height:114%;
 pointer-events:none;
 }
 
-#status{
+.status{
 position:absolute;
-right:16px;
-bottom:16px;
+right:15px;
+bottom:18px;
 width:18px;
 height:18px;
 border-radius:50%;
-border:3px solid #041124;
+border:3px solid var(--c3);
 }
 
-.server{
+.guild{
 width:100%;
-max-width:320px;
 padding:12px;
 border-radius:18px;
-background:rgba(255,255,255,.03);
-border:1px solid var(--line);
-}
-
-.serverhead{
-font-size:.8rem;
-color:var(--muted);
-margin-bottom:8px;
-}
-
-.serverbadge{
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
 display:flex;
-gap:12px;
 align-items:center;
-padding:10px;
-border-radius:14px;
-background:rgba(255,255,255,.03);
+gap:10px;
 }
 
-.serverbadge img{
-width:42px;
-height:42px;
+.guild img{
+width:40px;
+height:40px;
 border-radius:12px;
-box-shadow:0 0 15px rgba(82,237,255,.35);
-transition:.4s;
-}
-.serverbadge:hover img{
-transform:rotate(8deg) scale(1.08);
+object-fit:cover;
 }
 
 .grid{
-margin-top:16px;
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
 gap:16px;
+margin-top:16px;
 }
 
-.box{
+.card{
 padding:16px;
-border-radius:24px;
-background:rgba(255,255,255,.04);
+border-radius:22px;
+background:var(--glass);
 border:1px solid var(--line);
 backdrop-filter:blur(14px);
 }
 
 .title{
 font-size:.82rem;
-letter-spacing:.15em;
+letter-spacing:.14em;
+color:#9bcddb;
+margin-bottom:14px;
 text-transform:uppercase;
-color:var(--muted);
-margin-bottom:12px;
 }
 
 .embed{
 border-left:4px solid var(--c1);
-padding-left:12px;
+padding-left:14px;
 line-height:1.8;
 }
 
 .social a{
 display:block;
 padding:12px;
-margin-bottom:10px;
 border-radius:14px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
 text-decoration:none;
-color:#fff;
-background:rgba(255,255,255,.03);
-border:1px solid var(--line);
+color:white;
+margin-bottom:10px;
+}
+
+.timer{
+font-size:1.15rem;
+font-weight:700;
+margin-top:10px;
 }
 
 .spotify{
+margin-top:14px;
 display:none;
-margin-top:12px;
-padding:12px;
-border-radius:16px;
-background:rgba(255,255,255,.03);
-border:1px solid var(--line);
 }
 
-.spotify.show{display:block}
-
-.progress{
-height:8px;
-background:rgba(255,255,255,.08);
-border-radius:999px;
-margin-top:10px;
-overflow:hidden;
-}
-.progress span{
+.spotify.show{
 display:block;
+}
+
+.spotifyTop{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.spotifyTop img{
+width:60px;
+height:60px;
+border-radius:12px;
+}
+
+.bar{
+height:8px;
+border-radius:999px;
+background:rgba(255,255,255,.08);
+overflow:hidden;
+margin-top:12px;
+}
+
+.fill{
 height:100%;
 width:0%;
-background:linear-gradient(90deg,var(--c1),#fff);
+background:linear-gradient(90deg,var(--c1),white);
 }
 
-.spark{
+.click{
 position:fixed;
 pointer-events:none;
-animation:fly .9s forwards;
 color:var(--c1);
-z-index:9999;
+animation:fly .9s forwards;
 }
+
 @keyframes fly{
-to{transform:translateY(-26px) scale(1.3);opacity:0}
+to{
+transform:translateY(-25px) scale(1.2);
+opacity:0;
+}
 }
 
 @media(max-width:980px){
-.hero,.grid{grid-template-columns:1fr}
-.avatarbox{width:220px;height:220px}
+.hero,.grid{
+grid-template-columns:1fr;
+}
+.name{
+font-size:3rem;
+}
 }
 </style>
 </head>
-
 <body>
 
 <div id="intro">
-<div>
 <h1>Liệu còn có ai ở đây?</h1>
 <p>Chạm để mở profile</p>
-</div>
 </div>
 
 <div class="wrap" id="main">
 
-<div class="card hero">
+<div class="hero">
 
 <div class="left">
-<div class="badge">PRO5 / Discord Decor</div>
+<div class="badge">DISCORD PRO5</div>
 
-<div class="name">Ari</div>
+<div class="name">Ari nèk</div>
 
 <div class="typing" id="typing"></div>
 
 <div class="sub">Date to marry 💍</div>
 
 <div class="row">
-<div class="pill" id="autoText">...</div>
-<div class="pill" id="discordActivity">Offline...</div>
+<div class="pill" id="autoStatus">...</div>
+
+<div class="pill">
+<div class="dot offline" id="dot1"></div>
+<span id="statusText">offline</span>
 </div>
+</div>
+
+<div class="pill" id="activity">Offline...</div>
+
 </div>
 
 <div class="right">
 
-<div class="avatarbox">
-<img id="avatar" src="file1.jpg">
-<img id="deco">
-<div id="status"></div>
+<div class="avatarWrap">
+<img id="avatar" class="avatar" src="file1.jpg">
+<img id="deco" class="deco">
+<div id="statusDot" class="status offline"></div>
 </div>
 
-<div class="server">
-<div class="serverhead">Server badge</div>
-
-<div class="serverbadge">
-<img id="serverIcon" src="guild.png">
+<div class="guild">
+<img src="guild.png">
 <div>
-<div id="serverName">ᒪᑌᑎᗩ</div>
-<small id="serverHint">Gacha Paradise</small>
-</div>
+<div style="font-weight:700">ᒪᑌᑎᗩ</div>
+<div style="font-size:.85rem;color:#ccc">Discord Guild</div>
 </div>
 </div>
 
 </div>
+
 </div>
 
 <div class="grid">
 
-<div class="box">
+<div class="card">
 <div class="title">About me</div>
 <div class="embed">
 MBTI: INFP<br>
-Cung hoàng đạo: Song Ngư<br>
-Sở thích: vẽ, viết + đọc truyện, nghe nhạc<br>
-Game: Genshin Impact, Honkai Star Rail, Wuthering Wave<br>
+Song Ngư<br>
+Vẽ • Viết • Đọc truyện • Nghe nhạc<br>
+Game: Genshin Impact<br>
+Honkai Star Rail<br>
+Wuthering Wave<br>
 Waifu: Cartethyia
 </div>
 </div>
 
-<div class="box">
-<div class="title">Discord Presence</div>
+<div class="card">
+<div class="title">Presence</div>
 
-<div id="presenceText">Đang tải...</div>
-<div style="margin-top:10px" id="timeBox"></div>
+<div id="presence">Đang tải...</div>
+
+<div class="timer" id="time"></div>
 
 <div class="spotify" id="spotifyBox">
+<div class="spotifyTop">
+<img id="cover">
+<div>
 <div id="song"></div>
-<div id="artist" style="margin-top:4px;color:var(--muted)"></div>
-<div class="progress"><span id="bar"></span></div>
+<div id="artist" style="color:#ccc;font-size:.9rem"></div>
+</div>
+</div>
+
+<div class="bar">
+<div class="fill" id="bar"></div>
+</div>
 </div>
 
 </div>
 
-<div class="box social">
-<div class="title">Socials</div>
+<div class="card social">
+<div class="title">Social</div>
 
 <a href="https://www.facebook.com/share/1AuHDmJLrP/" target="_blank">Facebook</a>
 <a href="https://x.com/PhmQunh42254275" target="_blank">X</a>
@@ -413,143 +444,159 @@ Waifu: Cartethyia
 </audio>
 
 <script>
-const userId="965608704974151710";
+const USER_ID="965608704974151710";
+
+const intro=document.getElementById("intro");
+const main=document.getElementById("main");
+const music=document.getElementById("music");
 
 intro.onclick=async()=>{
 intro.style.display="none";
 main.style.display="block";
-music.play();
-type();
+try{await music.play()}catch(e){}
+typing();
 getDiscord();
-setInterval(getDiscord,15000);
-setInterval(updateClock,1000);
-};
+}
 
 /* typing */
-function type(){
-let txt="Don't call me tonight";
+function typing(){
+let t="Don't call me tonight";
 let i=0;
-typing.innerHTML="";
-let t=setInterval(()=>{
-typing.innerHTML+=txt[i];
+let el=document.getElementById("typing");
+el.innerHTML="";
+let x=setInterval(()=>{
+el.innerHTML+=t[i];
 i++;
-if(i>=txt.length)clearInterval(t);
+if(i>=t.length) clearInterval(x);
 },80);
 }
 
-/* status text */
-function autoStatus(){
-let h=new Date().getHours();
-if(h>=5&&h<11)return" Một ngày mới lại đến rồi";
-if(h>=11&&h<18)return" Ngày trôi qua sắp hết rồi";
-return" Một ngày đi qua, có điều gì ở lại với chúng ta?";
-}
-
-/* clock */
-const start=new Date("2025-11-17T00:00:00");
-
-function updateClock(){
+/* time auto */
+function updateTime(){
+let start=new Date("2025-11-17T00:00:00");
 let now=new Date();
 
-let months=(now.getFullYear()-start.getFullYear())*12+(now.getMonth()-start.getMonth());
-let anchor=new Date(start);
-anchor.setMonth(anchor.getMonth()+months);
-if(anchor>now){
-months--;
-anchor=new Date(start);
-anchor.setMonth(anchor.getMonth()+months);
+let diff=now-start;
+
+let day=Math.floor(diff/86400000);
+let hour=Math.floor(diff/3600000)%24;
+
+document.getElementById("time").innerHTML=
+day+" ngày "+hour+" giờ";
+
+let h=now.getHours();
+
+if(h>=5 && h<11)
+document.getElementById("autoStatus").innerText="Một ngày mới lại đến rồi";
+else if(h>=11 && h<18)
+document.getElementById("autoStatus").innerText="Ngày trôi qua sắp hết rồi";
+else
+document.getElementById("autoStatus").innerText="Một ngày đi qua, có điều gì ở lại?";
+}
+setInterval(updateTime,1000);
+updateTime();
+
+/* status */
+function setStatus(st){
+
+document.getElementById("statusText").innerText=st;
+document.getElementById("dot1").className="dot "+st;
+document.getElementById("statusDot").className="status "+st;
+
+let av=document.getElementById("avatar");
+
+if(st=="online") av.style.boxShadow="0 0 35px #23a55a";
+else if(st=="idle") av.style.boxShadow="0 0 35px #f0b232";
+else if(st=="dnd") av.style.boxShadow="0 0 35px #f23f43";
+else av.style.boxShadow="0 0 35px #666";
 }
 
-let diff=now-anchor;
-let d=Math.floor(diff/86400000);
-let h=Math.floor(diff/3600000)%24;
-
-timeBox.innerHTML=`${months} tháng ${d} ngày ${h} giờ`;
-autoText.innerHTML=autoStatus();
-}
-
-/* discord */
+/* discord fetch */
 async function getDiscord(){
+
 try{
-let res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+
+let res=await fetch("https://api.lanyard.rest/v1/users/"+USER_ID+"?t="+Date.now());
 let json=await res.json();
+
+if(!json.success) return;
+
 let d=json.data;
-let u=d.discord_user;
 
-avatar.src=`https://cdn.discordapp.com/avatars/${userId}/${u.avatar}.png?size=512`;
+let av=d.discord_user.avatar;
 
-if(u.avatar_decoration_data?.asset){
-deco.src=`https://cdn.discordapp.com/avatar-decoration-presets/${u.avatar_decoration_data.asset}.png`;
-deco.style.display="block";
-}else{
-deco.style.display="none";
+document.getElementById("avatar").src=
+"https://cdn.discordapp.com/avatars/"+USER_ID+"/"+av+".png?size=512";
+
+/* deco */
+if(d.discord_user.avatar_decoration_data){
+document.getElementById("deco").src=
+"https://cdn.discordapp.com/avatar-decoration-presets/"
++d.discord_user.avatar_decoration_data.asset+".png";
 }
 
-let st=d.discord_status;
+/* status */
+setStatus(d.discord_status || "offline");
 
-if(st==="online"){
-status.style.background="#23a55a";
-avatar.style.boxShadow="0 0 35px rgba(35,165,90,.45)";
-}
-else if(st==="idle"){
-status.style.background="#f0b232";
-avatar.style.boxShadow="0 0 35px rgba(240,178,50,.45)";
-}
-else if(st==="dnd"){
-status.style.background="#f23f43";
-avatar.style.boxShadow="0 0 35px rgba(242,63,67,.45)";
-}
-else{
-status.style.background="#666";
-}
+/* activity */
+let text="Offline...";
 
-let act="Offline...";
 if(d.listening_to_spotify){
-act="🎧 "+d.spotify.song+" - "+d.spotify.artist;
+text="🎧 "+d.spotify.song+" - "+d.spotify.artist;
+}
+else if(d.activities.length>0){
 
-spotifyBox.classList.add("show");
-song.innerHTML=d.spotify.song;
-artist.innerHTML=d.spotify.artist;
+let custom=d.activities.find(x=>x.type===4);
+let game=d.activities.find(x=>x.type===0);
+
+if(custom) text="💬 "+custom.state;
+else if(game) text="🎮 "+game.name;
+else text="✨ "+d.activities[0].name;
+}
+
+document.getElementById("activity").innerText=text;
+document.getElementById("presence").innerText=text;
+
+/* spotify */
+if(d.listening_to_spotify){
+
+document.getElementById("spotifyBox").classList.add("show");
+
+document.getElementById("cover").src=d.spotify.album_art_url;
+document.getElementById("song").innerText=d.spotify.song;
+document.getElementById("artist").innerText=d.spotify.artist;
 
 let start=d.spotify.timestamps.start;
 let end=d.spotify.timestamps.end;
 let now=Date.now();
-let p=((now-start)/(end-start))*100;
-bar.style.width=Math.min(p,100)+"%";
+
+let percent=((now-start)/(end-start))*100;
+if(percent<0) percent=0;
+if(percent>100) percent=100;
+
+document.getElementById("bar").style.width=percent+"%";
 
 }else{
-spotifyBox.classList.remove("show");
-
-if(d.activities.length>0){
-let a=d.activities[0];
-if(a.type===4)act="💬 "+(a.state||"...");
-else act="🎮 "+a.name;
+document.getElementById("spotifyBox").classList.remove("show");
 }
-}
-
-discordActivity.innerHTML=act;
-presenceText.innerHTML=act;
-
-/* guild cố định */
-serverIcon.src="guild.png";
-serverName.innerHTML="ᒪᑌᑎᗩ";
-serverHint.innerHTML="Gacha Paradise • ID: 984834775586074636";
 
 }catch(e){
 console.log(e);
 }
 }
 
+setInterval(getDiscord,5000);
+
 /* click effect */
-document.addEventListener("pointerdown",e=>{
+document.onclick=e=>{
 let s=document.createElement("div");
-s.className="spark";
-s.innerHTML="✨";
+s.className="click";
+s.innerText="✨";
 s.style.left=e.clientX+"px";
 s.style.top=e.clientY+"px";
 document.body.appendChild(s);
 setTimeout(()=>s.remove(),900);
-});
+}
 </script>
 
 </body>
